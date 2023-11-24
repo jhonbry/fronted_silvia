@@ -4,7 +4,7 @@ import {createRouter, createWebHashHistory} from "vue-router"
 
 const routes=[
     {path: "/", component:Login},
-    {path: "/home", component:Home, beforeEnter:requireAuth}
+    {path: "/Home", component:Home}
 ]
 
 export const router = createRouter({ 
