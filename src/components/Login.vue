@@ -32,7 +32,7 @@
 
 <style>
 body {
-  background-color: rgb(234, 219, 219);
+  background-color: rgb(255, 255, 255);
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -47,7 +47,7 @@ body {
   width: 400px;
   display: flex;
   justify-content: center;
-  background-color: #161616;
+  background-color: #000000;
   box-shadow: 0px 15px 60px #00ff7f;
   outline: 1px solid #2b9962;
   border-radius: 8px;
@@ -79,9 +79,10 @@ body {
 .form-inp {
   padding: 11px 25px;
   background: transparent;
-  border: 1px solid #e3e3e3;
+  border: 1px solid rgb(49, 203, 22);
   line-height: 1;
   border-radius: 8px;
+  background-color: rgb(255, 255, 255);
 }
 
 .form-inp:focus {
@@ -139,7 +140,7 @@ body {
 }
 
 #forgot-pass a {
-  color: #868686;
+  color: #ffffff;
   font-size: 14px;
   text-decoration: none;
 }
