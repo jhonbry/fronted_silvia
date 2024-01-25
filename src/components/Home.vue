@@ -28,35 +28,35 @@
         </q-drawer>
         <q-page-container>
           <div class="tarjetas">
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">      
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
-            <div class="card">
-              <h2>CARD</h2>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
             </div>
           </div>
   
@@ -77,6 +77,8 @@
   </script>
   
   <style scoped>
+
+
   .q-page-container {
     display: flex;
     flex-wrap: wrap;
@@ -85,63 +87,46 @@
   
   .tarjetas {
     display: flex;
-    flex-direction: row;
-    gap: 80px;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
+    gap: 80px;
+    padding: 6%;
   }
   
+
   .card {
-    width: 190px;
+    box-sizing: border-box;
+    width: 240px;
     height: 254px;
-    background: #07182e;
-    position: relative;
+    background: #4169e18d;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 2px 7px 11px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
     display: flex;
-    flex-direction: column;
+    user-select: none;
+    font-weight: bolder;
+    color: black;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-    overflow: hidden;
-    border-radius: 20px;
-    margin: 10px;
-    /* Espaciado entre tarjetas */
+}
+  
+  .card:hover {
+    border: 1px solid black;
+    transform: scale(1.05);
+    background-color: rgb(0, 136, 255);
   }
   
-  .card h2 {
-    z-index: 1;
-    color: white;
-    font-size: 2em;
+  .card:active {
+    transform: scale(0.95) rotateZ(1.7deg);
   }
   
-  .card::before {
-    content: "";
-    position: absolute;
-    width: 100px;
-    background-image: linear-gradient(
-      180deg,
-      rgb(0, 183, 255),
-      rgb(255, 48, 255)
-    );
-    height: 130%;
-    animation: rotBGimg 3s linear infinite;
-    transition: all 0.2s linear;
-  }
   
-  @keyframes rotBGimg {
-    from {
-      transform: rotate(0deg);
-    }
+
   
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .card::after {
-    content: "";
-    position: absolute;
-    background: #07182e;
-    inset: 5px;
-    border-radius: 15px;
-  }
+
   </style>  
