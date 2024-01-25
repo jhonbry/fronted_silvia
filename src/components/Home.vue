@@ -23,6 +23,7 @@
           behavior="desktop"
           elevated
         >
+        <h1>hola</h1>
           <!-- drawer content -->
         </q-drawer>
         <q-page-container>
