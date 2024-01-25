@@ -37,29 +37,107 @@
               <router-link to="/contact">Contacto</router-link>
             </div>
           </div>
-        </q-drawer>  
-  
+        </q-drawer>
+
         <q-page-container>
+          <div class="tarjetas">
+            <div class="card" style="height: 250px; width: 200px;">      
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+            <div class="card" style="height: 250px; width: 200px;">
+              <h2></h2>
+            </div>
+          </div>
           
-          <router-view />
-      </q-page-container>
-    </q-layout>
-  </div>
-</template>
+        </q-page-container>
+      </q-layout>
+    </div>
+  </template>
+    
+  <script setup>
+  import { ref } from 'vue';
+  
+  const leftDrawerOpen = ref(false);
+  
+  const toggleLeftDrawer = () => {
+    leftDrawerOpen.value = !leftDrawerOpen.value;
+  };
+  </script>
+  
+  <style scoped>
 
-<script setup>
-import { ref } from 'vue';
 
-const leftDrawerOpen = ref(false);
+  .q-page-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .tarjetas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 80px;
+    padding: 6%;
+  }
+  
 
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-};
-</script>
-
-<style scoped>
-/* Estilos adicionales */
-.drawer-content {
+  .card {
+    box-sizing: border-box;
+    width: 240px;
+    height: 254px;
+    background: #4169e18d;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 2px 7px 11px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    display: flex;
+    user-select: none;
+    font-weight: bolder;
+    color: black;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+  
+  .card:hover {
+    border: 1px solid black;
+    transform: scale(1.05);
+    background-color: rgb(0, 136, 255);
+  }
+  
+  .card:active {
+    transform: scale(0.95) rotateZ(1.7deg);
+  }
+  
+  .drawer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,4 +166,5 @@ const toggleLeftDrawer = () => {
 .navigation router-link {
   margin: 10px 0;
 }
-</style>
+  
+  </style>  

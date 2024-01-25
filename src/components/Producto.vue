@@ -32,7 +32,7 @@
   
   <style>
   body {
-    background-color: rgb(234, 219, 219);
+    background-color: rgb(255, 255, 255);
     width: 100vw;
     height: 100vh;
     display: flex;
