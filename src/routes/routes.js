@@ -1,19 +1,19 @@
+import Principal from "../components/Principal.vue";
 import Login from "../components/Login.vue";
 import Home from "../components/Home.vue";
-import Producto from "../components/Producto.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
-  { path: "/", component: Login },
+  { path: "/", component: Principal},
 
   {
-    path: "/Home",
-    component: Home,
-    children: [
-        { path: "/", component: "/Home" },
-        { path: "/Home/Producto", component: Producto },
-    ],
+    path: "/Login",
+    component: Login,
   },
+  {
+    path: "/Home", 
+    component: Home
+  }
 ];
 
 export const router = createRouter({

@@ -1,5 +1,6 @@
 <template>
     <div>
+      router-view
       <q-layout view="hHh LpR fff">
         <q-header reveal elevated class="bg-primary text-white">
           <q-toolbar>
@@ -16,6 +17,8 @@
           </q-toolbar>
         </q-header>
   
+
+
         <q-drawer
           show-if-above
           v-model="leftDrawerOpen"
