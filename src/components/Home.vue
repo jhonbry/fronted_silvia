@@ -23,125 +23,69 @@
           behavior="desktop"
           elevated
         >
-        <h1>hola</h1>
-          <!-- drawer content -->
-        </q-drawer>
-        <q-page-container>
-          <div class="tarjetas">
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
-            </div>
-            <div class="card">
-              <h2>CARD</h2>
+          <!-- Empty drawer -->
+          <div class="drawer-content">
+            <q-avatar size="130px" class="avatar">
+              <img src="https://via.placeholder.com/150" />
+            </q-avatar>
+            <div class="text-h6">John Doe</div>
+            <div class="divider"></div> <!-- Línea divisora -->
+            <div class="navigation">
+              <!-- Aquí coloca tus diferentes páginas de navegación -->
+              <router-link to="/">Inicio</router-link>
+              <router-link to="/about">Acerca de</router-link>
+              <router-link to="/contact">Contacto</router-link>
             </div>
           </div>
+        </q-drawer>  
   
+        <q-page-container>
+          
           <router-view />
-        </q-page-container>
-      </q-layout>
-    </div>
-  </template>
-    
-  <script setup>
-  import { ref } from 'vue';
-  
-  const leftDrawerOpen = ref(false);
-  
-  const toggleLeftDrawer = () => {
-    leftDrawerOpen.value = !leftDrawerOpen.value;
-  };
-  </script>
-  
-  <style scoped>
-  .q-page-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  
-  .tarjetas {
-    display: flex;
-    flex-direction: row;
-    gap: 80px;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .card {
-    width: 190px;
-    height: 254px;
-    background: #07182e;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    border-radius: 20px;
-    margin: 10px;
-    /* Espaciado entre tarjetas */
-  }
-  
-  .card h2 {
-    z-index: 1;
-    color: white;
-    font-size: 2em;
-  }
-  
-  .card::before {
-    content: "";
-    position: absolute;
-    width: 100px;
-    background-image: linear-gradient(
-      180deg,
-      rgb(0, 183, 255),
-      rgb(255, 48, 255)
-    );
-    height: 130%;
-    animation: rotBGimg 3s linear infinite;
-    transition: all 0.2s linear;
-  }
-  
-  @keyframes rotBGimg {
-    from {
-      transform: rotate(0deg);
-    }
-  
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .card::after {
-    content: "";
-    position: absolute;
-    background: #07182e;
-    inset: 5px;
-    border-radius: 15px;
-  }
-  </style>  
+      </q-page-container>
+    </q-layout>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const leftDrawerOpen = ref(false);
+
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+};
+</script>
+
+<style scoped>
+/* Estilos adicionales */
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  margin-top: 20px;
+}
+
+.text-h6 {
+  margin-top: 10px;
+}
+
+.divider {
+  width: 80%;
+  border-bottom: 1px solid #ccc;
+  margin: 20px auto;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navigation router-link {
+  margin: 10px 0;
+}
+</style>
