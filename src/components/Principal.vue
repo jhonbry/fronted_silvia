@@ -1,84 +1,107 @@
-<template>
-  <div class="q">
-    <q-card class="card" flat bordered>
-      <q-card-section class="texto">
-        <router-link to="/Login">
-          <a>
-            <div class="text-h5" style="color: white;background-color: black; width: 150%; height: 115%;">Acceder</div>
-          </a>
-        </router-link>
-        <a >
-        <div class="text-h5" style="color: white;background-color: black; width: 150%; height: 115%;">Registrarse</div>
-      </a>
-      </q-card-section>
-
-   
-
-      <q-slide-transition>
-        <div v-show="expanded">
-          <q-separator />
-          <q-card-section class="text-subtitle2">
-            {{ lorem }}
-          </q-card-section>
-        </div>
-      </q-slide-transition>
-    </q-card>
-  </div>
-</template> 
-  
-<script setup>
-
-</script>
-  
-
-<style scoped>
-.q {
-  margin: 0;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: flex-end;
-  margin: 0%;
-  padding: 0%;
-  align-items: center;
-  background-color: #00bfff;
-}
+  <template>
+    <div class="q">
+      <div class="contenedores">
+        <img :src="images" class="fondo">
+        <h1>Gestión de bodega</h1>
+        <h5>Serivicio Nacional de Educación</h5>
+      </div>
+      <q-card class="card" flat bordered>
+        <q-card-section class="texto">
+          <router-link to="/Login">
+            <a>
+              <div class="text-h5" style="color: white;background-color: black;  height: 115%;">Acceder</div>
+            </a>
+          </router-link>
+          <a >
+          <div class="text-h5" style="color: white;background-color: black;  height: 115%;">Registrarse</div>
+        </a>
+        </q-card-section>
+        <q-slide-transition>
+          <div v-show="expanded">
+            <q-separator />
+            <q-card-section class="text-subtitle2">
+              {{ lorem }}
+            </q-card-section>
+          </div>
+        </q-slide-transition>
+      </q-card>
+    </div>
+  </template> 
+    
+  <script setup>
+  import images from "../assets/fondo.png"
+  </script>
 
 
-#app {
-  height: 100%;
-}
+  <style scoped>
+  .q {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    background-color: #209616;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
 
-.no-shadow {
-  box-shadow: none !important;
-  height: 100vh;
-  width: 40vw;
-  background-color: #00000091;
-}
 
-.card-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* Ajusta según tus necesidades */
-}
+  #app {
+    height: 100%;
+  }
 
-.texto {
-  display: flex;
-  justify-content: space-evenly;
-  color: white !important;
-  width: 100%;
-}
+  .no-shadow {
+    box-shadow: none !important;
+    height: 100vh;
+    background-color: #00000091;
+  }
 
-a {
-  text-decoration: none;
-}
-.text-h5
-{
-  display: flex;
-    width: 20%;
+  .card-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Ajusta según tus necesidades */
+  }
+
+  .texto {
+    display: flex;
+    justify-content: space-evenly;
+    color: white !important;
+  }
+
+  a {
+    text-decoration: none;
+  }
+  .text-h5
+  {
+    display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9%;
+  }
+  .fondo{
+    width: 500px;
+    height: 500px;
+
+  }
+  .contenedores{
+    display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9%;
-}
-</style>
+    flex-direction: column;
+  }
+  h5{
+    color: white;
+    font-size: 35px;
+    margin: 0%;
+    font-family: sans-serif;
+    font-weight:  bolder;
+
+  }
+  h1{
+    margin: 0%;
+    color: white;
+    font-family: sans-serif;
+    font-weight:  bolder;
+  }
+  </style>
