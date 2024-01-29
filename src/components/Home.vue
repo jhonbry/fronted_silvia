@@ -1,46 +1,45 @@
 <template>
-    <div>
-      router-view
-      <q-layout view="hHh LpR fff">
-        <q-header reveal elevated class="bg-primary text-white">
-          <q-toolbar>
-            <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
-  
-            <q-toolbar-title>
-              <q-avatar>
-                <img
-                  src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"
-                />
-              </q-avatar>
-              Inicio
-            </q-toolbar-title>
-          </q-toolbar>
-        </q-header>
-  
+  <div>
+    <router-view />
 
+    <q-layout view="hHh LpR fff">
+      <q-header reveal elevated class="bg-green text-white">
+        <q-toolbar>
+          <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-drawer
-          show-if-above
-          v-model="leftDrawerOpen"
-          side="left"
-          behavior="desktop"
-          elevated
-        >
-          <!-- Empty drawer -->
-          <div class="drawer-content">
-            <q-avatar size="130px" class="avatar">
-              <img src="https://via.placeholder.com/150" />
+          <q-toolbar-title>
+            <q-avatar>
+              <img :src="avatar" />
             </q-avatar>
-            <div class="text-h6">John Doe</div>
-            <div class="divider"></div> <!-- Línea divisora -->
-            <div class="navigation">
-              <!-- Aquí coloca tus diferentes páginas de navegación -->
-              <router-link to="/">Inicio</router-link>
-              <router-link to="/about">Acerca de</router-link>
-              <router-link to="/contact">Contacto</router-link>
-            </div>
+            Inicio
+          </q-toolbar-title> 
+        </q-toolbar>
+      </q-header>
+
+      <q-drawer
+        show-if-above
+        v-model="leftDrawerOpen"
+        side="left"
+        behavior="desktop"
+        elevated
+      >
+        <!-- Empty drawer -->
+        <div class="drawer-content">
+          <q-avatar size="130px" class="avatar">
+            <img src="https://via.placeholder.com/150" />
+          </q-avatar>
+          <div class="text-h6">Usuario</div>
+          <div class="divider"></div> <!-- Línea divisora -->
+          <div class="navigation">
+            <!-- Opciones del drawer como casillas ordenadas -->
+            <q-item clickable v-for="(link, index) in links" :key="index" @click="navigateTo(link.path)">
+              <q-item-section>{{ link.text }}</q-item-section>
+            </q-item>
+            <!-- División entre opciones -->
+            <div class="divider"></div>
           </div>
-        </q-drawer>
+        </div>
+      </q-drawer>
 
         <q-page-container>
           <div class="tarjetas">
@@ -81,15 +80,29 @@
     </div>
   </template>
     
-  <script setup>
-  import { ref } from 'vue';
-  
-  const leftDrawerOpen = ref(false);
-  
-  const toggleLeftDrawer = () => {
-    leftDrawerOpen.value = !leftDrawerOpen.value;
-  };
-  </script>
+    <script setup>
+    import { ref } from 'vue';
+    import avatar from '../assets/avatar.png'
+    import { useRoute, useRouter } from 'vue-router';
+    
+    const leftDrawerOpen = ref(false);
+    const route = useRoute();
+    const router = useRouter();
+    
+    const toggleLeftDrawer = () => {
+      leftDrawerOpen.value = !leftDrawerOpen.value;
+    };
+    
+    const links = [
+      { text: 'Inicio', path: '/' },
+      { text: 'Acerca de', path: '/about' },
+      { text: 'Contacto', path: '/contact' }
+    ];
+    
+    const navigateTo = (path) => {
+      router.push(path);
+    };
+    </script>
   
   <style scoped>
 
@@ -113,7 +126,7 @@
     box-sizing: border-box;
     width: 240px;
     height: 254px;
-    background: #4169e18d;
+    background: #209616;
     border: 1px solid rgb(0, 0, 0);
     box-shadow: 2px 7px 11px rgba(0, 0, 0, 0.22);
     backdrop-filter: blur(6px);
@@ -133,7 +146,7 @@
   .card:hover {
     border: 1px solid black;
     transform: scale(1.05);
-    background-color: rgb(0, 136, 255);
+    background-color: #23c414;
   }
   
   .card:active {
@@ -168,6 +181,41 @@
 
 .navigation router-link {
   margin: 10px 0;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.navigation q-item {
+  width: 100%;
+  text-align: center;
+}
+
+.navigation q-item-section {
+  font-size: 1.2rem;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navigation q-item-section:hover {
+  background-color: #e0e0e0;
+}
+
+.navigation .divider {
+  height: 1px;
+  width: 80%;
+  background-color: #ccc;
+  margin: 10px auto;
+}
+
+.bg-green {
+  background-color: #209616 !important;
 }
   
   </style>  
