@@ -29,13 +29,11 @@
             <img src="https://via.placeholder.com/150" />
           </q-avatar>
           <div class="text-h6">Usuario</div>
-          <div class="divider"></div> <!-- Línea divisora -->
+          <div class="divider"></div>
           <div class="navigation">
-            <!-- Opciones del drawer como casillas ordenadas -->
             <q-item clickable v-for="(link, index) in links" :key="index" @click="navigateTo(link.path)">
               <q-item-section>{{ link.text }}</q-item-section>
             </q-item>
-            <!-- División entre opciones -->
             <div class="divider"></div>
           </div>
         </div>
@@ -174,45 +172,42 @@
 }
 
 .navigation {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 80%;
+    text-align: center;
+  }
 
-.navigation router-link {
-  margin: 10px 0;
-}
+  .navigation q-item {
+    width: 100%;
+  }
 
-.navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  .navigation q-item-section {
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex; /* Agregado */
+    align-items: center; /* Agregado */
+    justify-content: center; /* Agregado */
+  }
 
-.navigation q-item {
-  width: 100%;
-  text-align: center;
-}
+  .navigation q-item-section:hover {
+    background-color: #e0e0e0;
+  }
 
-.navigation q-item-section {
-  font-size: 1.2rem;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.navigation q-item-section:hover {
-  background-color: #e0e0e0;
-}
-
-.navigation .divider {
-  height: 1px;
-  width: 80%;
-  background-color: #ccc;
-  margin: 10px auto;
-}
+  .navigation .divider {
+    height: 1px;
+    width: 100%;
+    background-color: #ccc;
+    margin: 20px auto;
+  }
 
 .bg-green {
   background-color: #209616 !important;
