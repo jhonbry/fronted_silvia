@@ -37,7 +37,6 @@
   .q {
     margin: 0;
     height: 100vh;
-    width: 100vw;
     display: grid;
     grid-template-columns: 70% 30%;
     background-color: #209616;
@@ -52,7 +51,6 @@
 
   .no-shadow {
     box-shadow: none !important;
-    height: 100vh;
     background-color: #00000091;
   }
 
@@ -81,7 +79,6 @@
   }
   .fondo{
     width: 500px;
-    height: 500px;
 
   }
   .contenedores{
@@ -104,4 +101,5 @@
     font-family: sans-serif;
     font-weight:  bolder;
   }
+
   </style>
