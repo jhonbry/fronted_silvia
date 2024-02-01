@@ -7,6 +7,7 @@
     </div>
     <q-card class="card" flat bordered>
       <q-card-section>
+        <div class="cuadro">
         <div class="texto">
           <router-link to="/Login">
             <a>
@@ -22,7 +23,9 @@
           </router-link>
          
         </div>
+      </div>
       </q-card-section>
+    
       <q-slide-transition>
         <div v-show="expanded">
           <q-separator />
@@ -32,7 +35,9 @@
         </div>
       </q-slide-transition>
     </q-card>
+  
   </div>
+
 </template> 
     
 <script setup>
@@ -135,4 +140,13 @@ h1 {
     justify-content: center;
 }
 
+.cuadro {
+    height: 250px;
+    width: 450px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5%;
+}
 </style>
