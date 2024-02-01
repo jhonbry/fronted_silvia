@@ -23,5 +23,6 @@ app.use(Quasar, {
 app.use(pinia)
 app.use(router)
 
-axios.defaults.baseURL ="https://backend-abxx.onrender.com/usuario"
+axios.defaults.baseURL ="https://backend-abxx.onrender.com/"
+// axios.defaults.baseURL = 'http://localhost:5000/'
 app.mount('#app')

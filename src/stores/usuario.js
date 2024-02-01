@@ -27,7 +27,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
         let r= await axios.put('ususario/')
         return r
     } catch (error) {
-        console.log(error, 'Error al cambiar el estado de el vendedor');
+        console.log(error, 'Error al cambiar el estado de el usuario');
 
     }
   };
@@ -35,19 +35,20 @@ export const useUsuarioStore = defineStore('usuario', () => {
   
   const putActivarUsuario = async (id) => {
     try {
-        let r= await axios.put('ususario/')
+        let r= await axios.put('usuario/')
         return r
     } catch (error) {
-        console.log(error, 'Error al cambiar el estado de el vendedor');
+        console.log(error, 'Error al cambiar el estado de el usuario');
     }
   };
 
   const usuario = ref ([])
   const login = async (data) => {
     try {
-        let r = await axios.post('vendedor/login', data)
+      console.log("S:",data);
+        let r = await axios.post('usuario/login', data)
         console.log(r);
-        vendedor.value=r.data.vendedor
+        usuario.value=r.data.usuario
         return r.status
 
     } catch (error) {

@@ -7,22 +7,13 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
   { path: "/", component: Principal },
-
-  {
-    path: "/Login",
-    component: Login,
-  },
-  {
-    path: "/Home",
-    component: Home,
+  { path: "/Login",component: Login,},
+  { path: "/Home",component: Home,
     children: [
       {path: "/Area", component: Area ,}
     ]
   },
-  {
-    path: "/Registrar",
-    component: Registrar,
-  },
+  { path: "/Registrar", component: Registrar, },
 ];
 
 export const router = createRouter({

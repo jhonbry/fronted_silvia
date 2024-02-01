@@ -17,7 +17,7 @@
           </path>
         </svg>
         <q-input placeholder="nombre@mail.com" title="Inpit title" name="input-name" type="text" class="input_field"
-          id="email_field" filled v-model="data.nombre">
+          id="email_field" filled v-model="data.usuario">
         </q-input>
       </div> <br>
       <div class="input_container">
@@ -64,6 +64,9 @@ let password= ref ("");
 let notification = ref()
 let greatMessage = ref("");
 let badMessage = ref("");
+let red = ref(null);
+let error2 = ref(null);
+let msj = ref(null)
 const data = ref({
   usuario: "",
   password: "",
@@ -90,20 +93,18 @@ async function Login() {
   } else {
     try {
       showDefault();
+      console.log("data: ",data.value);
       const res = await useUsuario.login(data.value);
       console.log(res);
-      if (Notification) {
-        Notification();
+      if (notification) {
+        notification();
       }
-      if (red != 200) {
-        error2.value = true;
-        msj.value = res.msg
-        setTimeout(() => {
-          error2.value = false;
+      if(res.msg) {
+        console.log('maluco, user o contra maluca');
 
-        }, 2200);
-      }else{
-        router.push("./Home");
+      }
+      else {
+        router.push('/Home')
       }
     } catch (error) {
       console.error(("Error in login :" , error))
