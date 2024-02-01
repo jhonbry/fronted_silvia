@@ -16,13 +16,13 @@ const pinia = createPinia()
 
 app.use(Quasar, {
     plugins: {
-        Notify,
+      
     }
 })
 
 app.use(pinia)
 app.use(router)
-axios.deafaulst.baseURL = 'https://backend-abxx.onrender.com/api/'
+// axios.deafaulst.baseURL = 'https://backend-abxx.onrender.com/api/'
 
 
 app.mount('#app')
