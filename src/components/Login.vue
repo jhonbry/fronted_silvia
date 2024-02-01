@@ -1,8 +1,8 @@
 <template>
  <div class="flex">
   <form class="form_container">
-    <div class="logo_container"></div>
-    <div class="title_container">
+    <img :src="images" class="fondo">
+    <div class="title_container"> <br>
       <p class="title">¡Bienvenid@. Ingrese a su cuenta!</p>
       <span class="subtitle"></span>
     </div>
@@ -18,7 +18,7 @@
       </svg>
       <input placeholder="nombre@mail.com" title="Inpit title" name="input-name" type="text" class="input_field"
         id="email_field">
-    </div>
+    </div> <br>
     <div class="input_container">
       <label class="input_label" for="contraseña_field">Contraseña</label>
       <svg fill="none" viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg" class="icon">
@@ -33,7 +33,7 @@
       </svg>
       <input placeholder="contraseña" title="Inpit title" name="input-name" type="contraseña" class="input_field"
         id="contraseña_field">
-    </div>
+    </div><br>
 
     <div id="submit-button-cvr">
       <router-link to="/Home"><button class="sign-in_btn" type="submit">
@@ -50,7 +50,9 @@
 </template>
 
 
-<script setup></script>
+<script setup>
+import images from "../assets/fondo12.png"
+</script>
 
 <style scoped>
 a {
@@ -64,14 +66,14 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  padding: 50px 40px 20px 40px;
+  padding: 20px 40px 20px 40px;
   background-color: #ededed;
-  box-shadow: 0px 106px 42px rgba(0, 0, 0, 0.01),
+  box-shadow: 0px 106px 42px rgba(0, 0, 0, 0.03),
     0px 59px 36px rgba(0, 0, 0, 0.05), 0px 26px 26px rgba(0, 0, 0, 0.09),
     0px 7px 15px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
   border-radius: 11px;
   font-family: "Inter", sans-serif;
+  border: 2px solid rgb(255, 255, 255);
 }
 
 .logo_container {
@@ -92,11 +94,10 @@ a {
   gap: 10px;
 }
 
-.title {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #000000;
+.title{
+    margin: 0;
+    font-size: 1.25rem;
+    color: #000000;
 }
 
 .subtitle {
@@ -125,9 +126,9 @@ a {
 }
 
 .input_label {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #000000;
-  font-weight: 600;
+  font-weight: 300;
 }
 
 .input_field {
@@ -212,6 +213,10 @@ a {
     justify-content: center;
     height: 100vh;
     align-content: center;
-    background-color: #209616;
+    background-color: #219616;
+}
+
+.fondo {
+  width: 100px;
 }
 </style>

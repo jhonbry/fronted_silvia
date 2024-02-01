@@ -99,7 +99,6 @@ a {
 
 .fondo {
   width: 500px;
-
 }
 
 .contenedores {
