@@ -1,39 +1,251 @@
 <template>
-    <div class="q">
-        <q-card-section>
-            <div class="container">
-                <div class="cuestionario">
-                    <div class="logo">
-                        <img :src="images" style=";">
-                    </div>
-                </div>
-            </div>
-        </q-card-section>
+  <div class="container">
+    <form class="form">
+        <div class="centeimg">
+      <img :src="images" class="fondo"/>
     </div>
-</template> 
-      
+      <p class="title">Registro</p>
+      <p class="message">Regístrate ahora y obtén acceso completo a nuestra aplicación.</p>
+      <div class="flex">
+
+        <label>
+          <input required="" placeholder="" type="text" class="input" />
+          <span>Nombre</span>
+        </label>
+
+        <label>
+          <input required="" placeholder="" type="text" class="input" />
+          <span>Apellido</span>
+        </label>
+      </div>
+
+      <div class="flex">
+      <label>
+        <input required="" placeholder="" type="email" class="input" />
+        <span>Correo</span>
+      </label>
+
+
+      <label>
+        <input required="" placeholder="" type="password" class="input" />
+        <span>Contraseña</span>
+      </label>
+    </div>
+
+
+    <label>
+  <select required="" name="rol" class="select">
+    <option value="" disabled selected hidden>Selecciona tu rol</option>
+    <option value="administrador">Administrador</option>
+    <option value="instructor">Instructor</option>
+    <option value="aprendiz">Aprendiz</option>
+  </select>
+
+</label><br>
+
+
+      <button class="submit">Registrar</button>
+      <p class="signin"> <router-link to="/Login">¿Ya tienes una cuenta creada?</router-link> </p>
+    </form>
+  </div>
+</template>
+
 <script setup>
-import images from "../assets/fondo.png"
+import images from "../assets/fondo12.png";
 </script>
-  
-  
+
 <style scoped>
-.q {
-    margin: 0;
-    height: 100vh;
+.container {
     display: flex;
+    height: 100vh;
+    width: 100vw;
     background-color: #209616;
-    background-size: contain;
-    background-repeat: no-repeat;
     align-items: center;
     justify-content: center;
 }
+.centeimg{
+  display: flex;
+  justify-content: center;
+}
+.fondo{
+    height: 100px;
+    width: 100px;
+}
 
-.container {
-    background-color: white;
-    height: 750px;
-    width: 1300px;
-    border-radius: 15px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 60vh;
+  height: 70vh;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  align-items: center;
+}
+
+.title {
+  font-size: 28px;
+  color: royalblue;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  
+}
+
+.title::before,
+.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0;
+  background-color: royalblue;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+  background-color: royalblue;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+  
+}
+
+.message,
+.signin {
+  color: rgba(88, 87, 87, 0.822);
+  font-size: 14px;
+  text-align: center;
+  
+}
+
+.signin {
+  text-align: center;
 
 }
+
+.signin a {
+  color: royalblue;
+  text-decoration: none;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 15%;
+  justify-content: center;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  width: 100%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+.form label .input + span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown + span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.form label .input:valid + span {
+  color: green;
+}
+
+.submit {
+  border: none;
+  outline: none;
+  background-color: royalblue;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: 0.3s ease;
+}
+
+.submit:hover {
+  background-color: rgb(56, 90, 194);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+
+label .select {
+    width: 100%;
+    padding: 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+  }
+
+  label .select + span {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    color: grey;
+    font-size: 0.9em;
+    cursor: text;
+    transition: 0.3s ease;
+  }
+
+  label .select:placeholder-shown + span {
+    top: 15px;
+    font-size: 0.9em;
+  }
+
+  label .select:focus + span,
+  label .select:valid + span {
+    top: 30px;
+    font-size: 0.7em;
+    font-weight: 600;
+  }
+
+  label .select:valid + span {
+    color: green;
+  }
+
 </style>
