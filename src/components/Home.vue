@@ -59,39 +59,7 @@
         </div>
       </q-drawer>
 
-      <q-page-container>
-        <div class="tarjetas">
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-          <div class="card" style="height: 250px; width: 200px">
-            <h2></h2>
-          </div>
-        </div>
+      <q-page-container style="padding-top:50px;">
       </q-page-container>
     </q-layout>
   </div>
@@ -113,7 +81,7 @@ const toggleLeftDrawer = () => {
 
 const links = [
   { text: "Inicio", path: "/" },
-  { text: "Acerca de", path: "/about" },
+  { text: "Area", path: "/Area" },
   { text: "Contacto", path: "/contact" },
 ];
 
