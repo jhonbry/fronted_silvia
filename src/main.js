@@ -4,7 +4,7 @@ import App from './App.vue'
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 import {router} from "./routes/routes.js"
-import { Quasar } from 'quasar'
+import { Quasar, Notify } from 'quasar'
 import axios from 'axios'
 
 import '@quasar/extras/material-icons/material-icons.css'
@@ -16,12 +16,12 @@ const pinia = createPinia()
 
 app.use(Quasar, {
     plugins: {
-      
+        Notify,
     }
 })
 
 app.use(pinia)
 app.use(router)
 
-axios.defaults.baseURL ="https://transporte-0ydp.onrender.com/usuario/"
+axios.defaults.baseURL ="https://backend-abxx.onrender.com/usuario"
 app.mount('#app')
