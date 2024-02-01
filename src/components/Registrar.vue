@@ -70,23 +70,23 @@ import images from "../assets/fondo12.png";
 .fondo{
     height: 100px;
     width: 100px;
+    margin: 25px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   width: 60vh;
   height: 70vh;
   background-color: #fff;
-  padding: 20px;
   border-radius: 20px;
   align-items: center;
 }
 
 .title {
   font-size: 28px;
-  color: royalblue;
+  color: #209616;
   font-weight: 600;
   letter-spacing: -1px;
   position: relative;
@@ -104,7 +104,7 @@ import images from "../assets/fondo12.png";
   width: 16px;
   border-radius: 50%;
   left: 0;
-  background-color: royalblue;
+  background-color: #209616;
 }
 
 .title::before {
@@ -189,7 +189,7 @@ import images from "../assets/fondo12.png";
 .submit {
   border: none;
   outline: none;
-  background-color: royalblue;
+  background-color: #209616;
   padding: 10px;
   border-radius: 10px;
   color: #fff;
