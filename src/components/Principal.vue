@@ -75,7 +75,7 @@ import images from "../assets/fondo.png"
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Ajusta según tus necesidades */
+
 }
 
 .texto {
@@ -101,7 +101,7 @@ a {
 }
 
 .text-h5:hover {
-  background-color: rgb(255, 255, 255) !important;
+  background-color: rgb(148, 148, 148) !important;
   color: black;
 }
 
