@@ -69,13 +69,14 @@ import images from "../assets/fondo.png"
 
 .q-card--bordered {
   border: 0px solid rgba(0, 0, 0, 0.12);
+  background-color: white;
 }
 
 .card-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  
 }
 
 .texto {
@@ -140,13 +141,5 @@ h1 {
     justify-content: center;
 }
 
-.cuadro {
-    height: 250px;
-    width: 450px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5%;
-}
+
 </style>
