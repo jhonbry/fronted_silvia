@@ -22,7 +22,6 @@ app.use(Quasar, {
 
 app.use(pinia)
 app.use(router)
-// axios.deafaulst.baseURL = 'https://backend-abxx.onrender.com/api/'
 
-
+axios.defaults.baseURL ="https://transporte-0ydp.onrender.com/usuario/"
 app.mount('#app')
