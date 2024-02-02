@@ -2,8 +2,8 @@
   <div class="q">
     <div class="contenedores">
       <img :src="images" class="fondo">
-      <h1>Gestión de bodega</h1>
-      <h5>Serivicio Nacional de Educación</h5>
+      <h1>Gestión de bodega.</h1>
+      <h5>Serivicio Nacional de Educación.</h5>
     </div>
     <q-card class="card" flat bordered>
       <q-card-section>
@@ -49,6 +49,7 @@ import images from "../assets/fondo.png"
 .q {
   margin: 0;
   height: 100vh;
+  width: 100vw;
   display: grid;
   grid-template-columns: 70% 30%;
   background-color: #209616;
