@@ -1,6 +1,5 @@
 <template>
   <div>
-    <router-view />
 
     <q-layout view="hHh LpR fff">
       <q-header reveal elevated class="bg-green text-white">
@@ -46,20 +45,22 @@
           <div class="text-h6">Usuario</div>
           <div class="divider"></div>
           <div class="navigation">
-            <q-item
-              clickable
-              v-for="(link, index) in links"
-              :key="index"
-              @click="navigateTo(link.path)"
-            >
+            <router-link v-for="(link, index) in links"
+                :key="index" :to="link">
+              <q-item
+                clickable
+                
+              >
               <q-item-section>{{ link.text }}</q-item-section>
             </q-item>
+            </router-link>
             <div class="divider"></div>
           </div>
         </div>
       </q-drawer>
 
       <q-page-container style="padding-top:50px;">
+        <router-view></router-view>
       </q-page-container>
     </q-layout>
   </div>
