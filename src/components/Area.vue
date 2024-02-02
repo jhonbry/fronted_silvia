@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1 style="text-align: center; margin-top: 50px;">Vendedores</h1>
+      <h1 style="text-align: center; margin-top: 50px;">Areas</h1>
       <hr />
     </div>
     <q-dialog v-model="fixedagregar">

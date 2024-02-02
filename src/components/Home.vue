@@ -82,7 +82,7 @@ const toggleLeftDrawer = () => {
 const links = [
   { text: "Inicio", path: "/" },
   { text: "Area", path: "/Area" },
-  { text: "Contacto", path: "/contact" },
+  { text: "Ficha", path: "/Ficha" },
 ];
 
 const navigateTo = (path) => {
