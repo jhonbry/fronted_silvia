@@ -183,9 +183,9 @@ const toggleSettingsDrawer = () => {
   transition: background-color 0.3s ease;
   text-align: center;
   box-sizing: border-box;
-  display: flex; /* Agregado */
-  align-items: center; /* Agregado */
-  justify-content: center; /* Agregado */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; /* Usalo para ajustar tu contenido en el centro */
 }
 
 .navigation q-item-section:hover {
