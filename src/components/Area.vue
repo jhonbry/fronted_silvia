@@ -1,104 +1,230 @@
 <template>
   <div>
     <div>
-      <h1 style="text-align: center; margin-top: 50px;">Vendedores</h1>
+      <h1 style="text-align: center; margin-top: 50px;">Area</h1>
       <hr />
     </div>
-    <q-dialog v-model="fixedagregar">
-      <q-card class="modal-content">
-        <div class="contorno">
-          <q-card-section class="row items-center q-pb" style="color: black">
-            <div class="text-h6">{{ text }}</div>
-            <q-space />
-          </q-card-section>
-          <q-separator />
-          <div class="containerData" v-if="mostrarData">
-            <q-card-section style="max-height: 50vh" class="scroll">
-              <q-input v-model="Nombre" label="Nombre" style="width: 300px" />
-              <q-input v-model="Cedula" label="Cedula" style="width: 300px" type="number" />
-              <q-input v-model="Telefono" label="Telefono" type="number" style="width: 300px" />
-              <q-input v-model="password" label="Contraseña" type="password" style="width: 300px" />
-            </q-card-section>
-          </div>
-
-          <div class="containerError" v-if="mostrarError">
-            <h4>{{ error }}</h4>
-          </div>
-          <q-separator />
-
-          <q-card-actions align="right" style="gap: 30px; margin-top: 10px">
-            <button class="btn" v-close-popup>Cancelar</button>
-            <button @click="AgregarVendedor()" class="btn">Aceptar</button>
-          </q-card-actions>
-        </div>
-      </q-card>
-    </q-dialog>
-
+    <!-- Modal -->
     <q-dialog v-model="fixed">
       <q-card class="modal-content">
         <div class="contorno">
-          <q-card-section class="row items-center q-pb" style="color: black">
+          <q-card-section class="row items-center q-pb-none" style="color: black">
             <div class="text-h6">{{ text }}</div>
             <q-space />
           </q-card-section>
           <q-separator />
-          <div class="containerData" v-if="mostrarData">
+          <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
-              <q-input v-model="Nombre" label="Nombre" style="width: 300px" />
-              <q-input v-model="Cedula" label="Cedula" style="width: 300px" type="number" />
-              <q-input v-model="Telefono" label="Telefono" type="number" style="width: 300px" />
+              <q-input v-model="nombre" label="nombre" style="width: 300px" />
             </q-card-section>
           </div>
 
           <div class="containerError" v-if="mostrarError">
             <h4>{{ error }}</h4>
           </div>
+
           <q-separator />
 
-          <q-card-actions align="right" style="gap: 30px; margin-top: 10px">
+          <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
             <button class="btn" v-close-popup>Cancelar</button>
-            <button @click="EditarVendedorExistente()" class="btn">
-              Aceptar
-            </button>
+            <button @click="editarAgregarRuta()" class="btn">Aceptar</button>
           </q-card-actions>
         </div>
       </q-card>
     </q-dialog>
-
-    <div style="width: 1000px; ">
+    <div style="width: 1000px;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary text-white" label="Agregar Vendedores" @click="agregarVendedor()" />
+        <q-btn class="bg-secondary" label="Agregar ruta" @click="agregarRuta()" />
       </div>
-      <div class="q-pa-md" style="padding: 0;">
-        <q-table class="my-sticky-dynamic" flat bordered :rows="rows" :columns="columns" :loading="loading"
-          row-key="index" virtual-scroll :virtual-scroll-item-size="48" :virtual-scroll-sticky-size-start="48"
-          :pagination="pagination" :rows-per-page-options="[0]" @virtual-scroll="onScroll"
-          style="height: 600px;"><template v-slot:body-cell-estado="props">
-            <q-td :props="props">
-              <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
-              <label for="" v-else style="color: red">Inactivo</label>
-            </q-td>
-          </template>
-          <template v-slot:body-cell-opciones="props">
-            <q-td :props="props" class="botones">
-              <button @click="EditarVendedor(props.row._id)" class="edi">
-                <i class="fa-solid fa-pencil"></i>
-              </button>
-              <button @click="InactivarVendedor(props.row._id)" v-if="props.row.estado == 1" class="inac">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-              <button @click="putActivarVendedor(props.row._id)" v-else class="act">
-                <i class="fa-solid fa-check"></i>
-              </button>
-            </q-td>
-          </template></q-table>
+      <div class="q-pa-md">
+        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+          :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
+          :columns="columns" style="height: 600px;">
+
+
+        </q-table>
       </div>
+      <!--   <q-table title="Rutas" :rows="rows" :columns="columns" row-key="name">
+
+      </q-table> -->
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+import { format } from "date-fns";
+import { useAreaStore } from "../stores/area.js";
+import { useQuasar } from "quasar";
+const AreaStore = useAreaStore();
+const $q = useQuasar();
+let error = ref("Ingrese todos los datos para la creacion de un vendedor");
+let text = ref("");
+let rutas = ref([]);
+let rows = ref([]);
+let fixed = ref(false);
+let ficha = ref("");
+let nombre = ref("");
+let cambio = ref(0);
+let mostrarError = ref(false);
+let mostrarData = ref(true);
+let pagination = ref({ rowsPerPage: 0 })
+async function obtenerInfo() {
+  try {
+    await AreaStore.obtenerInfoAreas();
+    rutas.value = AreaStore.rutas;
+    rows.value = AreaStore.rutas;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const columns = [
+  { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
+
+  {
+    name: "estado",
+    label: "Estado",
+    field: "estado",
+    sortable: true,
+    align: "left",
+    format: (val) => (val ? "Activo" : "Inactivo"),
+  },
+  {
+    name: "opciones",
+    label: "Opciones",
+    field: (row) => null,
+    sortable: false,
+    align: "center",
+  },
+];
+
+function agregarRuta() {
+  fixed.value = true;
+  text.value = "Agregar Area";
+  cambio.value = 0;
+  limpiar();
+}
+function validar() {
+  if (nombre.value.trim() == "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Digite el nombre del Area porfavor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+
+  } else {
+    validacion.value = true;
+  }
+}
+async function editarAgregarRuta() {
+  validar();
+  if (validacion.value === true) {
+    if (cambio.value === 0) {
+      if (nombre.value.trim() === '') {
+        mostrarData.value = false;
+        mostrarError.value = true;
+        error.value = "Por favor digite un nombre";
+        setTimeout(() => {
+          mostrarData.value = true;
+          mostrarError.value = false;
+          error.value = "";
+        }, 2200);
+        return;
+      }
+      try {
+        showDefault();
+        await AreaStore.postArea({
+          nombre: nombre.value,
+        });
+        if (notification) {
+          notification();
+        }
+        limpiar();
+        $q.notify({
+          spinner: false,
+          message: "Area Agregado",
+          timeout: 2000,
+          type: "positive",
+        });
+        obtenerInfo();
+      } catch (error) {
+        if (notification) {
+          notification();
+        }
+        $q.notify({
+          spinner: false,
+          // message: `${error.response.data.error.errors[0].msg}`,
+          timeout: 2000,
+          type: "negative",
+        });
+      }
+    } else {
+      let id = idRuta.value;
+      if (id) {
+        try {
+          showDefault();
+          await rutaStore.putEditarArea(id, {
+            nombre: nombre.value,
+          });
+          if (notification) {
+            notification();
+          }
+          limpiar();
+          $q.notify({
+            spinner: false,
+            message: "Ruta Actualizada",
+            timeout: 2000,
+            type: "positive",
+          });
+          obtenerInfo();
+        } catch (error) {
+          if (notification) {
+            notification();
+            console.log(notification);
+          }
+          $q.notify({
+            spinner: false,
+            /*  message: `${error.response.data.error.errors[0].msg}`, */
+            timeout: 2000,
+            type: "negative",
+          });
+        }
+      }
+    }
+    validacion.value = false;
+  }
+}
+
+function limpiar() {
+  nombre.value = "";
+  ficha.value = "";
+
+}
+
+let idRuta = ref("");
+
+let validacion = ref(false);
+let notification = ref(null);
+const showDefault = () => {
+  notification = $q.notify({
+    spinner: true,
+    message: "Please wait...",
+    timeout: 0,
+  });
+};
+
+
+
+onMounted(async () => {
+  obtenerInfo();
+});
 </script>
+
 <style scoped>
 .modal-content {
   width: 480px;
@@ -111,6 +237,48 @@
   border-radius: 3%;
 }
 
+.contorno {
+  background-color: white;
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.botones button {
+  margin: 2px;
+}
+
+.btn-agregar {
+  width: 100%;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: left;
+  color: white;
+  margin-left: 19px;
+}
+
+.body {
+  padding: 30px;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.containerBoton {
+  display: flex;
+  justify-content: center;
+}
+
+hr {
+  background-color: green;
+  height: 2px;
+  border: none;
+  width: 363px;
+  margin-bottom: 1%;
+}
+
 .containerError {
   background-color: rgba(255, 0, 0, 0.429);
   padding: 15px;
@@ -120,50 +288,17 @@
   width: 310px;
   border: 3px solid red;
   margin-bottom: 5px;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 80px;
 }
 
 .containerError h4 {
-  font-size: 15px;
+  font-size: 25px;
   margin: 0;
   padding: 0;
-}
-
-.botones button {
-  margin: 2px;
-}
-
-.btn {
-  font-family: "Letra";
-  width: 100px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
-}
-
-.btn:hover {
-  transition: ease-in-out 0.5s;
-  transform: scale(1.1);
-}
-
-.btn-agregar {
-  width: 100%;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: left;
-  color: black;
-  text-transform: capitalize;
-  margin-bottom: 15px;
-}
-
-hr {
-  background-color: green;
-  height: 2px;
-  border: none;
-  width: 363px;
-  margin-bottom: 1%;
 }
 
 h1 {
@@ -177,16 +312,7 @@ h1 {
 .text-h6 {
   font-size: 28px;
   font-family: "Letra";
-}
-
-.contorno {
-  background-color: white;
-  height: 90%;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: 10px;
 }
 
 .botones .edi {
@@ -234,4 +360,18 @@ h1 {
   font-size: 25px;
   color: red;
 }
+
+.btn {
+  font-family: "Letra";
+  width: 100px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+}
+</style>
+<style lang="sass">
+
 </style>
