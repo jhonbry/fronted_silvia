@@ -70,15 +70,17 @@ let cambio = ref(0);
 let mostrarError = ref(false);
 let mostrarData = ref(true);
 let pagination = ref({ rowsPerPage: 0 })
+let areas = ref([]);
 async function obtenerInfo() {
   try {
     await AreaStore.obtenerInfoAreas();
-    rutas.value = AreaStore.rutas;
-    rows.value = AreaStore.rutas;
+    areas.value = AreaStore.areas;
+    rows.value = AreaStore.areas;
   } catch (error) {
     console.log(error);
-  }
+  }
 }
+
 
 const columns = [
   { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
@@ -151,6 +153,7 @@ async function editarAgregarRuta() {
           timeout: 2000,
           type: "positive",
         });
+        console.log("a")
         obtenerInfo();
       } catch (error) {
         if (notification) {
@@ -168,7 +171,7 @@ async function editarAgregarRuta() {
       if (id) {
         try {
           showDefault();
-          await rutaStore.putEditarArea(id, {
+          await areasStore.putEditarArea(id, {
             nombre: nombre.value,
           });
           if (notification) {
