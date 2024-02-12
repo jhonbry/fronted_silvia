@@ -1,7 +1,7 @@
 <template>
     <div>
       <div>
-        <h1 style="text-align: center; margin-top: 50px;">Area</h1>
+        <h1 style="text-align: center; margin-top: 50px;">Usuarios</h1>
         <hr />
       </div>
       <!-- Modal -->
@@ -55,11 +55,11 @@
   import axios from "axios";
   import { ref, onMounted } from "vue";
   import { format } from "date-fns";
-  import { useAreaStore } from "../stores/area.js";
+  import { useUsuarioStore } from "../stores/usuario.js";
   import { useQuasar } from "quasar";
-  const AreaStore = useAreaStore();
+  const UsuarioStore = useUsuarioStore();
   const $q = useQuasar();
-  let error = ref("Ingrese todos los datos para la creacion de un vendedor");
+  let error = ref("Ingrese todos los datos para la creacion de un usuario");
   let text = ref("");
   let rutas = ref([]);
   let rows = ref([]);
@@ -70,12 +70,12 @@
   let mostrarError = ref(false);
   let mostrarData = ref(true);
   let pagination = ref({ rowsPerPage: 0 })
-  let areas = ref([]);
+  let usuarios = ref([]);
   async function obtenerInfo() {
     try {
-      await AreaStore.obtenerInfoAreas();
-      areas.value = AreaStore.areas;
-      rows.value = AreaStore.areas;
+      await UsuarioStore.obtenerusuario();
+      usuarios.value = UsuarioStore.usuarios;
+      rows.value = UsuarioStore.usuarios;
     } catch (error) {
       console.log(error);
     }
@@ -140,7 +140,7 @@
         }
         try {
           showDefault();
-          await AreaStore.postArea({
+          await UsuarioStore.postArea({
             nombre: nombre.value,
           });
           if (notification) {
