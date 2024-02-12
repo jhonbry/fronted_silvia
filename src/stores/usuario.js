@@ -7,7 +7,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
   const obtenerusuario = async () => {
     try {
       let responseusuario = await axios.get('usuario/usuario');
-      usuario.value = responseusuario.data.usuario;
+      usuarios.value = responseusuario.data.usuario;
     } catch (error) {
       throw error;
     }
@@ -24,7 +24,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
 
   const putInactivarUsuario = async (id) => {
     try {
-        let r= await axios.put('ususario/')
+        let r= await axios.put(`usuario/inactivar/${id}`)
         return r
     } catch (error) {
         console.log(error, 'Error al cambiar el estado de el usuario');
@@ -35,7 +35,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
   
   const putActivarUsuario = async (id) => {
     try {
-        let r= await axios.put('usuario/')
+        let r= await axios.put(`usuario/activar/${id}`)
         return r
     } catch (error) {
         console.log(error, 'Error al cambiar el estado de el usuario');
@@ -57,7 +57,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
     }
   }
   return {
-    usuarios, usuario,
+    usuarios, 
     obtenerusuario, postusuario, login,putInactivarUsuario, putActivarUsuario, 
   }
 });

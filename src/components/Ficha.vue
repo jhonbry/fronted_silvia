@@ -46,8 +46,13 @@
           :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
           :columns="columns" style="height: 600px;">
 
-
+          <template v-slot:body-cell-opciones="props">
+                <q-td :props="props" class="botones">
+                    <q-btn color="warning" icon="edit" class="botonv1" @click="editarFicha(props.row)" />
+                </q-td>
+            </template>
         </q-table>
+
       </div>
     </div>
   </div>
@@ -215,7 +220,7 @@ async function editaragregarFicha() {
         });
       }
     } else {
-      let id = idRuta.value;
+      let id = idFicha.value;
       if (id) {
         try {
           showDefault();
@@ -283,6 +288,14 @@ function getTodayDate() {
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const day = today.getDate().toString().padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+let idFicha = ref("")
+function editarFicha(data){
+  console.log(data._id);
+  fixed.value = true;
+  idFicha.value = data._id
+  nombre.value = data.nombre
 }
 
 </script>
