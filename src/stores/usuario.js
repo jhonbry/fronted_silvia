@@ -7,7 +7,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
   const obtenerusuario = async () => {
     try {
       let responseusuario = await axios.get('usuario/usuario');
-      usuario.value = responseusuario.data.usuario;
+      usuarios.value = responseusuario.data.usuario;
     } catch (error) {
       throw error;
     }
@@ -57,7 +57,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
     }
   }
   return {
-    usuarios, usuario,
+    usuarios, 
     obtenerusuario, postusuario, login,putInactivarUsuario, putActivarUsuario, 
   }
 });

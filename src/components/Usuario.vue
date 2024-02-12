@@ -4,44 +4,14 @@
         <h1 style="text-align: center; margin-top: 50px;">Usuarios</h1>
         <hr />
       </div>
-      <!-- Modal -->
-      <q-dialog v-model="fixed">
-        <q-card class="modal-content">
-          <div class="contorno">
-            <q-card-section class="row items-center q-pb-none" style="color: black">
-              <div class="text-h6">{{ text }}</div>
-              <q-space />
-            </q-card-section>
-            <q-separator />
-            <div v-if="mostrarData">
-              <q-card-section style="max-height: 50vh" class="scroll">
-                <q-input v-model="nombre" label="nombre" style="width: 300px" />
-              </q-card-section>
-            </div>
-  
-            <div class="containerError" v-if="mostrarError">
-              <h4>{{ error }}</h4>
-            </div>
-  
-            <q-separator />
-  
-            <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
-              <button class="btn" v-close-popup>Cancelar</button>
-              <button @click="editarAgregarRuta()" class="btn">Aceptar</button>
-            </q-card-actions>
-          </div>
-        </q-card>
-      </q-dialog>
       <div style="width: 1000px;">
         <div class="btn-agregar">
-          <q-btn class="bg-secondary" label="Agregar ruta" @click="agregarRuta()" />
+                <q-btn class="bg-secondary" label="Agregar usuario" @click="agregarUsuario()" />
         </div>
         <div class="q-pa-md">
           <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
             :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
             :columns="columns" style="height: 600px;">
-  
-  
           </q-table>
         </div>
         <!--   <q-table title="Rutas" :rows="rows" :columns="columns" row-key="name">
@@ -57,20 +27,15 @@
   import { format } from "date-fns";
   import { useUsuarioStore } from "../stores/usuario.js";
   import { useQuasar } from "quasar";
+  import { useRouter } from "vue-router";
   const UsuarioStore = useUsuarioStore();
   const $q = useQuasar();
-  let error = ref("Ingrese todos los datos para la creacion de un usuario");
-  let text = ref("");
-  let rutas = ref([]);
+  const router = useRouter();
+  
   let rows = ref([]);
-  let fixed = ref(false);
-  let ficha = ref("");
-  let nombre = ref("");
-  let cambio = ref(0);
-  let mostrarError = ref(false);
-  let mostrarData = ref(true);
   let pagination = ref({ rowsPerPage: 0 })
   let usuarios = ref([]);
+
   async function obtenerInfo() {
     try {
       await UsuarioStore.obtenerusuario();
@@ -83,8 +48,17 @@
   
   
   const columns = [
+
+    { name: "usuario", label: "Usuario", field: "usuario", sortable: true, align: "left" },
+
     { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
-  
+
+    { name: "cedula", label: "Cedula", field: "cedula", sortable: true, align: "left" },
+
+    { name: "telefono", label: "Telefono", field: "telefono", sortable: true, align: "left" },
+
+    { name: "rol", label: "Rol", field: "rol", sortable: true, align: "left" },
+
     {
       name: "estado",
       label: "Estado",
@@ -102,131 +76,16 @@
     },
   ];
   
-  function agregarRuta() {
-    fixed.value = true;
-    text.value = "Agregar Area";
-    cambio.value = 0;
-    limpiar();
-  }
-  function validar() {
-    if (nombre.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Digite el nombre del Area porfavor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-  
-    } else {
-      validacion.value = true;
-    }
-  }
-  async function editarAgregarRuta() {
-    validar();
-    if (validacion.value === true) {
-      if (cambio.value === 0) {
-        if (nombre.value.trim() === '') {
-          mostrarData.value = false;
-          mostrarError.value = true;
-          error.value = "Por favor digite un nombre";
-          setTimeout(() => {
-            mostrarData.value = true;
-            mostrarError.value = false;
-            error.value = "";
-          }, 2200);
-          return;
-        }
-        try {
-          showDefault();
-          await UsuarioStore.postArea({
-            nombre: nombre.value,
-          });
-          if (notification) {
-            notification();
-          }
-          limpiar();
-          $q.notify({
-            spinner: false,
-            message: "Area Agregado",
-            timeout: 2000,
-            type: "positive",
-          });
-          console.log("a")
-          obtenerInfo();
-        } catch (error) {
-          if (notification) {
-            notification();
-          }
-          $q.notify({
-            spinner: false,
-            // message: `${error.response.data.error.errors[0].msg}`,
-            timeout: 2000,
-            type: "negative",
-          });
-        }
-      } else {
-        let id = idRuta.value;
-        if (id) {
-          try {
-            showDefault();
-            await areasStore.putEditarArea(id, {
-              nombre: nombre.value,
-            });
-            if (notification) {
-              notification();
-            }
-            limpiar();
-            $q.notify({
-              spinner: false,
-              message: "Ruta Actualizada",
-              timeout: 2000,
-              type: "positive",
-            });
-            obtenerInfo();
-          } catch (error) {
-            if (notification) {
-              notification();
-              console.log(notification);
-            }
-            $q.notify({
-              spinner: false,
-              /*  message: `${error.response.data.error.errors[0].msg}`, */
-              timeout: 2000,
-              type: "negative",
-            });
-          }
-        }
-      }
-      validacion.value = false;
-    }
-  }
-  
-  function limpiar() {
-    nombre.value = "";
-    ficha.value = "";
-  
-  }
-  
   let idRuta = ref("");
-  
-  let validacion = ref(false);
-  let notification = ref(null);
-  const showDefault = () => {
-    notification = $q.notify({
-      spinner: true,
-      message: "Please wait...",
-      timeout: 0,
-    });
-  };
-  
-  
-  
+
+  function agregarUsuario() {
+    router.push('/Registrar');
+  }
+
   onMounted(async () => {
     obtenerInfo();
   });
-  </script>
+  </script> 
   
   <style scoped>
   .modal-content {
