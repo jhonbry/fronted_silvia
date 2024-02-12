@@ -1,13 +1,12 @@
 <template>
   <div class="container">
     <form class="form">
-        <div class="centeimg">
-      <img :src="images" class="fondo"/>
-    </div>
+      <div class="centeimg">
+        <img :src="images" class="fondo" />
+      </div>
       <p class="title">Registro</p>
       <p class="message">Regístrate ahora y obtén acceso completo a nuestra aplicación.</p>
       <div class="flex">
-
         <label>
           <input required="" placeholder="" type="text" class="input" />
           <span>Nombre</span>
@@ -15,35 +14,33 @@
 
         <label>
           <input required="" placeholder="" type="text" class="input" />
-          <span>Apellido</span>
+          <span>Cedula</span>
+        </label>
+
+        <label>
+          <input required="" placeholder="" type="email" class="input" />
+          <span>Telefono</span>
+        </label>
+
+        <label>
+          <input required="" placeholder="" type="password" class="input" />
+          <span>Usuario</span>
+        </label>
+        <label>
+          <input required="" placeholder="" type="password" class="input" />
+          <span>contraseña</span>
+        </label>
+        <label>
+          <input required="" placeholder="" type="password" class="input" />
+          <span>Rol</span>
+        </label>
+
+        <label>
+          <input required="" placeholder="" type="password" class="input" />
+          <span>Estado</span>
         </label>
       </div>
-
-      <div class="flex">
-      <label>
-        <input required="" placeholder="" type="email" class="input" />
-        <span>Correo</span>
-      </label>
-
-
-      <label>
-        <input required="" placeholder="" type="password" class="input" />
-        <span>Contraseña</span>
-      </label>
-    </div>
-
-
-    <label>
-  <select required="" name="rol" class="select">
-    <option value="" disabled selected hidden>Selecciona tu rol</option>
-    <option value="administrador">Administrador</option>
-    <option value="instructor">Instructor</option>
-    <option value="aprendiz">Aprendiz</option>
-  </select>
-
-</label><br>
-
-
+  
       <button class="submit">Registrar</button>
       <p class="signin"> <router-link to="/Login">¿Ya tienes una cuenta creada?</router-link> </p>
     </form>
@@ -56,21 +53,23 @@ import images from "../assets/fondo12.png";
 
 <style scoped>
 .container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    background-color: #209616;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #209616;
+  align-items: center;
+  justify-content: center;
 }
-.centeimg{
+
+.centeimg {
   display: flex;
   justify-content: center;
 }
-.fondo{
-    height: 100px;
-    width: 100px;
-    margin: 25px;
+
+.fondo {
+  height: 100px;
+  width: 100px;
+  margin: 25px;
 }
 
 .form {
@@ -93,7 +92,7 @@ import images from "../assets/fondo12.png";
   display: flex;
   align-items: center;
   padding-left: 30px;
-  
+
 }
 
 .title::before,
@@ -117,7 +116,7 @@ import images from "../assets/fondo12.png";
   width: 18px;
   height: 18px;
   animation: pulse 1s linear infinite;
-  
+
 }
 
 .message,
@@ -125,7 +124,7 @@ import images from "../assets/fondo12.png";
   color: rgba(88, 87, 87, 0.822);
   font-size: 14px;
   text-align: center;
-  
+
 }
 
 .signin {
@@ -160,7 +159,8 @@ import images from "../assets/fondo12.png";
   border: 1px solid rgba(105, 105, 105, 0.397);
   border-radius: 10px;
 }
-.form label .input + span {
+
+.form label .input+span {
   position: absolute;
   left: 10px;
   top: 15px;
@@ -170,19 +170,19 @@ import images from "../assets/fondo12.png";
   transition: 0.3s ease;
 }
 
-.form label .input:placeholder-shown + span {
+.form label .input:placeholder-shown+span {
   top: 15px;
   font-size: 0.9em;
 }
 
-.form label .input:focus + span,
-.form label .input:valid + span {
+.form label .input:focus+span,
+.form label .input:valid+span {
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;
 }
 
-.form label .input:valid + span {
+.form label .input:valid+span {
   color: green;
 }
 
@@ -215,37 +215,36 @@ import images from "../assets/fondo12.png";
 
 
 label .select {
-    width: 100%;
-    padding: 10px;
-    outline: 0;
-    border: 1px solid rgba(105, 105, 105, 0.397);
-    border-radius: 10px;
-  }
+  width: 100%;
+  padding: 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
 
-  label .select + span {
-    position: absolute;
-    left: 10px;
-    top: 15px;
-    color: grey;
-    font-size: 0.9em;
-    cursor: text;
-    transition: 0.3s ease;
-  }
+label .select+span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
 
-  label .select:placeholder-shown + span {
-    top: 15px;
-    font-size: 0.9em;
-  }
+label .select:placeholder-shown+span {
+  top: 15px;
+  font-size: 0.9em;
+}
 
-  label .select:focus + span,
-  label .select:valid + span {
-    top: 30px;
-    font-size: 0.7em;
-    font-weight: 600;
-  }
+label .select:focus+span,
+label .select:valid+span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
 
-  label .select:valid + span {
-    color: green;
-  }
-
+label .select:valid+span {
+  color: green;
+}
 </style>
