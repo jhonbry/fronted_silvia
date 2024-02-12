@@ -4,6 +4,11 @@ import Home from "../components/Home.vue";
 import Registrar from "../components/Registrar.vue";
 import Area from "../components/Area.vue";
 import Ficha from "../components/Ficha.vue";
+import Usuario from "../components/Usuario.vue";
+import Lote from "../components/Lote.vue";
+import Pedido from "../components/Pedido.vue";
+import Producto from "../components/Producto.vue";
+
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
@@ -12,7 +17,11 @@ const routes = [
   { path: "/Home",component: Home,
     children: [
       {path: "/Area", component: Area ,},
-      {path: "/Ficha", component: Ficha}
+      {path: "/Ficha", component: Ficha},
+      {path: "/Usuario", component: Usuario},
+      {path: "/Lote", component: Lote},
+      {path: "/Pedido", component: Pedido},
+      {path: "/Producto", component: Producto},
     ]
   },
   { path: "/Registrar", component: Registrar, },
