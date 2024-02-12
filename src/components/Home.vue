@@ -22,7 +22,7 @@
                 </q-item>
                 <q-separator />
                 <q-item clickable>
-                  <q-item-section>Mind blown</q-item-section>
+                  <q-item-section>Salir</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -81,9 +81,13 @@ const toggleLeftDrawer = () => {
 };
 
 const links = [
-  { text: "Inicio", path: "/" },
+  { text: "Inicio" },
   { text: "Area", path: "/Area" },
   { text: "Ficha", path: "/Ficha" },
+  { text: "Usuario", path: "/Usuario"},
+  { text: "Lote", path: "/Lote"},
+  { text: "Pedido", path: "/Pedido"},
+  { text: "Producto", path: "/Producto"},
 ];
 
 const navigateTo = (path) => {
