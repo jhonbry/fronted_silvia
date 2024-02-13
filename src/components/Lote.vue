@@ -1,7 +1,7 @@
 <template>
     <div>
       <div>
-        <h1 style="text-align: center; margin-top: 50px;">Area</h1>
+        <h1 style="text-align: center; margin-top: 50px;">Lotes</h1>
         <hr />
       </div>
       <!-- Modal -->
@@ -55,9 +55,9 @@
   import axios from "axios";
   import { ref, onMounted } from "vue";
   import { format } from "date-fns";
-  import { useAreaStore } from "../stores/area.js";
+  import { useLoteStore } from "../stores/lote.js";
   import { useQuasar } from "quasar";
-  const AreaStore = useAreaStore();
+  const loteStore = useLoteStore();
   const $q = useQuasar();
   let error = ref("Ingrese todos los datos para la creacion de un vendedor");
   let text = ref("");
@@ -66,16 +66,17 @@
   let fixed = ref(false);
   let ficha = ref("");
   let nombre = ref("");
+  let presupuesto = ref("");
   let cambio = ref(0);
   let mostrarError = ref(false);
   let mostrarData = ref(true);
   let pagination = ref({ rowsPerPage: 0 })
-  let areas = ref([]);
+  let lotes = ref([]);
   async function obtenerInfo() {
     try {
-      await AreaStore.obtenerInfoAreas();
-      areas.value = AreaStore.areas;
-      rows.value = AreaStore.areas;
+      await loteStore.obtenerInfoLotes();
+      lotes.value = loteStore.lotes;
+      rows.value = loteStore.lotes;
     } catch (error) {
       console.log(error);
     }
@@ -84,6 +85,8 @@
   
   const columns = [
     { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
+
+    { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
   
     {
       name: "estado",
