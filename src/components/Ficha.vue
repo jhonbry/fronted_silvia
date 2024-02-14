@@ -18,8 +18,8 @@
               <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
               <q-input v-model="nivel_de_formacion" label="Nivel" type="string" style="width: 300px" />
-              <q-input v-model="fecha_inicio"  type="date" style="width: 300px"  />
-              <q-input v-model="ficha_fin"  type="date" style="width: 300px" />
+              <q-input v-model="fecha_inicio" type="date" style="width: 300px" />
+              <q-input v-model="ficha_fin" type="date" style="width: 300px" />
 
             </q-card-section>
           </div>
@@ -47,17 +47,17 @@
           :columns="columns" style="height: 600px;">
 
           <template v-slot:body-cell-opciones="props">
-                <q-td :props="props" class="botones">
-                    <q-btn color="warning" icon="edit" class="botonv1" @click="editarFicha(props.row)" />
-                </q-td>
-            </template>
+            <q-td :props="props" class="botones">
+              <q-btn color="warning" icon="edit" class="botonv1" @click="editarFicha(props.row)" />
+            </q-td>
+          </template>
         </q-table>
 
       </div>
     </div>
   </div>
 </template>
-  
+    
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from "vue";
@@ -95,8 +95,8 @@ const columns = [
   { name: "codigo_ficha", label: "codigo_ficha", field: "codigo_ficha", sortable: true, align: "left" },
   { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
   { name: "nivel_de_formacion", label: "Nivel", field: "nivel_de_formacion", sortable: true, align: "left" },
-  { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", format:(val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
-  { name: "ficha_fin", label: "ficha fin", field: "ficha_fin",format:(val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
+  { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
+  { name: "ficha_fin", label: "ficha fin", field: "ficha_fin", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
 
   {
     name: "estado",
@@ -122,7 +122,7 @@ function agregarFicha() {
   limpiar();
 }
 function validar() {
-  if (codigo_ficha.value.trim() == "") {
+  if (codigo_ficha.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Digite el codigo de la ficha por favor";
@@ -132,7 +132,7 @@ function validar() {
       error.value = "";
     }, 2200);
 
-  } else if (nombre.value.trim() == "") {
+  } else if (nombre.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Ingrese el nombre de la ficha por favor";
@@ -141,7 +141,7 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else if (nivel_de_formacion.value.trim() == "") {
+  } else if (nivel_de_formacion.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Indique el nivel de formacion de la ficha por favor";
@@ -172,6 +172,7 @@ function validar() {
     validacion.value = true;
   }
 }
+
 async function editaragregarFicha() {
   validar();
   if (validacion.value === true) {
@@ -224,8 +225,12 @@ async function editaragregarFicha() {
       if (id) {
         try {
           showDefault();
-          await areasStore.putEditarArea(id, {
+          await FichaStore.putEditarFicha(id, {
             nombre: nombre.value,
+            codigo_ficha: codigo_ficha.value,
+            nivel_de_formacion: nivel_de_formacion.value,
+            fecha_inicio: fecha_inicio.value,
+            ficha_fin: ficha_fin.value,
           });
           if (notification) {
             notification();
@@ -233,19 +238,19 @@ async function editaragregarFicha() {
           limpiar();
           $q.notify({
             spinner: false,
-            message: "Ruta Actualizada",
+            message: "Ficha Actualizada",
             timeout: 2000,
             type: "positive",
           });
           obtenerInfo();
+          fixed.value = false;
         } catch (error) {
           if (notification) {
             notification();
-            console.log(notification);
           }
           $q.notify({
             spinner: false,
-            /*  message: `${error.response.data.error.errors[0].msg}`, */
+            /*  message: ${error.response.data.error.errors[0].msg}, */
             timeout: 2000,
             type: "negative",
           });
@@ -291,15 +296,19 @@ function getTodayDate() {
 }
 
 let idFicha = ref("")
-function editarFicha(data){
-  console.log(data._id);
+function editarFicha(data) {
   fixed.value = true;
   idFicha.value = data._id
   nombre.value = data.nombre
+  codigo_ficha.value = data.codigo_ficha
+  nivel_de_formacion.value = data.nivel_de_formacion
+  fecha_inicio.value = format(new Date(data.fecha_inicio), 'yyyy-MM-dd')
+  ficha_fin.value = format(new Date(data.ficha_fin), 'yyyy-MM-dd')
+  cambio.value = 1;
 }
 
 </script>
-  
+    
 <style scoped>
 .modal-content {
   width: 480px;
@@ -418,7 +427,7 @@ h1 {
 
 .inac {
   /*   display: flex;
-    align-items: center; */
+      align-items: center; */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -448,6 +457,6 @@ h1 {
 }
 </style>
 <style lang="sass">
-  
-  </style>
-  
+    
+    </style>
+    
