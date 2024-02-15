@@ -16,14 +16,17 @@
             </q-input>
           </q-card-actions>
         </div>
-        <button @click="Login()" class="btn">Aceptar</button>
+        <button @click="Login()" class="btn">Aceptar</button> <br>
         <div class="containerError" v-if="mostrarError || error2">
           <h5 v-if="mostrarError">Por favor digite el Nombre o Contraseña</h5>
           <h4 v-if="error2">{{ msj }}</h4>
+          
         </div>
+        <p class="signin"> <router-link to="/Registrar">¿Aun no tienes una cuenta creada?</router-link> </p>
       </q-card>
     </div>
   </div>
+  
 </template>
 
 

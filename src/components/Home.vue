@@ -9,20 +9,19 @@
             <q-avatar>
               <img :src="avatar" />
             </q-avatar>
-            Inicio
+           
           </q-toolbar-title>
           <q-btn color="white" dense flat round icon="settings" id="settings">
             <q-menu transition-show="jump-down" transition-hide="jump-up">
               <q-list style="min-width: 100px; text-align: center;">
                 <q-item clickable>
-                  <q-item-section>Having fun</q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>Crazy for transitions</q-item-section>
+                  <q-item-section>Configuraciones</q-item-section>
                 </q-item>
                 <q-separator />
                 <q-item clickable>
-                  <q-item-section>Salir</q-item-section>
+                  <router-link to="/Login">
+                  <q-item-section>Salir</q-item-section> 
+                </router-link>
                 </q-item>
               </q-list>
             </q-menu>
