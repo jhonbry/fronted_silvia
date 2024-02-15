@@ -22,7 +22,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
     }
   };
 
-  const putInactivarUsuario = async (id) => {
+  const putusuarioInactivar = async (id) => {
     try {
         let r= await axios.put(`usuario/inactivar/${id}`)
         return r
@@ -33,7 +33,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
   };
 
   
-  const putActivarUsuario = async (id) => {
+  const putusuarioActivar = async (id) => {
     try {
         let r= await axios.put(`usuario/activar/${id}`)
         return r
@@ -53,11 +53,11 @@ export const useUsuarioStore = defineStore('usuario', () => {
 
     } catch (error) {
         console.log(error)
-        return error.responde.data
+        return error.response.data
     }
   }
   return {
     usuarios, 
-    obtenerusuario, postusuario, login,putInactivarUsuario, putActivarUsuario, 
+    obtenerusuario, postusuario, login,putusuarioActivar, putusuarioInactivar, 
   }
 });

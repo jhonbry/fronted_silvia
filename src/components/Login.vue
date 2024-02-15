@@ -82,6 +82,7 @@ async function Login() {
         notification();
       }
       if (res.msg) {
+        mostrarErrores(res.msg)
         console.log('maluco, user o contra maluca');
       } else {
         router.push('/Home');
@@ -98,6 +99,14 @@ const showDefault = () => {
   notification = $q.notify({
     spinner: true,
     message: "Please wait...",
+    timeout: 0,
+  });
+};
+
+function mostrarErrores (msg) {
+  notification = $q.notify({
+    type: 'negative',
+    message: msg,
     timeout: 0,
   });
 };

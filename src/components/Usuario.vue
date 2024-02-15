@@ -8,12 +8,24 @@
         <div class="btn-agregar">
                 <q-btn class="bg-secondary" label="Agregar usuario" @click="agregarUsuario()" />
         </div>
-        <div class="q-pa-md">
-          <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
-            :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
-            :columns="columns" style="height: 600px;">
-          </q-table>
-        </div>
+       
+        <q-table  class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+          :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
+          :columns="columns" style="height: 600px;">
+        <template v-slot:body-cell-estado="props">
+          <q-td :props="props">
+            <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
+            <label for="" v-else style="color: red">Inactivo</label>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-opciones="props">
+          <q-td :props="props" class="botones">
+            <q-btn color="white" text-color="black" label="🖋️" @click="(props.row)" />
+            <q-btn glossy label="❌" @click="inactivarUsuario(props.row._id)" v-if="props.row.estado == 1" />
+            <q-btn glossy label="✔️" @click="activarUsuario(props.row._id)" v-else />
+          </q-td>
+        </template>
+      </q-table>
         <!--   <q-table title="Rutas" :rows="rows" :columns="columns" row-key="name">
   
         </q-table> -->
@@ -35,7 +47,14 @@
   let rows = ref([]);
   let pagination = ref({ rowsPerPage: 0 })
   let usuarios = ref([]);
-
+  let notification = ref(null);
+const showDefault = () => {
+  notification = $q.notify({
+    spinner: true,
+    message: "Please wait...",
+    timeout: 0,
+  });
+};
   async function obtenerInfo() {
     try {
       await UsuarioStore.obtenerusuario();
@@ -85,6 +104,60 @@
   onMounted(async () => {
     obtenerInfo();
   });
+
+  async function inactivarUsuario(id) {
+  try {
+    showDefault();
+    await UsuarioStore.putusuarioInactivar(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Lote Inactivo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
+
+async function activarUsuario(id) {
+  try {
+    showDefault();
+    await UsuarioStore.putusuarioActivar(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Lote Activo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
   </script> 
   
   <style scoped>
