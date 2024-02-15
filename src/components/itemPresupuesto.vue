@@ -125,7 +125,7 @@ function validar() {
       error.value = "";
     }, 2200);
 
-  } else if (presupuesto.value.trim() === "") {
+  } else if (presupuesto.value <0) {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Ingrese el presupuesto por favor";

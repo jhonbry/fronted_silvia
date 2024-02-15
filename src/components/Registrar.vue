@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form class="form">
+    <form class="form" @submit.prevent="registrarUsuario">
       <div class="centeimg">
         <img :src="images" class="fondo" />
       </div>
@@ -11,32 +11,31 @@
 
       <div class="flex">
         <label>
-          <input required="" placeholder="" type="text" class="input" />
+          <input v-model="nombre" required placeholder="" type="text" class="input" />
           <span>Nombre</span>
         </label>
 
         <label>
-          <input required="" placeholder="" type="text" class="input" />
+          <input v-model="cedula" required placeholder="" type="text" class="input" />
           <span>Cedula</span>
         </label>
 
         <label>
-          <input required="" placeholder="" type="number" class="input" />
+          <input v-model="telefono" required placeholder="" type="number" class="input" />
           <span>Telefono</span>
         </label>
 
         <label>
-          <input required="" placeholder="" type="text" class="input" />
+          <input v-model="usuario" required placeholder="" type="text" class="input" />
           <span>Usuario</span>
         </label>
         <label>
-          <input required="" placeholder="" type="password" class="input" />
-          <span>contraseña</span>
+          <input v-model="password" required placeholder="" type="password" class="input" />
+          <span>password</span>
         </label>
 
         <label>
-      
-          <select required class="input select">
+          <select v-model="rol" required class="input select">
             <option value="">Selecciona un rol</option>
             <option value="instructor">Instructor</option>
             <option value="bodega">Bodega</option>
@@ -45,7 +44,7 @@
         </label>
       </div>
 
-      <button class="submit">Registrar</button>
+      <button type="submit" class="submit">Registrar</button>
       <p class="signin">
         <router-link to="/Login">¿Ya tienes una cuenta creada?</router-link>
       </p>
@@ -54,7 +53,32 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 import images from "../assets/fondo12.png";
+
+let nombre = '';
+let cedula = '';
+let telefono = '';
+let usuario = '';
+let password = '';
+let rol = '';
+
+const registrarUsuario = async () => {
+  try {
+    const response = await axios.post('https://backend-abxx.onrender.com/usuario/agregar', {
+      nombre,
+      cedula,
+      telefono,
+      usuario,
+      password,
+      rol
+    });
+
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <style scoped>
