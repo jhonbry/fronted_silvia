@@ -8,6 +8,7 @@ import Usuario from "../components/Usuario.vue";
 import Lote from "../components/Lote.vue";
 import Pedido from "../components/Pedido.vue";
 import Producto from "../components/Producto.vue";
+import itemPresupuesto from "../components/itemPresupuesto.vue";
 
 import { createRouter, createWebHashHistory } from "vue-router";
 
@@ -22,6 +23,7 @@ const routes = [
       {path: "/Lote", component: Lote},
       {path: "/Pedido", component: Pedido},
       {path: "/Producto", component: Producto},
+      {path: "/itemPresupuesto", component: itemPresupuesto},
     ]
   },
   { path: "/Registrar", component: Registrar, },
