@@ -5,10 +5,11 @@
         <img :src="images" class="fondo" />
       </div>
       <p class="title">Registro</p>
-      <p class="message">Regístrate ahora y obtén acceso completo a nuestra aplicación.</p>
+      <p class="message">
+        Regístrate ahora y obtén acceso completo a nuestra aplicación.
+      </p>
 
       <div class="flex">
-
         <label>
           <input required="" placeholder="" type="text" class="input" />
           <span>Nombre</span>
@@ -20,32 +21,34 @@
         </label>
 
         <label>
-          <input required="" placeholder="" type="email" class="input" />
+          <input required="" placeholder="" type="number" class="input" />
           <span>Telefono</span>
         </label>
 
         <label>
-          <input required="" placeholder="" type="password" class="input" />
+          <input required="" placeholder="" type="text" class="input" />
           <span>Usuario</span>
         </label>
         <label>
           <input required="" placeholder="" type="password" class="input" />
           <span>contraseña</span>
         </label>
-        <label>
-          <input required="" placeholder="" type="password" class="input" />
-          <span>Rol</span>
-        </label>
 
         <label>
-          <input required="" placeholder="" type="password" class="input" />
-          <span>Estado</span>
+      
+          <select required class="input select">
+            <option value="">Selecciona un rol</option>
+            <option value="instructor">Instructor</option>
+            <option value="bodega">Bodega</option>
+            <option value="administrador">Administrador</option>
+          </select>
         </label>
-
       </div>
-  
+
       <button class="submit">Registrar</button>
-      <p class="signin"> <router-link to="/Login">¿Ya tienes una cuenta creada?</router-link> </p>
+      <p class="signin">
+        <router-link to="/Login">¿Ya tienes una cuenta creada?</router-link>
+      </p>
     </form>
   </div>
 </template>
@@ -94,7 +97,6 @@ import images from "../assets/fondo12.png";
   display: flex;
   align-items: center;
   padding-left: 30px;
-
 }
 
 .title::before,
@@ -118,7 +120,6 @@ import images from "../assets/fondo12.png";
   width: 18px;
   height: 18px;
   animation: pulse 1s linear infinite;
-
 }
 
 .message,
@@ -126,12 +127,10 @@ import images from "../assets/fondo12.png";
   color: rgba(88, 87, 87, 0.822);
   font-size: 14px;
   text-align: center;
-
 }
 
 .signin {
   text-align: center;
-
 }
 
 .signin a {
@@ -143,26 +142,28 @@ import images from "../assets/fondo12.png";
   text-decoration: underline royalblue;
 }
 
-.flex {
-  display: flex;
-  width: 100%;
-  gap: 10px;
-  justify-content: center;
+.flex{
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .form label {
   position: relative;
 }
 
-.form label .input {
-  width: 100%;
-  padding: 10px 10px 20px 10px;
-  outline: 0;
-  border: 1px solid rgba(105, 105, 105, 0.397);
-  border-radius: 10px;
+.form label .input{
+    width: 200px;
+    height: 50px;
+    padding: 10px 10px 20px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
 }
 
-.form label .input+span {
+.form label .input + span {
   position: absolute;
   left: 10px;
   top: 15px;
@@ -170,21 +171,32 @@ import images from "../assets/fondo12.png";
   font-size: 0.9em;
   cursor: text;
   transition: 0.3s ease;
-}
-
-.form label .input:placeholder-shown+span {
-  top: 15px;
-  font-size: 0.9em;
-}
-
-.form label .input:focus+span,
-.form label .input:valid+span {
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;
 }
 
-.form label .input:valid+span {
+select{
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+  font-weight: 600;
+}
+
+.form label .input:placeholder-shown + span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.form label .input:valid + span {
   color: green;
 }
 
@@ -215,7 +227,6 @@ import images from "../assets/fondo12.png";
   }
 }
 
-
 label .select {
   width: 100%;
   padding: 10px;
@@ -224,7 +235,7 @@ label .select {
   border-radius: 10px;
 }
 
-label .select+span {
+label .select + span {
   position: absolute;
   left: 10px;
   top: 15px;
@@ -234,19 +245,19 @@ label .select+span {
   transition: 0.3s ease;
 }
 
-label .select:placeholder-shown+span {
+label .select:placeholder-shown + span {
   top: 15px;
   font-size: 0.9em;
 }
 
-label .select:focus+span,
-label .select:valid+span {
+label .select:focus + span,
+label .select:valid + span {
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;
 }
 
-label .select:valid+span {
+label .select:valid + span {
   color: green;
 }
 </style>
