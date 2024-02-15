@@ -7,6 +7,7 @@ export const usePedidoStore = defineStore('pedido', () => {
   const obtenerpedido = async () => {
     try {
       let responsepedido = await axios.get('pedido/all');
+      console.log(responsepedido);
       pedidos.value = responsepedido.data.pedido;
       console.log(responsepedido.data.pedido);
     } catch (error) {
