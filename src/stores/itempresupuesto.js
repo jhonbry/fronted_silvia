@@ -27,6 +27,7 @@ export const useItemStore = defineStore('items', () => {
 
     const putEditarItem = async (id, data) => {
         try {
+            console.log(id , data );
             let res = await axios.put(`items/itemns/${id}`, data);
             return res
         } catch (error) {
