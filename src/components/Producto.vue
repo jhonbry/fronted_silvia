@@ -1,195 +1,242 @@
 <template>
+  <div>
     <div>
-      <div>
-        <h1 style="text-align: center; margin-top: 50px;">Ficha</h1>
-        <hr />
-      </div>
-      <!-- Modal -->
-      <q-dialog v-model="fixed">
-        <q-card class="modal-content">
-          <div class="contorno">
-            <q-card-section class="row items-center q-pb-none" style="color: black">
-              <div class="text-h6">{{ text }}</div>
-              <q-space />
+      <h1 style="text-align: center; margin-top: 50px;">Productos</h1>
+      <hr />
+    </div>
+    <!-- Modal -->
+    <q-dialog v-model="fixed">
+      <q-card class="modal-content">
+        <div class="contorno">
+          <q-card-section class="row items-center q-pb-none" style="color: black">
+            <div class="text-h6">{{ text }}</div>
+            <q-space />
+          </q-card-section>
+          <q-separator />
+          <div v-if="mostrarData">
+            <q-card-section style="max-height: 50vh" class="scroll">
+              <q-input v-model="nombre" label="Nombre" type="text" style="width: 300px" />
+              <q-input v-model="codigo" label="Codigo" type="text" style="width: 300px" />
+              <q-input v-model="descripcion" label="Descripcion" type="text" style="width: 300px" />
+              <q-input v-model="unidadMedida" label="Unidad de Medida" type="text" style="width: 300px" />
+              <q-input v-model="precioUnitario" label="Precio Unitario" type="number" style="width: 300px" />
+              <q-input v-model="iva" label="IVA" type="number" style="width: 300px" />
+              <q-input v-model="consumible" label="Consumible" type="text" style="width: 300px" />
             </q-card-section>
-            <q-separator />
-            <div v-if="mostrarData">
-              <q-card-section style="max-height: 50vh" class="scroll">
-                <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
-                <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
-                <q-input v-model="nivel_de_formacion" label="Nivel" type="string" style="width: 300px" />
-                <q-input v-model="fecha_inicio"  type="date" style="width: 300px"  />
-                <q-input v-model="ficha_fin"  type="date" style="width: 300px" />
-  
-              </q-card-section>
-            </div>
-  
-            <div class="containerError" v-if="mostrarError">
-              <h4>{{ error }}</h4>
-            </div>
-  
-            <q-separator />
-  
-            <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
-              <button class="btn" v-close-popup>Cancelar</button>
-              <button @click="editaragregarFicha()" class="btn">Aceptar</button>
-            </q-card-actions>
           </div>
-        </q-card>
-      </q-dialog>
-      <div style="width: 1000px;">
-        <div class="btn-agregar">
-          <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" />
+
+          <div class="containerError" v-if="mostrarError">
+            <h4>{{ error }}</h4>
+          </div>
+
+          <q-separator />
+
+          <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
+            <button class="btn" @click="fixed = false">Cancelar</button>
+            <button @click="editaragregarProducto()" class="btn">Aceptar</button>
+          </q-card-actions>
         </div>
-        <div class="q-pa-md">
-          <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
-            :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
-            :columns="columns" style="height: 600px;">
-  
-  
-          </q-table>
-        </div>
+      </q-card>
+    </q-dialog>
+    <div style="width: 1000px;">
+      <div class="btn-agregar">
+        <q-btn class="bg-secondary" label="Agregar Producto" @click="agregarProducto()" />
+      </div>
+      <div class="q-pa-md">
+        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+          :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
+          :columns="columns" style="height: 600px;">
+        </q-table>
       </div>
     </div>
-  </template>
-    
-  <script setup>
-  import axios from "axios";
-  import { ref, onMounted } from "vue";
-  import { format } from "date-fns";
-  import { useFichaStore } from "../stores/ficha.js";
-  import { useQuasar } from "quasar";
-  const FichaStore = useFichaStore();
-  const $q = useQuasar();
-  let error = ref("Ingrese todos los datos para la creacion de un vendedor");
-  let text = ref("");
-  let rows = ref([]);
-  let fixed = ref(false);
-  let nombre = ref("");
-  let codigo_ficha = ref("");
-  let nivel_de_formacion = ref("");
-  let fecha_inicio = ref("");
-  let ficha_fin = ref("");
-  let cambio = ref(0);
-  let mostrarError = ref(false);
-  let mostrarData = ref(true);
-  let pagination = ref({ rowsPerPage: 0 })
-  let fichas = ref([]);
-  async function obtenerInfo() {
-    try {
-      await FichaStore.obtenerInfoFichas();
-      fichas.value = FichaStore.fichas;
-      rows.value = FichaStore.fichas;
-    } catch (error) {
-      console.log(error);
-    }
+  </div>
+</template>
+
+<script setup>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+import { format } from "date-fns";
+import { useProductoStore } from "../stores/producto.js";
+import { useQuasar } from "quasar";
+const ProductoStore = useProductoStore();
+const $q = useQuasar();
+let error = ref("Ingrese todos los datos para la creación de un producto");
+let text = ref("");
+let rows = ref([]);
+let fixed = ref(false);
+let codigo = ref("");
+let nombre = ref("");
+let descripcion = ref("");
+let unidadMedida = ref("");
+let precioUnitario = ref("");
+let iva = ref("");
+let consumible = ref("");
+let cambio = ref(0);
+let mostrarError = ref(false);
+let mostrarData = ref(true);
+let pagination = ref({ rowsPerPage: 0 });
+let productos = ref([]);
+async function obtenerInfo() {
+  try {
+    await ProductoStore.obtenerInfoProducto();
+    productos.value = ProductoStore.productos;
+    rows.value = ProductoStore.productos;
+  } catch (error) {
+    console.log(error);
   }
-  
-  
-  const columns = [
-    { name: "codigo_ficha", label: "codigo_ficha", field: "codigo_ficha", sortable: true, align: "left" },
-    { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
-    { name: "nivel_de_formacion", label: "Nivel", field: "nivel_de_formacion", sortable: true, align: "left" },
-    { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", sortable: true, align: "left" },
-    { name: "ficha_fin", label: "ficha fin", field: "ficha_fin", sortable: true, align: "left" },
-  
-    {
-      name: "estado",
-      label: "Estado",
-      field: "estado",
-      sortable: true,
-      align: "left",
-      format: (val) => (val ? "Activo" : "Inactivo"),
-    },
-    {
-      name: "opciones",
-      label: "Opciones",
-      field: (row) => null,
-      sortable: false,
-      align: "center",
-    },
-  ];
-  
-  function agregarFicha() {
-    fixed.value = true;
-    text.value = "Agregar Ficha";
-    cambio.value = 0;
-    limpiar();
+}
+
+
+const columns = [
+  { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
+  { name: "codigo", label: "Codigo", field: "codigo", sortable: true, align: "left" },
+  { name: "descripcion", label: "Descripcion", field: "descripcion", sortable: true, align: "left" },
+  { name: "unidadMedida", label: "Unidad de Medida", field: "unidadMedida", sortable: true, align: "left" },
+  { name: "precioUnitario", label: "Precio Unitario", field: "precioUnitario", sortable: true, align: "left" },
+  { name: "iva", label: "IVA", field: "iva", sortable: true, align: "left" },
+  { name: "consumible", label: "Consumible", field: "consumible", sortable: true, align: "left" },
+  {
+    name: "estado",
+    label: "Estado",
+    field: "estado",
+    sortable: true,
+    align: "left",
+    format: (val) => (val ? "Activo" : "Inactivo"),
+  },
+  {
+    name: "opciones",
+    label: "Opciones",
+    field: (row) => null,
+    sortable: false,
+    align: "center",
+  },
+];
+
+function agregarProducto() {
+  fixed.value = true;
+  text.value = "Agregar Producto";
+  cambio.value = 0;
+  limpiar();
+}
+function validar() {
+  if (codigo.value.trim() === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Digite el código del producto por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+
+  } else if (nombre.value.trim() === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Ingrese el nombre del producto por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else if (descripcion.value.trim() === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Indique la descripción del producto por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else if (unidadMedida.value.trim() === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Seleccione la unidad de medida del producto por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else if (precioUnitario.value === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Ingrese el precio unitario del producto por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else if (iva.value === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Ingrese el IVA del producto por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else if (consumible.value.trim() === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Indique si el producto es consumible o no por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else {
+    validacion.value = true;
   }
-  function validar() {
-    if (codigo_ficha.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Digite el codigo de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-  
-    } else if (nombre.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Ingrese el nombre de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (nivel_de_formacion.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Indique el nivel de formacion de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (fecha_inicio.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Seleccione la hora de Inicio de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (ficha_fin.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Seleccione la hora de finalizacion de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else {
-      validacion.value = true;
-    }
-  }
-  async function editaragregarFicha() {
-    validar();
-    if (validacion.value === true) {
-      if (cambio.value === 0) {
-        if (nombre.value.trim() === '') {
-          mostrarData.value = false;
-          mostrarError.value = true;
-          error.value = "Por favor digite un nombre";
-          setTimeout(() => {
-            mostrarData.value = true;
-            mostrarError.value = false;
-            error.value = "";
-          }, 2200);
-          return;
+}
+async function editaragregarProducto() {
+  validar();
+  if (validacion.value === true) {
+    if (cambio.value === 0) {
+      try {
+        showDefault();
+        await ProductoStore.postFicha({
+          codigo: codigo.value,
+          nombre: nombre.value,
+          descripcion: descripcion.value,
+          unidadMedida: unidadMedida.value,
+          precioUnitario: precioUnitario.value,
+          iva: iva.value,
+          consumible: consumible.value,
+        });
+        if (notification) {
+          notification();
         }
+        limpiar();
+        $q.notify({
+          spinner: false,
+          message: "Producto Agregado",
+          timeout: 2000,
+          type: "positive",
+        });
+        obtenerInfo();
+      } catch (error) {
+        if (notification) {
+          notification();
+        }
+        $q.notify({
+          spinner: false,
+          // message: `${error.response.data.error.errors[0].msg}`,
+          timeout: 2000,
+          type: "negative",
+        });
+      }
+    } else {
+      let id = _id.value;
+      if (id) {
         try {
           showDefault();
-          await FichaStore.postFicha({
+          await ProductoStore.putEditarProducto(id, {
+            codigo: codigo.value,
             nombre: nombre.value,
-            codigo_ficha: codigo_ficha.value,
-            nivel_de_formacion: nivel_de_formacion.value,
-            fecha_inicio: fecha_inicio.value,
-            ficha_fin: ficha_fin.value,
+            descripcion: descripcion.value,
+            unidadMedida: unidadMedida.value,
+            precioUnitario: precioUnitario.value,
+            iva: iva.value,
+            consumible: consumible.value,
           });
           if (notification) {
             notification();
@@ -197,95 +244,63 @@
           limpiar();
           $q.notify({
             spinner: false,
-            message: "Area Agregado",
+            message: "Producto Actualizado",
             timeout: 2000,
             type: "positive",
           });
-          console.log("a")
           obtenerInfo();
         } catch (error) {
           if (notification) {
             notification();
+            console.log(notification);
           }
           $q.notify({
             spinner: false,
-            // message: `${error.response.data.error.errors[0].msg}`,
+            /*  message: `${error.response.data.error.errors[0].msg}`, */
             timeout: 2000,
             type: "negative",
           });
         }
-      } else {
-        let id = idRuta.value;
-        if (id) {
-          try {
-            showDefault();
-            await areasStore.putEditarArea(id, {
-              nombre: nombre.value,
-            });
-            if (notification) {
-              notification();
-            }
-            limpiar();
-            $q.notify({
-              spinner: false,
-              message: "Ruta Actualizada",
-              timeout: 2000,
-              type: "positive",
-            });
-            obtenerInfo();
-          } catch (error) {
-            if (notification) {
-              notification();
-              console.log(notification);
-            }
-            $q.notify({
-              spinner: false,
-              /*  message: `${error.response.data.error.errors[0].msg}`, */
-              timeout: 2000,
-              type: "negative",
-            });
-          }
-        }
       }
-      validacion.value = false;
     }
+    validacion.value = false;
   }
-  
-  function limpiar() {
-    codigo_ficha.value = "";
-    nombre.value = "";
-    nivel_de_formacion.value = "";
-    fecha_inicio.value = "";
-    ficha_fin.value = "";
-  
-  }
-  
-  let idRuta = ref("");
-  
-  let validacion = ref(false);
-  let notification = ref(null);
-  const showDefault = () => {
-    notification = $q.notify({
-      spinner: true,
-      message: "Please wait...",
-      timeout: 0,
-    });
-  };
-  
-  
-  
-  onMounted(async () => {
-    obtenerInfo();
+}
+
+function limpiar() {
+  codigo.value = "";
+  nombre.value = "";
+  descripcion.value = "";
+  unidadMedida.value = "";
+  precioUnitario.value = "";
+  iva.value = "";
+  consumible.value = "";
+}
+
+let _id = ref("");
+
+let validacion = ref(false);
+let notification = ref(null);
+const showDefault = () => {
+  notification = $q.notify({
+    spinner: true,
+    message: "Please wait...",
+    timeout: 0,
   });
-  function getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, "0");
-    const day = today.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }
-  
-  </script>
+};
+
+onMounted(async () => {
+  obtenerInfo();
+});
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+</script>
+
     
   <style scoped>
   .modal-content {
