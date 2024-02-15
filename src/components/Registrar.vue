@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <form class="form" @submit.prevent="registrarUsuario">
-      <div class="centeimg">
+      <div class="center-img">
         <img :src="images" class="fondo" />
       </div>
       <p class="title">Registro</p>
@@ -43,10 +43,9 @@
           </select>
         </label>
       </div>
-
       <button type="submit" class="submit">Registrar</button>
       <p class="signin">
-        <router-link to="/Login">¿Ya tienes una cuenta creada?</router-link>
+        ¿Ya tienes una cuenta creada? <router-link to="/Login">Inicia sesión aquí</router-link>
       </p>
     </form>
   </div>
@@ -55,6 +54,8 @@
 <script setup>
 import axios from 'axios';
 import images from "../assets/fondo12.png";
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 let nombre = '';
 let cedula = '';
@@ -62,6 +63,9 @@ let telefono = '';
 let usuario = '';
 let password = '';
 let rol = '';
+
+const usuarioAgregado = ref(false);
+const router = useRouter();
 
 const registrarUsuario = async () => {
   try {
@@ -75,6 +79,16 @@ const registrarUsuario = async () => {
     });
 
     console.log(response.data);
+
+    nombre = '';
+    cedula = '';
+    telefono = '';
+    usuario = '';
+    password = '';
+    rol = '';
+    
+    usuarioAgregado.value = true;
+    router.push('/Usuario');
   } catch (error) {
     console.error(error);
   }
@@ -82,6 +96,7 @@ const registrarUsuario = async () => {
 </script>
 
 <style scoped>
+
 .container {
   display: flex;
   height: 100vh;
