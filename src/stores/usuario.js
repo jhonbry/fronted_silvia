@@ -45,7 +45,6 @@ export const useUsuarioStore = defineStore('usuario', () => {
   const usuario = ref ([])
   const login = async (data) => {
     try {
-      console.log("S:",data);
         let r = await axios.post('usuario/login', data)
         console.log(r);
         usuario.value=r.data.usuario
@@ -53,7 +52,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
 
     } catch (error) {
         console.log(error)
-        return error.responde.data
+        return error.response.data
     }
   }
   return {

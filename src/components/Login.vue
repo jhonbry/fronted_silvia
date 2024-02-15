@@ -83,7 +83,7 @@ async function Login() {
         notification();
       }
       if (res.msg) {
-        console.log('maluco, user o contra maluca');
+        console.log(res.msg);
       } else {
         router.push('/Home');
       }
