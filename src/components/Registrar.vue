@@ -43,10 +43,7 @@
           </select>
         </label>
       </div>
-      <button type="submit" class="submit">Registrar</button>
-      <p class="signin">
-        ¿Ya tienes una cuenta creada? <router-link to="/Login">Inicia sesión aquí</router-link>
-      </p>
+      <button type="submit" class="submit">Registrar</button><br>
     </form>
   </div>
 </template>
@@ -56,6 +53,19 @@ import axios from 'axios';
 import images from "../assets/fondo12.png";
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useQuasar } from "quasar";
+const $q = useQuasar();
+
+
+let notification = ref(null);
+const notify = (message, type) => {
+  notification = $q.notify({
+    message: message,
+    timeout: 1500,
+    type: type
+  
+  });
+};
 
 let nombre = '';
 let cedula = '';
@@ -67,6 +77,9 @@ let rol = '';
 const usuarioAgregado = ref(false);
 const router = useRouter();
 
+
+
+
 const registrarUsuario = async () => {
   try {
     const response = await axios.post('https://backend-abxx.onrender.com/usuario/agregar', {
@@ -77,7 +90,7 @@ const registrarUsuario = async () => {
       password,
       rol
     });
-
+    notify("Usuario Agregado", "positive")
     console.log(response.data);
 
     nombre = '';
@@ -90,6 +103,8 @@ const registrarUsuario = async () => {
     usuarioAgregado.value = true;
     router.push('/Usuario');
   } catch (error) {
+    notify("Maluco", "negative")
+
     console.error(error);
   }
 };

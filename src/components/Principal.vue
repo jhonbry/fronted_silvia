@@ -15,12 +15,6 @@
                 Acceder</div>
             </a>
           </router-link>
-          <router-link to="/Registrar">
-            <a>
-            <div class="text-h5" style=";background-color: #155f0f;  height: 50px; width: 230px; border-radius: 15px;">
-              Registrarse</div>
-          </a>
-          </router-link>
          
         </div>
       </div>

@@ -22,7 +22,6 @@
           <h4 v-if="error2">{{ msj }}</h4>
           
         </div>
-        <p class="signin"> <router-link to="/Registrar">¿Aun no tienes una cuenta creada?</router-link> </p>
       </q-card>
     </div>
   </div>
