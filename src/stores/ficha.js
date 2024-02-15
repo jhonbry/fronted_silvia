@@ -26,32 +26,34 @@ export const useFichaStore = defineStore('ficha', () => {
 
     const putEditarFicha = async (id, data) => {
         try {
+            console.log(id, data);
             let res = await axios.put(`ficha/editar/${id}`, data);
+            console.log(res);
             return res
         } catch (error) {
             throw error;
         }
     };
 
-    const putInactivarArea = async (id) => {
+    const putInactivarFicha = async (id) => {
         try {
-            let r = await axios.put(`area/transporteinac/${id}`)
+            let r = await axios.put(`ficha/inactivar/${id}`)
             return r
         } catch (error) {
-            console.log(error, 'Error al cambiar el estado del bus');
+            console.log(error, 'Error al cambiar el estado de la ficha');
         }
     }
-    const putActivarBus = async (id) => {
+    const putActivarFicha = async (id) => {
         try {
-            let r = await axios.put(`transporte/transporteact/${id}`)
+            let r = await axios.put(`ficha/activar/${id}`)
             return r
         } catch (error) {
-            console.log(error, 'Error al cambiar el estado del bus');
+            console.log(error, 'Error al cambiar el estado de la ficha');
         }
     }
 
     return {
         fichas,
-        obtenerInfoFichas, postFicha, putEditarFicha,
+        obtenerInfoFichas, postFicha, putEditarFicha,putInactivarFicha, putActivarFicha
     };
 });
