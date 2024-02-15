@@ -285,8 +285,6 @@ const showDefault = () => {
   });
 };
 
-let estado = ref("")
-
 async function inactivarLote(id) {
   try {
     showDefault();
