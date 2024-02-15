@@ -35,15 +35,15 @@ export const useAreaStore = defineStore('area', () => {
 
     const putInactivarArea = async (id) => {
         try {
-            let r = await axios.put(`area/transporteinac/${id}`)
+            let r = await axios.put(`area/inactivar/${id}`)
             return r
         } catch (error) {
             console.log(error, "Error al cambiar el estado del bus");
         }
     }
-    const putActivarBus = async (id) => {
+    const putActivarArea = async (id) => {
         try {
-            let r = await axios.put(`transporte/transporteact/${id}`)
+            let r = await axios.put(`area/activar/${id}`)
             return r
         } catch (error) {
             console.log(error, "Error al cambiar el estado del bus");
@@ -52,6 +52,6 @@ export const useAreaStore = defineStore('area', () => {
 
     return {
         areas,
-        obtenerInfoAreas, postArea, putEditarArea,
+        obtenerInfoAreas, postArea, putEditarArea, putInactivarArea, putActivarArea
     };
 });

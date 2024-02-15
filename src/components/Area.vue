@@ -27,7 +27,7 @@
 
           <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
             <button class="btn" v-close-popup>Cancelar</button>
-            <button @click="editarAgregarRuta()" class="btn">Aceptar</button>
+            <button @click="editarAgregarArea()" class="btn">Aceptar</button>
           </q-card-actions>
         </div>
       </q-card>
@@ -37,11 +37,49 @@
         <q-btn class="bg-secondary" label="Agregar ruta" @click="agregarRuta()" />
       </div>
       <div class="q-pa-md">
-        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
-          :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
-          :columns="columns" style="height: 600px;">
-
-
+        <q-table
+          class="my-sticky-virtscroll-table"
+          virtual-scroll
+          flat
+          bordered
+          v-model:pagination="pagination"
+          :rows-per-page-options="[0]"
+          :virtual-scroll-sticky-size-start="48"
+          row-key="index"
+          :rows="rows"
+          :columns="columns"
+          style="height: 600px"
+        >
+          <template v-slot:body-cell-estado="props">
+            <q-td :props="props">
+              <label for="" v-if="props.row.estado == 1" style="color: green"
+                >Activo</label
+              >
+              <label for="" v-else style="color: red">Inactivo</label>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-opciones="props">
+            <q-td :props="props" class="botones">
+              <q-btn
+                color="white"
+                text-color="black"
+                label="🖋️"
+                @click="editarArea(props.row)"
+              />
+              <q-btn
+                glossy
+                label="❌"
+                @click="inactivarArea(props.row._id)"
+                v-if="props.row.estado == 1"
+              />
+              <q-btn
+                glossy
+                label="✔️"
+                @click="activarArea(props.row._id)"
+                v-else
+              />
+            </q-td>
+          </template>
         </q-table>
       </div>
       <!--   <q-table title="Rutas" :rows="rows" :columns="columns" row-key="name">
@@ -123,7 +161,7 @@ function validar() {
     validacion.value = true;
   }
 }
-async function editarAgregarRuta() {
+async function editarAgregarArea() {
   validar();
   if (validacion.value === true) {
     if (cambio.value === 0) {
@@ -167,11 +205,11 @@ async function editarAgregarRuta() {
         });
       }
     } else {
-      let id = idRuta.value;
+      let id = idArea.value;
       if (id) {
         try {
           showDefault();
-          await areasStore.putEditarArea(id, {
+          await AreaStore.putEditarArea(id, {
             nombre: nombre.value,
           });
           if (notification) {
@@ -203,13 +241,74 @@ async function editarAgregarRuta() {
   }
 }
 
+let idArea = ref("")
+
+function editarArea(data) {
+  fixed.value = true;
+  idArea.value = String(data._id)
+  nombre.value = data.nombre
+  cambio.value = 1;
+}
+
+async function inactivarArea(id) {
+  try {
+    showDefault();
+    await AreaStore.putInactivarArea(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Area Inactiva",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
+
+async function activarArea(id) {
+  try {
+    showDefault();
+    await AreaStore.putActivarArea(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Area Activa",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
+
 function limpiar() {
   nombre.value = "";
   ficha.value = "";
 
 }
-
-let idRuta = ref("");
 
 let validacion = ref(false);
 let notification = ref(null);
