@@ -26,6 +26,8 @@ export const useLoteStore = defineStore('lote', () => {
 
     const putEditarLote = async (id, data) => {
         try {
+            console.log(id, data);
+
             let res = await axios.put(`lote/editar/${id}`, data);
             return res
         } catch (error) {
