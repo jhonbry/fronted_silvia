@@ -43,10 +43,7 @@
           </select>
         </label>
       </div>
-      <button type="submit" class="submit">Registrar</button>
-      <p class="signin">
-        ¿Ya tienes una cuenta creada? <router-link to="/Login">Inicia sesión aquí</router-link>
-      </p>
+      <button type="submit" class="submit">Registrar</button><br>
     </form>
   </div>
 </template>
