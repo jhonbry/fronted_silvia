@@ -17,7 +17,7 @@
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="nombre" label="Nombre" type="text" style="width: 300px" />
               <q-input v-model="presupuesto" label="Presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="año" label="Año" type="text" style="width: 300px" />
+              <q-input v-model="año" label="Año" type="date" style="width: 300px" />
             </q-card-section>
           </div>
 
@@ -45,7 +45,9 @@
 
           <template v-slot:body-cell-opciones="props">
             <q-td :props="props" class="botones">
-              <q-btn color="warning" icon="edit" class="botonv1" @click="editarFicha(props.row)" />
+              <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
+              <q-btn glossy label="❌" @click="inactivarItem(props.row._id)" v-if="props.row.estado == 1" />
+              <q-btn glossy label="✔️" @click="ActivarItem(props.row._id)" v-else />
             </q-td>
           </template>
         </q-table>
@@ -87,9 +89,9 @@ async function obtenerInfo() {
 
 
 const columns = [
-  { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
-  { name: "año", label: "Año", field: "año", sortable: true, align: "left" },
+  { name: "año", label: "Fecha creacion", field: "año", sortable: true, align: "left" },
+  { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
   {
     name: "estado",
     label: "Estado",
@@ -128,13 +130,22 @@ function validar() {
   } else if (presupuesto.value <0) {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Ingrese el presupuesto por favor";
+    error.value = "El presupuesto no puede ser menor a 0";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else if (año.value.trim() === "") {
+  } else if (presupuesto.value.length === 0) {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "El presupuesto no puede estar vacio";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  }else if (año.value.trim() === "") {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Indique el año por favor";
@@ -220,6 +231,60 @@ async function editaragregarItem() {
   }
 }
 
+async function inactivarItem(id) {
+  try {
+    showDefault();
+    await ItemStore.putInactivarItem(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Item Inactivo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
+
+async function ActivarItem(id) {
+  try {
+    showDefault();
+    await ItemStore.putActivarItem(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Item Inactivo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
+
 function limpiar() {
   presupuesto.value = "";
   nombre.value = "";
@@ -260,3 +325,155 @@ function editarFicha(data) {
 }
 
 </script>
+
+<style scoped>
+.modal-content {
+  width: 480px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  border-radius: 3%;
+}
+
+.contorno {
+  background-color: white;
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.botones button {
+  margin: 2px;
+}
+
+.btn-agregar {
+  width: 100%;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: left;
+  color: white;
+  margin-left: 19px;
+}
+
+.body {
+  padding: 30px;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.containerBoton {
+  display: flex;
+  justify-content: center;
+}
+
+hr {
+  background-color: green;
+  height: 2px;
+  border: none;
+  width: 363px;
+  margin-bottom: 1%;
+}
+
+.containerError {
+  background-color: rgba(255, 0, 0, 0.429);
+  padding: 15px;
+  text-align: center;
+  font-family: "Letra";
+  font-weight: bold;
+  width: 310px;
+  border: 3px solid red;
+  margin-bottom: 5px;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 80px;
+}
+
+.containerError h4 {
+  font-size: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-family: "Letra";
+  text-align: center;
+  margin: 0;
+  align-items: center;
+  margin-top: 2%;
+}
+
+.text-h6 {
+  font-size: 28px;
+  font-family: "Letra";
+  margin-bottom: 10px;
+}
+
+.botones .edi {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px;
+  background-color: transparent;
+}
+
+.botones .edi:hover {
+  transform: scale(1.05);
+  transition: all 0.5s;
+}
+
+.botones .act {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 7px;
+  background-color: transparent;
+}
+
+.act i {
+  font-size: 22px;
+  color: green;
+}
+
+.inac {
+  /*   display: flex;
+      align-items: center; */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0;
+  background-color: transparent;
+}
+
+.botones .edi i {
+  font-size: 20px;
+}
+
+.inac i {
+  font-size: 25px;
+  color: red;
+}
+
+.btn {
+  font-family: "Letra";
+  width: 100px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+}
+</style>
+<style lang="sass">
+    
+    </style>
+    
