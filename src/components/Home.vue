@@ -208,4 +208,9 @@ const toggleSettingsDrawer = () => {
   background-color: #209616 !important;
 }
 
+a{
+  text-decoration: none;
+  color: black;
+}
+
 </style>  
