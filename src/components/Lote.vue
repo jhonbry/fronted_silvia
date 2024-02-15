@@ -20,7 +20,7 @@
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="nombre" label="Nombre" style="width: 300px" />
               <q-input
-              type="number"
+                type="number"
                 v-model="presupuesto"
                 label="Presupuesto"
                 style="width: 300px"
@@ -63,16 +63,34 @@
           :columns="columns"
           style="height: 600px"
         >
+          <template v-slot:body-cell-estado="props">
+            <q-td :props="props">
+              <label for="" v-if="props.row.estado == 1" style="color: green"
+                >Activo</label
+              >
+              <label for="" v-else style="color: red">Inactivo</label>
+            </q-td>
+          </template>
           <template v-slot:body-cell-opciones="props">
             <q-td :props="props" class="botones">
               <q-btn
-                color="warning"
-                icon="edit"
-                class="botonv1"
+                color="white"
+                text-color="black"
+                label="🖋️"
                 @click="editarLote(props.row)"
               />
-              <q-btn glossy label="❌" @click="inactivarLote(props.row._id)" v-if="props.row.estado == 1" />
-              <q-btn glossy label="✔️" @click="activarLote(props.row._id)" v-else />
+              <q-btn
+                glossy
+                label="❌"
+                @click="inactivarLote(props.row._id)"
+                v-if="props.row.estado == 1"
+              />
+              <q-btn
+                glossy
+                label="✔️"
+                @click="activarLote(props.row._id)"
+                v-else
+              />
             </q-td>
           </template>
         </q-table>
@@ -227,8 +245,8 @@ async function editarAgregarLote() {
         try {
           showDefault();
           await loteStore.putEditarLote(id, {
-          nombre: nombre.value,
-          presupuesto: presupuesto.value,
+            nombre: nombre.value,
+            presupuesto: presupuesto.value,
           });
           if (notification) {
             notification();
@@ -259,12 +277,12 @@ async function editarAgregarLote() {
     validacion.value = false;
   }
 }
-let idLote = ref("")
+let idLote = ref("");
 function editarLote(data) {
-  idLote.value = String(data._id)
+  idLote.value = String(data._id);
   fixed.value = true;
-  nombre.value = data.nombre
-  presupuesto.value = data.presupuesto
+  nombre.value = data.nombre;
+  presupuesto.value = data.presupuesto;
   cambio.value = 1;
 }
 
@@ -272,8 +290,6 @@ function limpiar() {
   nombre.value = "";
   presupuesto.value = "";
 }
-
-
 
 let validacion = ref(false);
 let notification = ref(null);
@@ -284,7 +300,6 @@ const showDefault = () => {
     timeout: 0,
   });
 };
-
 
 async function inactivarLote(id) {
   try {
@@ -339,8 +354,6 @@ async function activarLote(id) {
     });
   }
 }
-
-
 
 onMounted(async () => {
   obtenerInfo();
