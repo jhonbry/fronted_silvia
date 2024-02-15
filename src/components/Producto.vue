@@ -16,7 +16,7 @@
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="nombre" label="Nombre" type="text" style="width: 300px" />
-              <q-input v-model="codigo" label="Codigo" type="text" style="width: 300px" />
+              <q-input v-model="codigo" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="descripcion" label="Descripcion" type="text" style="width: 300px" />
               <q-input v-model="unidadMedida" label="Unidad de Medida" type="text" style="width: 300px" />
               <q-input v-model="precioUnitario" label="Precio Unitario" type="number" style="width: 300px" />
@@ -46,6 +46,19 @@
         <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
           :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
           :columns="columns" style="height: 600px;">
+          <template v-slot:body-cell-estado="props">
+          <q-td :props="props">
+            <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
+            <label for="" v-else style="color: red">Inactivo</label>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-opciones="props">
+          <q-td :props="props" class="botones">
+            <q-btn color="white" text-color="black" label="🖋️" @click="EditarProducto(props.row)" />
+            <q-btn glossy label="❌" @click="inactivarProducto(props.row._id)" v-if="props.row.estado == 1" />
+            <q-btn glossy label="✔️" @click="activarProducto(props.row._id)" v-else />
+          </q-td>
+        </template>
         </q-table>
       </div>
     </div>
@@ -174,7 +187,7 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else if (consumible.value.trim() === "") {
+  } else if (consumible.value == "") {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Indique si el producto es consumible o no por favor";
@@ -186,6 +199,7 @@ function validar() {
   } else {
     validacion.value = true;
   }
+
 }
 async function editaragregarProducto() {
   validar();
@@ -193,7 +207,7 @@ async function editaragregarProducto() {
     if (cambio.value === 0) {
       try {
         showDefault();
-        await ProductoStore.postFicha({
+        await ProductoStore.postProducto({
           codigo: codigo.value,
           nombre: nombre.value,
           descripcion: descripcion.value,
@@ -265,6 +279,9 @@ async function editaragregarProducto() {
     }
     validacion.value = false;
   }
+
+  
+
 }
 
 function limpiar() {
@@ -288,6 +305,76 @@ const showDefault = () => {
     timeout: 0,
   });
 };
+
+function EditarProducto(row) {
+  fixed.value = true;
+  text.value = "Editar Producto";
+  cambio.value = 1; // Indica que es una edición
+  _id.value = row._id; // Guarda el ID del producto que se está editando
+  // Asigna los valores de la fila a las variables del formulario
+  codigo.value = row.codigo;
+  nombre.value = row.nombre;
+  descripcion.value = row.descripcion;
+  unidadMedida.value = row.unidadMedida;
+  precioUnitario.value = row.precioUnitario;
+  iva.value = row.iva;
+  consumible.value = row.consumible;
+}
+
+
+async function inactivarProducto(id) {
+  try {
+    showDefault();
+    await ProductoStore.putInactivarproducto(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Lote Inactivo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
+
+async function activarProducto(id) {
+  try {
+    showDefault();
+    await ProductoStore.putActivarproducto(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Lote Activo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
 
 onMounted(async () => {
   obtenerInfo();
