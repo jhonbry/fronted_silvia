@@ -42,16 +42,24 @@
         <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" />
       </div>
       <div class="q-pa-md">
-        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+    
+        <q-table  class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
           :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
           :columns="columns" style="height: 600px;">
-
-          <template v-slot:body-cell-opciones="props">
-            <q-td :props="props" class="botones">
-              <q-btn color="warning" icon="edit" class="botonv1" @click="editarFicha(props.row)" />
-            </q-td>
-          </template>
-        </q-table>
+        <template v-slot:body-cell-estado="props">
+          <q-td :props="props">
+            <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
+            <label for="" v-else style="color: red">Inactivo</label>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-opciones="props">
+          <q-td :props="props" class="botones">
+            <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
+            <q-btn glossy label="❌" @click="inactivarFicha(props.row._id)" v-if="props.row.estado == 1" />
+            <q-btn glossy label="✔️" @click="activarFicha(props.row._id)" v-else />
+          </q-td>
+        </template>
+      </q-table>
 
       </div>
     </div>
@@ -85,6 +93,7 @@ async function obtenerInfo() {
     await FichaStore.obtenerInfoFichas();
     fichas.value = FichaStore.fichas;
     rows.value = FichaStore.fichas;
+    console.log(FichaStore.fichas);
   } catch (error) {
     console.log(error);
   }
@@ -209,6 +218,8 @@ async function editaragregarFicha() {
         });
         console.log("a")
         obtenerInfo();
+        fixed.value = false;
+
       } catch (error) {
         if (notification) {
           notification();
@@ -270,7 +281,6 @@ function limpiar() {
 
 }
 
-let idRuta = ref("");
 
 let validacion = ref(false);
 let notification = ref(null);
@@ -287,18 +297,18 @@ const showDefault = () => {
 onMounted(async () => {
   obtenerInfo();
 });
-function getTodayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = (today.getMonth() + 1).toString().padStart(2, "0");
-  const day = today.getDate().toString().padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
+// function getTodayDate() {
+//   const today = new Date();
+//   const year = today.getFullYear();
+//   const month = (today.getMonth() + 1).toString().padStart(2, "0");
+//   const day = today.getDate().toString().padStart(2, "0");
+//   return `${year}-${month}-${day}`;
+// }
 
 let idFicha = ref("")
 function editarFicha(data) {
   fixed.value = true;
-  idFicha.value = data._id
+  idFicha.value = String(data._id)
   nombre.value = data.nombre
   codigo_ficha.value = data.codigo_ficha
   nivel_de_formacion.value = data.nivel_de_formacion
@@ -306,7 +316,59 @@ function editarFicha(data) {
   ficha_fin.value = format(new Date(data.ficha_fin), 'yyyy-MM-dd')
   cambio.value = 1;
 }
+async function inactivarFicha(id) {
+  try {
+    showDefault();
+    await FichaStore.putInactivarFicha(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Lote Inactivo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
 
+async function activarFicha(id) {
+  try {
+    showDefault();
+    await FichaStore.putActivarFicha(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Lote Activo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
 </script>
     
 <style scoped>
