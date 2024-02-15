@@ -6,208 +6,52 @@
       </div>
       <p class="title">Registro</p>
       <p class="message">Regístrate ahora y obtén acceso completo a nuestra aplicación.</p>
-      <div class="flex">
-        <label>
 
-          <input placeholder="" type="text" class="input" v-model="nombre">
+      <div class="flex">
+
+        <label>
+          <input required="" placeholder="" type="text" class="input" />
           <span>Nombre</span>
         </label>
 
         <label>
-          <input placeholder="" type="number" class="input" v-model="cedula" />
+          <input required="" placeholder="" type="text" class="input" />
           <span>Cedula</span>
         </label>
 
         <label>
-          <input placeholder="" type="number" class="input" v-model="telefono" />
+          <input required="" placeholder="" type="email" class="input" />
           <span>Telefono</span>
         </label>
 
         <label>
-          <input placeholder="" type="text" class="input" v-model="usuario" />
+          <input required="" placeholder="" type="password" class="input" />
           <span>Usuario</span>
         </label>
         <label>
-          <input placeholder="" type="password" class="input" v-model="password" />
+          <input required="" placeholder="" type="password" class="input" />
           <span>contraseña</span>
         </label>
         <label>
-          <input placeholder="" type="text" class="input" v-model="rol" />
+          <input required="" placeholder="" type="password" class="input" />
           <span>Rol</span>
         </label>
 
-      </div>
+        <label>
+          <input required="" placeholder="" type="password" class="input" />
+          <span>Estado</span>
+        </label>
 
-      <button @click="aditaragregarusuario()" class="submit">Registrar</button>
+      </div>
+  
+      <button class="submit">Registrar</button>
       <p class="signin"> <router-link to="/Login">¿Ya tienes una cuenta creada?</router-link> </p>
     </form>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useUsuarioStore } from "../stores/usuario.js";
-import { useQuasar } from "quasar";
-import { useRouter } from "vue-router";
 import images from "../assets/fondo12.png";
-
-
-const usuarioStore = useUsuarioStore();
-const useUsuario = useUsuarioStore();
-const $q = useQuasar();
-
-let nombre = ref("")
-let cedula = ref("")
-let telefono = ref("")
-let usuario = ref("")
-let password = ref("")
-let rol = ref("")
-
-function validar() {
-  if (nombre.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Ingrese un nombre por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-
-  } else if (cedula.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Ingrese la cedula por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (telefono.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Indique el numero de telefono por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (usuario.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Ingrese su nombre de usuario por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (password.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Ingrese su contraseña por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (rol.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Seleccione uno de los roles disponibles por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else {
-    validacion.value = true;
-  }
-}
-async function editaragregarFicha() {
-  validar();
-  if (validacion.value === true) {
-    if (cambio.value === 0) {
-      if (nombre.value.trim() === '') {
-        mostrarData.value = false;
-        mostrarError.value = true;
-        error.value = "Por favor digite un nombre";
-        setTimeout(() => {
-          mostrarData.value = true;
-          mostrarError.value = false;
-          error.value = "";
-        }, 2200);
-        return;
-      }
-      try {
-        showDefault();
-        await FichaStore.postFicha({
-          nombre: nombre.value,
-          codigo_ficha: codigo_ficha.value,
-          nivel_de_formacion: nivel_de_formacion.value,
-          fecha_inicio: fecha_inicio.value,
-          ficha_fin: ficha_fin.value,
-        });
-        if (notification) {
-          notification();
-        }
-        limpiar();
-        $q.notify({
-          spinner: false,
-          message: "Area Agregado",
-          timeout: 2000,
-          type: "positive",
-        });
-        console.log("a")
-        obtenerInfo();
-      } catch (error) {
-        if (notification) {
-          notification();
-        }
-        $q.notify({
-          spinner: false,
-          // message: `${error.response.data.error.errors[0].msg}`,
-          timeout: 2000,
-          type: "negative",
-        });
-      }
-    } else {
-      let id = idFicha.value;
-      if (id) {
-        try {
-          showDefault();
-          await areasStore.putEditarArea(id, {
-            nombre: nombre.value,
-          });
-          if (notification) {
-            notification();
-          }
-          limpiar();
-          $q.notify({
-            spinner: false,
-            message: "Ruta Actualizada",
-            timeout: 2000,
-            type: "positive",
-          });
-          obtenerInfo();
-        } catch (error) {
-          if (notification) {
-            notification();
-            console.log(notification);
-          }
-          $q.notify({
-            spinner: false,
-            /*  message: `${error.response.data.error.errors[0].msg}`, */
-            timeout: 2000,
-            type: "negative",
-          });
-        }
-      }
-    }
-    validacion.value = false;
-  }
-}
-
-
 </script>
 
 <style scoped>
@@ -236,7 +80,6 @@ async function editaragregarFicha() {
   flex-direction: column;
   gap: 15px;
   width: 60vh;
-  height: 70vh;
   background-color: #fff;
   border-radius: 20px;
   align-items: center;
@@ -303,7 +146,7 @@ async function editaragregarFicha() {
 .flex {
   display: flex;
   width: 100%;
-  gap: 15%;
+  gap: 10px;
   justify-content: center;
 }
 
