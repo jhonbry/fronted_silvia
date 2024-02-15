@@ -7,6 +7,7 @@ import {router} from "./routes/routes.js"
 import { Quasar, Notify } from 'quasar'
 import axios from 'axios'
 
+
 import '@quasar/extras/material-icons/material-icons.css'
 
 import 'quasar/src/css/index.sass'
