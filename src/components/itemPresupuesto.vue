@@ -1,201 +1,195 @@
 <template>
+  <div>
     <div>
-      <div>
-        <h1 style="text-align: center; margin-top: 50px;">Ficha</h1>
-        <hr />
-      </div>
-      <!-- Modal -->
-      <q-dialog v-model="fixed">
-        <q-card class="modal-content">
-          <div class="contorno">
-            <q-card-section class="row items-center q-pb-none" style="color: black">
-              <div class="text-h6">{{ text }}</div>
-              <q-space />
+      <h1 style="text-align: center; margin-top: 50px;">Presupuesto</h1>
+      <hr />
+    </div>
+    <!-- Modal -->
+    <q-dialog v-model="fixed">
+      <q-card class="modal-content">
+        <div class="contorno">
+          <q-card-section class="row items-center q-pb-none" style="color: black">
+            <div class="text-h6">{{ text }}</div>
+            <q-space />
+          </q-card-section>
+          <q-separator />
+          <div v-if="mostrarData">
+            <q-card-section style="max-height: 50vh" class="scroll">
+              <q-input v-model="nombre" label="Nombre" type="text" style="width: 300px" />
+              <q-input v-model="presupuesto" label="Presupuesto" type="number" style="width: 300px" />
+              <q-input v-model="año" label="Año" type="text" style="width: 300px" />
             </q-card-section>
-            <q-separator />
-            <div v-if="mostrarData">
-              <q-card-section style="max-height: 50vh" class="scroll">
-                <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
-                <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
-                <q-input v-model="nivel_de_formacion" label="Nivel" type="string" style="width: 300px" />
-                <q-input v-model="fecha_inicio" type="date" style="width: 300px" />
-                <q-input v-model="ficha_fin" type="date" style="width: 300px" />
-  
-              </q-card-section>
-            </div>
-  
-            <div class="containerError" v-if="mostrarError">
-              <h4>{{ error }}</h4>
-            </div>
-  
-            <q-separator />
-  
-            <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
-              <button class="btn" v-close-popup>Cancelar</button>
-              <button @click="editaragregarFicha()" class="btn">Aceptar</button>
-            </q-card-actions>
           </div>
-        </q-card>
-      </q-dialog>
-      <div style="width: 1000px;">
-        <div class="btn-agregar">
-          <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" />
+
+          <div class="containerError" v-if="mostrarError">
+            <h4>{{ error }}</h4>
+          </div>
+
+          <q-separator />
+
+          <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
+            <button class="btn" @click="fixed = false">Cancelar</button>
+            <button @click="editaragregarItem()" class="btn">Aceptar</button>
+          </q-card-actions>
         </div>
-        <div class="q-pa-md">
-          <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
-            :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
-            :columns="columns" style="height: 600px;">
-  
-            <template v-slot:body-cell-opciones="props">
-              <q-td :props="props" class="botones">
-                <q-btn color="warning" icon="edit" class="botonv1" @click="editarFicha(props.row)" />
-              </q-td>
-            </template>
-          </q-table>
-  
-        </div>
+      </q-card>
+    </q-dialog>
+    <div style="width: 1000px;">
+      <div class="btn-agregar">
+        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarItem()" />
+      </div>
+      <div class="q-pa-md">
+        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+          :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
+          :columns="columns" style="height: 600px;">
+
+          <template v-slot:body-cell-opciones="props">
+            <q-td :props="props" class="botones">
+              <q-btn color="warning" icon="edit" class="botonv1" @click="editarFicha(props.row)" />
+            </q-td>
+          </template>
+        </q-table>
+
       </div>
     </div>
-  </template>
-      
-  <script setup>
-  import axios from "axios";
-  import { ref, onMounted } from "vue";
-  import { format } from "date-fns";
-  import { useFichaStore } from "../stores/ficha.js";
-  import { useQuasar } from "quasar";
-  const FichaStore = useFichaStore();
-  const $q = useQuasar();
-  let error = ref("Ingrese todos los datos para la creacion de un vendedor");
-  let text = ref("");
-  let rows = ref([]);
-  let fixed = ref(false);
-  let nombre = ref("");
-  let codigo_ficha = ref("");
-  let nivel_de_formacion = ref("");
-  let fecha_inicio = ref("");
-  let ficha_fin = ref("");
-  let cambio = ref(0);
-  let mostrarError = ref(false);
-  let mostrarData = ref(true);
-  let pagination = ref({ rowsPerPage: 0 })
-  let fichas = ref([]);
-  async function obtenerInfo() {
-    try {
-      await FichaStore.obtenerInfoFichas();
-      fichas.value = FichaStore.fichas;
-      rows.value = FichaStore.fichas;
-    } catch (error) {
-      console.log(error);
-    }
+  </div>
+</template>
+
+<script setup>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+import { format } from "date-fns";
+import { useItemStore } from "../stores/itempresupuesto.js";
+import { useQuasar } from "quasar";
+const ItemStore = useItemStore();
+const $q = useQuasar();
+let error = ref("");
+let text = ref("");
+let rows = ref([]);
+let fixed = ref(false);
+let nombre = ref("");
+let presupuesto = ref("");
+let año = ref("");
+let cambio = ref(0);
+let mostrarError = ref(false);
+let mostrarData = ref(true);
+let pagination = ref({ rowsPerPage: 0 })
+let items = ref([]);
+async function obtenerInfo() {
+  try {
+    await ItemStore.obtenerInfoitem();
+    items.value = ItemStore.items;
+    rows.value = ItemStore.items;
+  } catch (error) {
+    console.log(error);
   }
-  
-  
-  const columns = [
-    { name: "codigo_ficha", label: "codigo_ficha", field: "codigo_ficha", sortable: true, align: "left" },
-    { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
-    { name: "nivel_de_formacion", label: "Nivel", field: "nivel_de_formacion", sortable: true, align: "left" },
-    { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
-    { name: "ficha_fin", label: "ficha fin", field: "ficha_fin", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
-  
-    {
-      name: "estado",
-      label: "Estado",
-      field: "estado",
-      sortable: true,
-      align: "left",
-      format: (val) => (val ? "Activo" : "Inactivo"),
-    },
-    {
-      name: "opciones",
-      label: "Opciones",
-      field: (row) => null,
-      sortable: false,
-      align: "center",
-    },
-  ];
-  
-  function agregarFicha() {
-    fixed.value = true;
-    text.value = "Agregar Ficha";
-    cambio.value = 0;
-    limpiar();
+}
+
+
+const columns = [
+  { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
+  { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
+  { name: "año", label: "Año", field: "año", sortable: true, align: "left" },
+  {
+    name: "estado",
+    label: "Estado",
+    field: "estado",
+    sortable: true,
+    align: "left",
+    format: (val) => (val ? "Activo" : "Inactivo"),
+  },
+  {
+    name: "opciones",
+    label: "Opciones",
+    field: (row) => null,
+    sortable: false,
+    align: "center",
+  },
+];
+
+function agregarItem() {
+  fixed.value = true;
+  text.value = "Agregar Ficha";
+  cambio.value = 0;
+  limpiar();
+}
+
+function validar() {
+  if (nombre.value.trim() === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Digite el nombre por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+
+  } else if (presupuesto.value <0) {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Ingrese el presupuesto por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else if (año.value.trim() === "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Indique el año por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else {
+    validacion.value = true;
   }
-  function validar() {
-    if (codigo_ficha.value.toString().trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Digite el codigo de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-  
-    } else if (nombre.value.toString().trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Ingrese el nombre de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (nivel_de_formacion.value.toString().trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Indique el nivel de formacion de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (fecha_inicio.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Seleccione la hora de Inicio de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (ficha_fin.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Seleccione la hora de finalizacion de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else {
-      validacion.value = true;
-    }
-  }
-  
-  async function editaragregarFicha() {
-    validar();
-    if (validacion.value === true) {
-      if (cambio.value === 0) {
-        if (nombre.value.trim() === '') {
-          mostrarData.value = false;
-          mostrarError.value = true;
-          error.value = "Por favor digite un nombre";
-          setTimeout(() => {
-            mostrarData.value = true;
-            mostrarError.value = false;
-            error.value = "";
-          }, 2200);
-          return;
+}
+
+async function editaragregarItem() {
+  validar();
+  if (validacion.value === true) {
+    if (cambio.value === 0) {
+      try {
+        showDefault();
+        await ItemStore.postItem({
+          nombre: nombre.value,
+          presupuesto: presupuesto.value,
+          año: año.value,
+        });
+        if (notification) {
+          notification();
         }
+        limpiar();
+        $q.notify({
+          spinner: false,
+          message: "Area Agregado",
+          timeout: 2000,
+          type: "positive",
+        });
+        obtenerInfo();
+      } catch (error) {
+        if (notification) {
+          notification();
+        }
+        $q.notify({
+          spinner: false,
+          // message: `${error.response.data.error.errors[0].msg}`,
+          timeout: 2000,
+          type: "negative",
+        });
+      }
+    } else {
+      let id = _id.value;
+      if (id) {
         try {
           showDefault();
-          await FichaStore.postFicha({
+          await ItemStore.putEditarItem(id, {
             nombre: nombre.value,
-            codigo_ficha: codigo_ficha.value,
-            nivel_de_formacion: nivel_de_formacion.value,
-            fecha_inicio: fecha_inicio.value,
-            ficha_fin: ficha_fin.value,
+            presupuesto: presupuesto.value,
+            año: año.value,
           });
           if (notification) {
             notification();
@@ -203,260 +197,66 @@
           limpiar();
           $q.notify({
             spinner: false,
-            message: "Area Agregado",
+            message: "Ficha Actualizada",
             timeout: 2000,
             type: "positive",
           });
-          console.log("a")
           obtenerInfo();
+          fixed.value = false;
         } catch (error) {
           if (notification) {
             notification();
           }
           $q.notify({
             spinner: false,
-            // message: `${error.response.data.error.errors[0].msg}`,
+            /*  message: ${error.response.data.error.errors[0].msg}, */
             timeout: 2000,
             type: "negative",
           });
         }
-      } else {
-        let id = idFicha.value;
-        if (id) {
-          try {
-            showDefault();
-            await FichaStore.putEditarFicha(id, {
-              nombre: nombre.value,
-              codigo_ficha: codigo_ficha.value,
-              nivel_de_formacion: nivel_de_formacion.value,
-              fecha_inicio: fecha_inicio.value,
-              ficha_fin: ficha_fin.value,
-            });
-            if (notification) {
-              notification();
-            }
-            limpiar();
-            $q.notify({
-              spinner: false,
-              message: "Ficha Actualizada",
-              timeout: 2000,
-              type: "positive",
-            });
-            obtenerInfo();
-            fixed.value = false;
-          } catch (error) {
-            if (notification) {
-              notification();
-            }
-            $q.notify({
-              spinner: false,
-              /*  message: ${error.response.data.error.errors[0].msg}, */
-              timeout: 2000,
-              type: "negative",
-            });
-          }
-        }
       }
-      validacion.value = false;
     }
+    validacion.value = false;
   }
-  
-  function limpiar() {
-    codigo_ficha.value = "";
-    nombre.value = "";
-    nivel_de_formacion.value = "";
-    fecha_inicio.value = "";
-    ficha_fin.value = "";
-  
-  }
-  
-  let idRuta = ref("");
-  
-  let validacion = ref(false);
-  let notification = ref(null);
-  const showDefault = () => {
-    notification = $q.notify({
-      spinner: true,
-      message: "Please wait...",
-      timeout: 0,
-    });
-  };
-  
-  
-  
-  onMounted(async () => {
-    obtenerInfo();
+}
+
+function limpiar() {
+  presupuesto.value = "";
+  nombre.value = "";
+  año.value = "";
+}
+
+let idRuta = ref("");
+
+let validacion = ref(false);
+let notification = ref(null);
+const showDefault = () => {
+  notification = $q.notify({
+    spinner: true,
+    message: "Please wait...",
+    timeout: 0,
   });
-  function getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, "0");
-    const day = today.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }
-  
-  let idFicha = ref("")
-  function editarFicha(data) {
-    fixed.value = true;
-    idFicha.value = data._id
-    nombre.value = data.nombre
-    codigo_ficha.value = data.codigo_ficha
-    nivel_de_formacion.value = data.nivel_de_formacion
-    fecha_inicio.value = format(new Date(data.fecha_inicio), 'yyyy-MM-dd')
-    ficha_fin.value = format(new Date(data.ficha_fin), 'yyyy-MM-dd')
-    cambio.value = 1;
-  }
-  
-  </script>
-      
-  <style scoped>
-  .modal-content {
-    width: 480px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
-    border-radius: 3%;
-  }
-  
-  .contorno {
-    background-color: white;
-    height: 90%;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .botones button {
-    margin: 2px;
-  }
-  
-  .btn-agregar {
-    width: 100%;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: left;
-    color: white;
-    margin-left: 19px;
-  }
-  
-  .body {
-    padding: 30px;
-    margin: 0;
-    text-transform: capitalize;
-  }
-  
-  .containerBoton {
-    display: flex;
-    justify-content: center;
-  }
-  
-  hr {
-    background-color: green;
-    height: 2px;
-    border: none;
-    width: 363px;
-    margin-bottom: 1%;
-  }
-  
-  .containerError {
-    background-color: rgba(255, 0, 0, 0.429);
-    padding: 15px;
-    text-align: center;
-    font-family: "Letra";
-    font-weight: bold;
-    width: 310px;
-    border: 3px solid red;
-    margin-bottom: 5px;
-    height: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 80px;
-  }
-  
-  .containerError h4 {
-    font-size: 25px;
-    margin: 0;
-    padding: 0;
-  }
-  
-  h1 {
-    font-family: "Letra";
-    text-align: center;
-    margin: 0;
-    align-items: center;
-    margin-top: 2%;
-  }
-  
-  .text-h6 {
-    font-size: 28px;
-    font-family: "Letra";
-    margin-bottom: 10px;
-  }
-  
-  .botones .edi {
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 7px;
-    background-color: transparent;
-  }
-  
-  .botones .edi:hover {
-    transform: scale(1.05);
-    transition: all 0.5s;
-  }
-  
-  .botones .act {
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 7px;
-    background-color: transparent;
-  }
-  
-  .act i {
-    font-size: 22px;
-    color: green;
-  }
-  
-  .inac {
-    /*   display: flex;
-        align-items: center; */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 5px;
-    margin: 0;
-    background-color: transparent;
-  }
-  
-  .botones .edi i {
-    font-size: 20px;
-  }
-  
-  .inac i {
-    font-size: 25px;
-    color: red;
-  }
-  
-  .btn {
-    font-family: "Letra";
-    width: 100px;
-    font-size: 18px;
-    border-radius: 5px;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
-  }
-  </style>
-  <style lang="sass">
-      
-      </style>
-      
+};
+
+onMounted(async () => {
+  obtenerInfo();
+});
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+let _id = ref("")
+function editarFicha(data) {
+  fixed.value = true;
+  _id.value = data._id
+  nombre.value = data.nombre
+  presupuesto.value = data.presupuesto
+  año.value = data.año
+  cambio.value = 1;
+}
+
+</script>
