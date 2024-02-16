@@ -74,7 +74,7 @@ const toggleLeftDrawer = () => {
 };
 
 const links = [
-  { text: "Inicio" },
+  { text: "Inicio", path: "/Inicio" },
   { text: "Area", path: "/Area" },
   { text: "Ficha", path: "/Ficha" },
   { text: "Usuario", path: "/Usuario" },
