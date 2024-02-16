@@ -85,7 +85,7 @@ async function Login() {
         mostrarErrores(res.msg)
         console.log('maluco, user o contra maluca');
       } else {
-        router.push('/Home');
+        router.push('/inicio');
       }
     } catch (error) {
       console.error("Error in login:", error);
