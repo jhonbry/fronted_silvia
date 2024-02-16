@@ -10,6 +10,8 @@ import Pedido from "../components/Pedido.vue";
 import Producto from "../components/Producto.vue";
 import itemPresupuesto from "../components/itemPresupuesto.vue";
 import Inicio from "../components/inicio.vue";
+import distriPresupuesto from "../components/distriPresupuesto.vue";
+import distriLoteFicha from "../components/distriLoteFicha.vue";
 
 import { createRouter, createWebHashHistory } from "vue-router";
 
@@ -26,6 +28,8 @@ const routes = [
       {path: "/Pedido", component: Pedido},
       {path: "/Producto", component: Producto},
       {path: "/itemPresupuesto", component: itemPresupuesto},
+      {path: "/distriPresupuesto", component: distriPresupuesto},
+      {path: "/distriLoteFicha", component: distriLoteFicha},
     ]
   },
   { path: "/Registrar", component: Registrar, },

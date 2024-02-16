@@ -82,6 +82,8 @@ const links = [
   { text: "Pedido", path: "/Pedido" },
   { text: "Producto", path: "/Producto" },
   { text: "Item Presupuesto", path: "/itemPresupuesto" },
+  { text: "Distribución presupuesto a lotes", path: "/distriPresupuesto" },
+  { text: "Distribución presupuesto a fichas", path: "/distriLoteFicha" },
 ];
 
 const navigateTo = (path) => {
