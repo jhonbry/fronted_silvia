@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <q-layout view="hHh LpR fff">
       <q-header reveal elevated class="bg-green text-white">
         <q-toolbar>
@@ -9,20 +8,19 @@
             <q-avatar>
               <img :src="avatar" />
             </q-avatar>
-           
           </q-toolbar-title>
           <q-btn color="white" dense flat round icon="settings" id="settings">
             <q-menu transition-show="jump-down" transition-hide="jump-up">
-              <q-list style="min-width: 100px; text-align: center;">
+              <q-list style="min-width: 100px; text-align: center">
                 <q-item clickable>
                   <q-item-section>Configuraciones</q-item-section>
                 </q-item>
                 <q-separator />
-                <q-item clickable>
-                  <router-link to="/Login">
-                  <q-item-section>Salir</q-item-section> 
+                <router-link to="/Login">
+                  <q-item clickable>
+                    <q-item-section>Salir</q-item-section>
+                  </q-item>
                 </router-link>
-                </q-item>
               </q-list>
             </q-menu>
           </q-btn>
@@ -44,28 +42,24 @@
           <div class="text-h6">Usuario</div>
           <div class="divider"></div>
           <div class="navigation">
-            <router-link v-for="(link, index) in links"
-                :key="index" :to="link">
-              <q-item
-                clickable
-                
-              >
-              <q-item-section>{{ link.text }}</q-item-section>
-            </q-item>
+            <router-link v-for="(link, index) in links" :key="index" :to="link">
+              <q-item clickable>
+                <q-item-section>{{ link.text }}</q-item-section>
+              </q-item>
             </router-link>
             <div class="divider"></div>
           </div>
         </div>
       </q-drawer>
 
-      <q-page-container style="padding-top:50px;">
+      <q-page-container style="padding-top: 50px">
         <router-view></router-view>
       </q-page-container>
     </q-layout>
   </div>
 </template>
-    
-    <script setup>
+
+<script setup>
 import { ref } from "vue";
 import avatar from "../assets/avatar.png";
 import { useRoute, useRouter } from "vue-router";
@@ -80,14 +74,16 @@ const toggleLeftDrawer = () => {
 };
 
 const links = [
-  { text: "Inicio" },
+  { text: "Inicio", path: "/Inicio" },
   { text: "Area", path: "/Area" },
   { text: "Ficha", path: "/Ficha" },
-  { text: "Usuario", path: "/Usuario"},
-  { text: "Lote", path: "/Lote"},
-  { text: "Pedido", path: "/Pedido"},
-  { text: "Producto", path: "/Producto"},
-  { text: "Item Presupuesto", path: "/itemPresupuesto"},
+  { text: "Usuario", path: "/Usuario" },
+  { text: "Lote", path: "/Lote" },
+  { text: "Pedido", path: "/Pedido" },
+  { text: "Producto", path: "/Producto" },
+  { text: "Item Presupuesto", path: "/itemPresupuesto" },
+  { text: "Distribución presupuesto a lotes", path: "/distriPresupuesto" },
+  { text: "Distribución presupuesto a fichas", path: "/distriLoteFicha" },
 ];
 
 const navigateTo = (path) => {
@@ -98,8 +94,8 @@ const toggleSettingsDrawer = () => {
   settingsDrawerOpen.value = !settingsDrawerOpen.value;
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .q-page-container {
   display: flex;
   flex-wrap: wrap;
@@ -187,8 +183,8 @@ const toggleSettingsDrawer = () => {
   transition: background-color 0.3s ease;
   text-align: center;
   box-sizing: border-box;
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   justify-content: center; /* Usalo para ajustar tu contenido en el centro */
 }
 
@@ -207,9 +203,18 @@ const toggleSettingsDrawer = () => {
   background-color: #209616 !important;
 }
 
-a{
+a {
   text-decoration: none;
   color: black;
 }
 
-</style>  
+.q-focus-helper,
+.q-focusable,
+.q-manual-focusable,
+.q-hoverable {
+  outline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
