@@ -3,7 +3,7 @@
   <div class="q">
     <div class="contenedores">
       <img :src="images1" class="fondo12">
-      <h1>Bodega asaWareSpace</h1>
+      <h1>Bodega WareSpace</h1>
       <h2>Servicio Nacional de Educación</h2>
     </div>
     <q-card class="card" flat bordered>
