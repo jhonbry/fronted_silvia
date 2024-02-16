@@ -20,7 +20,7 @@
         </template>
         <template v-slot:body-cell-opciones="props">
           <q-td :props="props" class="botones">
-            <q-btn color="white" text-color="black" label="🖋️" @click="(props.row)" />
+            <!-- <q-btn color="white" text-color="black" label="🖋️" @click="(props.row)" /> -->
             <q-btn glossy label="❌" @click="inactivarUsuario(props.row._id)" v-if="props.row.estado == 1" />
             <q-btn glossy label="✔️" @click="activarUsuario(props.row._id)" v-else />
           </q-td>

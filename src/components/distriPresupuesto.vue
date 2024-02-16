@@ -1,7 +1,7 @@
 <template>
     <div>
       <div>
-        <h1 style="text-align: center; margin-top: 50px;">Ficha</h1>
+        <h1 style="text-align: center; margin-top: 50px;">Presupuesto lotes</h1>
         <hr />
       </div>
       <!-- Modal -->
@@ -15,11 +15,11 @@
             <q-separator />
             <div v-if="mostrarData">
               <q-card-section style="max-height: 50vh" class="scroll">
-                <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
-                <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
-                <q-input v-model="nivel_de_formacion" label="Nivel" type="string" style="width: 300px" />
-                <q-input v-model="fecha_inicio" type="date" style="width: 300px" />
-                <q-input v-model="ficha_fin" type="date" style="width: 300px" />
+                <q-input v-model="presupuesto" label="Lote Presupuesto" type="number" style="width: 300px" />
+                <q-input v-model="lote_nombre" label="Lote Nombre" type="string" style="width: 300px" />
+                <q-input v-model="item_presupuesto" label="Item Presupuesto" type="string" style="width: 300px" />
+                <q-input v-model="item_nombre" label="Nivel" type="string" style="width: 300px" />
+
   
               </q-card-section>
             </div>
@@ -39,7 +39,7 @@
       </q-dialog>
       <div style="width: 1000px;">
         <div class="btn-agregar">
-          <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" />
+          <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarPresupuesto()" />
         </div>
         <div class="q-pa-md">
       
@@ -70,30 +70,28 @@
   import axios from "axios";
   import { ref, onMounted } from "vue";
   import { format } from "date-fns";
-  import { useFichaStore } from "../stores/ficha.js";
+  import { usedistriPresupuesto } from "../stores/distriPresupuesto.js";
   import { useQuasar } from "quasar";
-  const FichaStore = useFichaStore();
+  const distriPresupuestoStore = usedistriPresupuesto();
   const $q = useQuasar();
   let error = ref("Ingrese todos los datos para la creacion de un vendedor");
   let text = ref("");
   let rows = ref([]);
   let fixed = ref(false);
-  let nombre = ref("");
-  let codigo_ficha = ref("");
-  let nivel_de_formacion = ref("");
-  let fecha_inicio = ref("");
-  let ficha_fin = ref("");
+  let lote_nombre = ref("");
+  let presupuesto = ref("");
+  let item_presupuesto = ref("");
+  let item_nombre= ref("");
   let cambio = ref(0);
   let mostrarError = ref(false);
   let mostrarData = ref(true);
   let pagination = ref({ rowsPerPage: 0 })
-  let fichas = ref([]);
+  let Dispresupuestos = ref([]);
   async function obtenerInfo() {
     try {
-      await FichaStore.obtenerInfoFichas();
-      fichas.value = FichaStore.fichas;
-      rows.value = FichaStore.fichas;
-      console.log(FichaStore.fichas);
+      await distriPresupuestoStore.obtenerInfoDispresupuestos();
+      Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
+      rows.value = distriPresupuestoStore.Dispresupuestos;
     } catch (error) {
       console.log(error);
     }
@@ -101,12 +99,10 @@
   
   
   const columns = [
-    { name: "codigo_ficha", label: "codigo_ficha", field: "codigo_ficha", sortable: true, align: "left" },
-    { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
-    { name: "nivel_de_formacion", label: "Nivel", field: "nivel_de_formacion", sortable: true, align: "left" },
-    { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
-    { name: "ficha_fin", label: "ficha fin", field: "ficha_fin", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
-  
+    { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
+    { name: "lote_nombre", label: "lote_nombre", field: "lote_nombre", sortable: true, align: "left" },
+    { name: "item_presupuesto", label: "Nivel", field: "item_presupuesto", sortable: true, align: "left" },
+    { name: "", label_ },
     {
       name: "estado",
       label: "Estado",
@@ -124,14 +120,14 @@
     },
   ];
   
-  function agregarFicha() {
+  function agregarPresupuesto() {
     fixed.value = true;
-    text.value = "Agregar Ficha";
+    text.value = "Agregar Presupuesto";
     cambio.value = 0;
     limpiar();
   }
   function validar() {
-    if (codigo_ficha.value.toString().trim() == "") {
+    if (presupuesto.value.toString().trim() == "") {
       mostrarData.value = false;
       mostrarError.value = true;
       error.value = "Digite el codigo de la ficha por favor";
@@ -141,16 +137,16 @@
         error.value = "";
       }, 2200);
   
-    } else if (nombre.value.toString().trim() == "") {
+    } else if (lote_nombre.value.toString().trim() == "") {
       mostrarData.value = false;
       mostrarError.value = true;
-      error.value = "Ingrese el nombre de la ficha por favor";
+      error.value = "Ingrese el lote_nombre de la ficha por favor";
       setTimeout(() => {
         mostrarData.value = true;
         mostrarError.value = false;
         error.value = "";
       }, 2200);
-    } else if (nivel_de_formacion.value.toString().trim() == "") {
+    } else if (item_presupuesto.value.toString().trim() == "") {
       mostrarData.value = false;
       mostrarError.value = true;
       error.value = "Indique el nivel de formacion de la ficha por favor";
@@ -186,10 +182,10 @@
     validar();
     if (validacion.value === true) {
       if (cambio.value === 0) {
-        if (nombre.value.trim() === '') {
+        if (lote_nombre.value.trim() === '') {
           mostrarData.value = false;
           mostrarError.value = true;
-          error.value = "Por favor digite un nombre";
+          error.value = "Por favor digite un lote_nombre";
           setTimeout(() => {
             mostrarData.value = true;
             mostrarError.value = false;
@@ -199,10 +195,10 @@
         }
         try {
           showDefault();
-          await FichaStore.postFicha({
-            nombre: nombre.value,
-            codigo_ficha: codigo_ficha.value,
-            nivel_de_formacion: nivel_de_formacion.value,
+          await distriPresupuestoStore.postFicha({
+            lote_nombre: lote_nombre.value,
+            presupuesto: presupuesto.value,
+            item_presupuesto: item_presupuesto.value,
             fecha_inicio: fecha_inicio.value,
             ficha_fin: ficha_fin.value,
           });
@@ -236,10 +232,10 @@
         if (id) {
           try {
             showDefault();
-            await FichaStore.putEditarFicha(id, {
-              nombre: nombre.value,
-              codigo_ficha: codigo_ficha.value,
-              nivel_de_formacion: nivel_de_formacion.value,
+            await distriPresupuestoStore.putEditarFicha(id, {
+              lote_nombre: lote_nombre.value,
+              presupuesto: presupuesto.value,
+              item_presupuesto: item_presupuesto.value,
               fecha_inicio: fecha_inicio.value,
               ficha_fin: ficha_fin.value,
             });
@@ -273,9 +269,9 @@
   }
   
   function limpiar() {
-    codigo_ficha.value = "";
-    nombre.value = "";
-    nivel_de_formacion.value = "";
+    presupuesto.value = "";
+    lote_nombre.value = "";
+    item_presupuesto.value = "";
     fecha_inicio.value = "";
     ficha_fin.value = "";
   
@@ -309,9 +305,9 @@
   function editarFicha(data) {
     fixed.value = true;
     idFicha.value = String(data._id)
-    nombre.value = data.nombre
-    codigo_ficha.value = data.codigo_ficha
-    nivel_de_formacion.value = data.nivel_de_formacion
+    lote_nombre.value = data.lote_nombre
+    presupuesto.value = data.presupuesto
+    item_presupuesto.value = data.item_presupuesto
     fecha_inicio.value = format(new Date(data.fecha_inicio), 'yyyy-MM-dd')
     ficha_fin.value = format(new Date(data.ficha_fin), 'yyyy-MM-dd')
     cambio.value = 1;
@@ -319,7 +315,7 @@
   async function inactivarFicha(id) {
     try {
       showDefault();
-      await FichaStore.putInactivarFicha(id);
+      await distriPresupuestoStore.putInactivarFicha(id);
       if (notification) {
         notification();
       }
@@ -346,7 +342,7 @@
   async function activarFicha(id) {
     try {
       showDefault();
-      await FichaStore.putActivarFicha(id);
+      await distriPresupuestoStore.putActivarFicha(id);
       if (notification) {
         notification();
       }
