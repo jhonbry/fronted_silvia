@@ -20,7 +20,7 @@ export const useFichaStore = defineStore('ficha', () => {
             let res = await axios.post('ficha/guardar', data);
             return res
         } catch (error) {
-            throw error
+            return error.response.data
         }
     }
 
@@ -31,7 +31,7 @@ export const useFichaStore = defineStore('ficha', () => {
             console.log(res);
             return res
         } catch (error) {
-            throw error;
+            return error.response.data
         }
     };
 
