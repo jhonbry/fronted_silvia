@@ -18,7 +18,7 @@
               <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
               <q-select v-model="nivel_de_formacion" :options="options" label="Nivel de formacion" style="width: 300px" />
-              <q-input v-model="fecha_inicio" label="fecha inicio" type="date" style="width: 300px" />
+              <q-input v-model="fecha_inicio" label="fecha inicio" type="date" style="width: 300px" :min="getTodayDate()" />
               <q-input v-model="ficha_fin" label="fecha fin" type="date" style="width: 300px" />
 
             </q-card-section>
@@ -405,6 +405,14 @@ async function activarFicha(id) {
       type: "negative",
     });
   }
+}
+
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 </script>
     
