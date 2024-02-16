@@ -21,7 +21,7 @@ export const useProductoStore = defineStore('producto', () => {
             let res = await axios.post('producto/agregar', data);
             return res
         } catch (error) {
-            throw error
+            return error.response.data
         }
     }
 
@@ -30,7 +30,8 @@ export const useProductoStore = defineStore('producto', () => {
             let res = await axios.put(`producto/producto/${id}`, data);
             return res
         } catch (error) {
-            throw error;
+            console.log(error);
+            return error.response.data
         }
     };
 
