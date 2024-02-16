@@ -1,10 +1,23 @@
 <template>
-  <div class="body">
-    <div class="contenedor">
+
+  <div class="q">
+    <div class="contenedores">
+      <img :src="images1" class="fondo12">
+      <h1>Bodega WareSpace</h1>
+      <h2>Servicio Nacional de Educación</h2>
+    </div>
+    <q-card class="card" flat bordered>
+      <q-card-section>
+
+
+
+
+        <div class="cuadro">
+          <div class="contenedor">
       <q-card class="my-card"><br>
         <div class="card-title">
-          <img :src="images" class="fondo" alt="Logo">
-          <h4 class="log">Login</h4>
+          <img :src="images2" class="fondo1" alt="Logo">
+          <h3 class="log">Login</h3>
         </div>
         <div class="containerData" v-if="MostrarData">
           <q-card-actions vertical class="texto">
@@ -24,13 +37,25 @@
         </div>
       </q-card>
     </div>
+        <div class="texto">
+        </div>
+
+      </div>
+      </q-card-section>
+    </q-card>
   </div>
-  
-</template>
+
+
+ 
+
+</template> 
+
 
 
 <script setup>
-import images from "../assets/fondo12.png"
+
+import images1 from "../assets/fondo.png"
+import images2 from "../assets/fondo12.png"
 
 import { ref, onMounted } from "vue";
 import { useUsuarioStore } from "../stores/usuario.js";
@@ -107,35 +132,106 @@ function mostrarErrores (msg) {
   notification = $q.notify({
     type: 'negative',
     message: msg,
-    timeout: 0,
+    timeout: 1500,
   });
 };
 
 </script>
 
 <style scoped>
+
+.q {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 100%; /* Cambiar a una sola columna en dispositivos móviles */
+  background-color: #209616;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+
+#app {
+  height: 100%;
+}
+
+.no-shadow {
+  box-shadow: none !important;
+  background-color: #209616;
+}
+
+.q-card--bordered {
+  border: 0px solid rgba(0, 0, 0, 0.12);
+  background-color: white;
+}
+
+.card-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+.text-h5 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9%;
+  color: rgb(255, 255, 255);
+}
+
+
+.fondo12 {
+  width: 100%;
+  max-width: 300px; /* Ajusta el tamaño máximo de la imagen en dispositivos móviles */
+}
+
+.contenedores {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+h2 {
+  color: white;
+  font-size: 25px; /* Reduce el tamaño de la fuente para dispositivos móviles */
+  margin: 0%;
+  font-family: sans-serif;
+  font-weight: bolder;
+  text-align: center;
+}
+
+h1 {
+  margin: 0%;
+  color: white;
+  font-family: sans-serif;
+  font-weight: bolder;
+  font-size: 30px; /* Tamaño de fuente más grande para dispositivos grandes */
+}
+
+.card {
+  display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
 .q-field--filled {
     padding: 0 12px;
     border-radius: 4px 4px 0 0;
     width: 300px;
-    
-
-}
-
-
-.body {
-  background-color: #289e2c;
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  align-items: center;
-  justify-content: center;
 }
 
 .my-card{
     width: 80vw;
     max-width: 400px;
-    height: 52vh;
     min-height: 500px;
     display: flex;
     align-items: center;
@@ -154,7 +250,7 @@ function mostrarErrores (msg) {
   margin-bottom: 20px;
 }
 
-.fondo {
+.fondo1 {
   width: 80px;
   height: 80px;
   margin-bottom: 10px;
@@ -180,16 +276,41 @@ function mostrarErrores (msg) {
 
 .containerError {
   text-align: center;
-
 }
 
 h5 {
-  font-size: 14px;
-  color: red;
+  font-size: 15px;
+  color: rgb(255, 0, 0);
 }
 
-h4 {
-  font-size: 26px;
+h3 {
+  font-size: 35px;
   color: rgb(0, 0, 0);
 }
+
+/* Media query para dispositivos móviles */
+@media only screen and (min-width: 600px) {
+  .q {
+    grid-template-columns: 70% 30%;
+  }
+
+  .my-card {
+    width: 80vw;
+    max-width: 400px;
+  }
+
+  h2 {
+    font-size: 35px; /* Tamaño de fuente más grande para dispositivos grandes */
+  }
+
+  h1 {
+    font-size: 65px; /* Reduce el tamaño de la fuente para dispositivos móviles */
+  }
+
+  .fondo12 {
+  width: 100%;
+  max-width: 500px; 
+}
+}
+
 </style>
