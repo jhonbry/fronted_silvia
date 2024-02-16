@@ -1,7 +1,7 @@
 <template>
     <div>
       <div>
-        <h1 style="text-align: center; margin-top: 50px;">Ficha</h1>
+        <h1 style="text-align: center; margin-top: 50px;">Presupuesto fichas</h1>
         <hr />
       </div>
       <!-- Modal -->
@@ -15,7 +15,6 @@
             <q-separator />
             <div v-if="mostrarData">
               <q-card-section style="max-height: 50vh" class="scroll">
-                <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
                 <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
                 <q-input v-model="nivel_de_formacion" label="Nivel" type="string" style="width: 300px" />
                 <q-input v-model="fecha_inicio" type="date" style="width: 300px" />
@@ -101,7 +100,6 @@
   
   
   const columns = [
-    { name: "codigo_ficha", label: "codigo_ficha", field: "codigo_ficha", sortable: true, align: "left" },
     { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
     { name: "nivel_de_formacion", label: "Nivel", field: "nivel_de_formacion", sortable: true, align: "left" },
     { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
