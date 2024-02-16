@@ -16,7 +16,7 @@
                   <q-item-section>Configuraciones</q-item-section>
                 </q-item>
                 <q-separator />
-                <router-link to="/Login">
+                <router-link to="/">
                   <q-item clickable>
                     <q-item-section>Salir</q-item-section>
                   </q-item>

@@ -16,7 +16,7 @@ import distriLoteFicha from "../components/distriLoteFicha.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
-  { path: "/Login",component: Login,},
+  { path: "/",component: Login,},
   { path: "/Home",component: Home,
     children: [
       {path: "/Inicio", component: Inicio ,},
