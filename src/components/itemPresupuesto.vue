@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1 style="text-align: center; margin-top: 50px;">Item presupuesto</h1>
+      <h1 style="text-align: center; margin-top: 50px;">Presupuesto</h1>
       <hr />
     </div>
     <!-- Modal -->
@@ -17,7 +17,7 @@
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="nombre" label="Nombre" type="text" style="width: 300px" />
               <q-input v-model="presupuesto" label="Presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="año" label="Año" type="date" style="width: 300px" />
+              <q-input v-model="año" label="Año" type="date" style="width: 300px" :min="getTodayDate()" />
             </q-card-section>
           </div>
 
@@ -36,26 +36,27 @@
     </q-dialog>
     <div style="width: 1000px;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarItem()" />
+        <q-btn class="bg-secondary" label="Agregar item" @click="agregarItem()" />
       </div>
       <div class="q-pa-md">
-        <q-table  class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
           :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
           :columns="columns" style="height: 600px;">
-        <template v-slot:body-cell-estado="props">
+          <template v-slot:body-cell-estado="props">
           <q-td :props="props">
             <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
             <label for="" v-else style="color: red">Inactivo</label>
           </q-td>
         </template>
-        <template v-slot:body-cell-opciones="props">
-          <q-td :props="props" class="botones">
-            <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
-            <q-btn glossy label="❌" @click="inactivarItem(props.row._id)" v-if="props.row.estado == 1" />
-            <q-btn glossy label="✔️" @click="ActivarItem(props.row._id)" v-else />
-          </q-td>
-        </template>
-      </q-table>
+
+          <template v-slot:body-cell-opciones="props">
+            <q-td :props="props" class="botones">
+              <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
+              <q-btn glossy label="❌" @click="inactivarItem(props.row._id)" v-if="props.row.estado == 1" />
+              <q-btn glossy label="✔️" @click="ActivarItem(props.row._id)" v-else />
+            </q-td>
+          </template>
+        </q-table>
 
       </div>
     </div>
@@ -159,9 +160,33 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else {
+} else {
+    const añoIngresado = parseInt(año.value.trim());
+    if (isNaN(añoIngresado)) {
+        mostrarData.value = false;
+        mostrarError.value = true;
+        error.value = "El año debe ser un número válido";
+        setTimeout(() => {
+          mostrarData.value = true;
+          mostrarError.value = false;
+          error.value = "";
+        }, 2200);
+    } else {
+        const añoActual = new Date().getFullYear();
+        if (añoIngresado < añoActual) {
+            mostrarData.value = false;
+            mostrarError.value = true;
+            error.value = "El año no puede ser menor que el año actual";
+            setTimeout(() => {
+              mostrarData.value = true;
+              mostrarError.value = false;
+              error.value = "";
+            }, 2200);
+        } else {
     validacion.value = true;
   }
+}
+}
 }
 
 async function editaragregarItem() {
@@ -311,14 +336,6 @@ const showDefault = () => {
 onMounted(async () => {
   obtenerInfo();
 });
-function getTodayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = (today.getMonth() + 1).toString().padStart(2, "0");
-  const day = today.getDate().toString().padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
 let _id = ref("")
 function editarFicha(data) {
   fixed.value = true;
@@ -327,6 +344,14 @@ function editarFicha(data) {
   presupuesto.value = data.presupuesto
   año.value = data.año
   cambio.value = 1;
+}
+
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 </script>

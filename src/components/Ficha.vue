@@ -17,9 +17,9 @@
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
-              <q-input v-model="nivel_de_formacion" label="Nivel" type="string" style="width: 300px" />
-              <q-input v-model="fecha_inicio" type="date" style="width: 300px" />
-              <q-input v-model="ficha_fin" type="date" style="width: 300px" />
+              <q-select v-model="nivel_de_formacion" :options="options" label="Nivel de formacion" style="width: 300px" />
+              <q-input v-model="fecha_inicio" label="fecha inicio" type="date" style="width: 300px" :min="getTodayDate()" />
+              <q-input v-model="ficha_fin" label="fecha fin" type="date" style="width: 300px" />
 
             </q-card-section>
           </div>
@@ -42,24 +42,24 @@
         <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" />
       </div>
       <div class="q-pa-md">
-    
-        <q-table  class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+
+        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
           :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
           :columns="columns" style="height: 600px;">
-        <template v-slot:body-cell-estado="props">
-          <q-td :props="props">
-            <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
-            <label for="" v-else style="color: red">Inactivo</label>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-opciones="props">
-          <q-td :props="props" class="botones">
-            <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
-            <q-btn glossy label="❌" @click="inactivarFicha(props.row._id)" v-if="props.row.estado == 1" />
-            <q-btn glossy label="✔️" @click="activarFicha(props.row._id)" v-else />
-          </q-td>
-        </template>
-      </q-table>
+          <template v-slot:body-cell-estado="props">
+            <q-td :props="props">
+              <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
+              <label for="" v-else style="color: red">Inactivo</label>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-opciones="props">
+            <q-td :props="props" class="botones">
+              <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
+              <q-btn glossy label="❌" @click="inactivarFicha(props.row._id)" v-if="props.row.estado == 1" />
+              <q-btn glossy label="✔️" @click="activarFicha(props.row._id)" v-else />
+            </q-td>
+          </template>
+        </q-table>
 
       </div>
     </div>
@@ -72,6 +72,7 @@ import { ref, onMounted } from "vue";
 import { format } from "date-fns";
 import { useFichaStore } from "../stores/ficha.js";
 import { useQuasar } from "quasar";
+const options = ref(["tecnico", "tecnologo", "especializacion"]);
 const FichaStore = useFichaStore();
 const $q = useQuasar();
 let error = ref("Ingrese todos los datos para la creacion de un vendedor");
@@ -101,7 +102,7 @@ async function obtenerInfo() {
 
 
 const columns = [
-  { name: "codigo_ficha", label: "codigo_ficha", field: "codigo_ficha", sortable: true, align: "left" },
+  { name: "codigo_ficha", label: "codigo ficha", field: "codigo_ficha", sortable: true, align: "left" },
   { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
   { name: "nivel_de_formacion", label: "Nivel", field: "nivel_de_formacion", sortable: true, align: "left" },
   { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
@@ -177,10 +178,28 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
+  } else if (new Date(ficha_fin.value) < new Date(fecha_inicio.value)) {
+    // Validación de que la fecha de finalización no sea menor que la fecha de inicio
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "La fecha de finalización no puede ser anterior a la fecha de inicio";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
   } else {
     validacion.value = true;
   }
 }
+
+function mostrarErrores(msg) {
+  notification = $q.notify({
+    type: 'negative',
+    message: msg,
+    timeout: 0,
+  });
+};
 
 async function editaragregarFicha() {
   validar();
@@ -199,13 +218,22 @@ async function editaragregarFicha() {
       }
       try {
         showDefault();
-        await FichaStore.postFicha({
+        const respuestas = await FichaStore.postFicha({
           nombre: nombre.value,
           codigo_ficha: codigo_ficha.value,
           nivel_de_formacion: nivel_de_formacion.value,
           fecha_inicio: fecha_inicio.value,
           ficha_fin: ficha_fin.value,
         });
+
+        if (respuestas.error) {
+          setTimeout(() => {
+            mostrarErrores(respuestas.error.errors[0].msg);
+          }, 2000); // Ejecutar después de 2000 milisegundos (2 segundos)
+          return;
+        }
+
+
         if (notification) {
           notification();
         }
@@ -236,13 +264,22 @@ async function editaragregarFicha() {
       if (id) {
         try {
           showDefault();
-          await FichaStore.putEditarFicha(id, {
+          const respuesta = await FichaStore.putEditarFicha(id, {
+            _id: id,
             nombre: nombre.value,
             codigo_ficha: codigo_ficha.value,
             nivel_de_formacion: nivel_de_formacion.value,
             fecha_inicio: fecha_inicio.value,
             ficha_fin: ficha_fin.value,
           });
+          if (respuesta.error) {
+          setTimeout(() => {
+            mostrarErrores(respuesta.error.errors[0].msg);
+          }, 2000); // Ejecutar después de 2000 milisegundos (2 segundos)
+          return;
+        }
+
+
           if (notification) {
             notification();
           }
@@ -368,6 +405,14 @@ async function activarFicha(id) {
       type: "negative",
     });
   }
+}
+
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 </script>
     

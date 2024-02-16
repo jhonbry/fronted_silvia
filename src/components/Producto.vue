@@ -206,7 +206,7 @@ function mostrarErrores(msg) {
   notification = $q.notify({
     type: 'negative',
     message: msg,
-    timeout: 0,
+    timeout: 15,
   });
 };
 
@@ -271,17 +271,14 @@ async function editaragregarProducto() {
             iva: iva.value,
             consumible: consumible.value,
           });
-
           if (respuesta.error) {
             mostrarErrores(respuesta.error.errors[0].msg);
 
             setTimeout(() => {
               ocultarErrores(); // Función que oculta el mensaje de error
             }, 2000); // Ocultar después de 2000 milisegundos (2 segundos)
-
             return;
           }
-
           if (notification) {
             notification();
           }
@@ -293,17 +290,10 @@ async function editaragregarProducto() {
             type: "positive",
           });
           obtenerInfo();
+          fixed.value = false;
         } catch (error) {
-          if (notification) {
-            notification();
-            console.log(notification);
-          }
-          $q.notify({
-            spinner: false,
-            /*  message: `${error.response.data.error.errors[0].msg}`, */
-            timeout: 2000,
-            type: "negative",
-          });
+          cancelShow();
+          notificar(`${error.response.data.error.errors[0].msg}`, "negative")
         }
       }
     }
@@ -313,6 +303,12 @@ async function editaragregarProducto() {
 
 
 }
+
+const cancelShow = ()=>{
+  if (notification) {
+    notification();
+  };
+};
 
 function limpiar() {
   codigo.value = "";
@@ -328,11 +324,22 @@ let _id = ref("");
 
 let validacion = ref(false);
 let notification = ref(null);
+
+
 const showDefault = () => {
   notification = $q.notify({
     spinner: true,
     message: "Please wait...",
-    timeout: 0,
+    timeout: 1500,
+  });
+};
+
+
+const notificar = (msg, type) => {
+  notification = $q.notify({
+    message: msg,
+    timeout: 1500,
+    type: type,
   });
 };
 
@@ -370,12 +377,7 @@ async function inactivarProducto(id) {
     if (notification) {
       notification();
     }
-    $q.notify({
-      spinner: false,
-      // message: ${error.response.data.error.errors[0].msg},
-      timeout: 2000,
-      type: "negative",
-    });
+    notificar(`${error.response.data.error.errors[0].msg}`, "negative")
   }
 }
 
@@ -416,6 +418,8 @@ function getTodayDate() {
   const day = today.getDate().toString().padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+
+
 </script>
 
     
