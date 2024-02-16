@@ -38,7 +38,7 @@
 
           <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
             <button class="btn" v-close-popup>Cancelar</button>
-            <button @click="editarAgregarLote()" class="btn">Aceptar</button>
+            <button @click="editarAgregarPedio()" class="btn">Aceptar</button>
           </q-card-actions>
         </div>
       </q-card>
@@ -47,7 +47,7 @@
       <div class="btn-agregar">
         <q-btn
           class="bg-secondary"
-          label="Agregar Lote"
+          label="Agregar Pedido"
           @click="agregarPedido()"
         />
       </div>
@@ -71,10 +71,10 @@
                 color="warning"
                 icon="edit"
                 class="botonv1"
-                @click="editarLote(props.row)"
+                @click="editarPedido(props.row)"
               />
-              <q-btn glossy label="❌" @click="inactivarLote(props.row._id)" v-if="props.row.estado == 1" />
-              <q-btn glossy label="✔️" @click="activarLote(props.row._id)" v-else />
+              <q-btn glossy label="❌" @click="inactivarPedido(props.row._id)" v-if="props.row.estado == 1" />
+              <q-btn glossy label="✔️" @click="activarPedido(props.row._id)" v-else />
             </q-td>
           </template>
         </q-table>
@@ -122,21 +122,22 @@ const columns = [
   {
     name: "Fechacreacion",
     label: "Fecha creacion",
-    field: "Fechacreacion",
+    field: "fechacreacion",
+    format: (val) => format(new Date(val), "yyyy-MM-dd"),
     sortable: true,
     align: "left",
   },
   {
     name: "idFicha",
     label: "Codigo Ficha",
-    format: (row)=>{row.idFicha.codigo_ficha},
+    field: (val) => val.idficha.codigo_ficha,
     sortable: true,
     align: "left",
   },
   {
     name: "IdInstructorEncargado",
     label: "Nombre",
-    format: (row)=>{row.IdInstructorEncargado.nombre},
+    field: (val)=> val.idInstructorEncargado.nombre,
     sortable: true,
     align: "left",
   },
@@ -144,7 +145,7 @@ const columns = [
   {
     name: "Total",
     label: "Total",
-    field: "Total",
+    field: "total",
     sortable: true,
     align: "left",
   },
@@ -166,9 +167,9 @@ const columns = [
   },
 ];
 
-function agregarLote() {
+function agregarPedido() {
   fixed.value = true;
-  text.value = "Agregar Lote";
+  text.value = "Agregar Pedio";
   cambio.value = 0;
   limpiar();
 }
@@ -176,7 +177,7 @@ function validar() {
   if (Fechacreacion.value.trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el Fechacreacion del Lote por favor";
+    error.value = "Digite el Fechacreacion del pedido por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -185,7 +186,7 @@ function validar() {
   }if (idFicha.value.trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el Fechacreacion del Lote por favor";
+    error.value = "Digite el IdFicha del pedido por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -194,7 +195,7 @@ function validar() {
   }if (IdInstructorEncargado.value.trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el Fechacreacion del Lote por favor";
+    error.value = "Digite el IdInstructirEncargado del pedido por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -213,7 +214,7 @@ function validar() {
     validacion.value = true;
   }
 }
-async function editarAgregarLote() {
+async function editarAgregarPedio() {
   validar();
   if (validacion.value === true) {
     if (cambio.value === 0) {
@@ -230,8 +231,10 @@ async function editarAgregarLote() {
       }
       try {
         showDefault();
-        await PedidoStore.postLote({
+        await PedidoStore.postpedido({
           Fechacreacion: Fechacreacion.value,
+          idFicha: idFicha.value,
+          IdInstructorEncargado: IdInstructorEncargado.value,
           Total: Total.value,
         });
         if (notification) {
@@ -240,7 +243,7 @@ async function editarAgregarLote() {
         limpiar();
         $q.notify({
           spinner: false,
-          message: "Lote Agregado",
+          message: "Pedido Agregado",
           timeout: 2000,
           type: "positive",
         });
@@ -258,11 +261,11 @@ async function editarAgregarLote() {
         });
       }
     } else {
-      let id = idLote.value;
+      let id = idPedido.value;
       if (id) {
         try {
           showDefault();
-          await PedidoStore.putEditarLote(id, {
+          await PedidoStore.putEditarpedido(id, {
           Fechacreacion: Fechacreacion.value,
           idFicha: idFicha.value,
           IdInstructorEncargado: IdInstructorEncargado.value,
@@ -274,7 +277,7 @@ async function editarAgregarLote() {
           limpiar();
           $q.notify({
             spinner: false,
-            message: "Lote Actualizado",
+            message: "Pedido Actualizado",
             timeout: 2000,
             type: "positive",
           });
@@ -297,17 +300,19 @@ async function editarAgregarLote() {
     validacion.value = false;
   }
 }
-let idLote = ref("")
-function editarLote(data) {
-  idLote.value = String(data._id)
+let idPedido = ref("")
+function editarPedido(data) {
+  idPedido.value = String(data._id)
   fixed.value = true;
-  Fechacreacion.value = data.Fechacreacion
+  Fechacreacion.value = format(new Date(val), "yyyy-MM-dd")
   Total.value = data.Total
   cambio.value = 1;
 }
 
 function limpiar() {
   Fechacreacion.value = "";
+  idFicha.value = "";
+  IdInstructorEncargado.value = "";
   Total.value = "";
 }
 
@@ -325,16 +330,16 @@ const showDefault = () => {
 
 let estado = ref("")
 
-async function inactivarLote(id) {
+async function inactivarPedido(id) {
   try {
     showDefault();
-    await PedidoStore.putInactivarLote(id);
+    await PedidoStore.putInactivarpedido(id);
     if (notification) {
       notification();
     }
     $q.notify({
       spinner: false,
-      message: "Lote Inactivo",
+      message: "Pedio Inactivo",
       timeout: 2000,
       type: "positive",
     });
@@ -352,16 +357,16 @@ async function inactivarLote(id) {
   }
 }
 
-async function activarLote(id) {
+async function activarPedido(id) {
   try {
     showDefault();
-    await PedidoStore.putActivarLote(id);
+    await PedidoStore.putActivarpedido(id);
     if (notification) {
       notification();
     }
     $q.notify({
       spinner: false,
-      message: "Lote Activo",
+      message: "Pedido Activo",
       timeout: 2000,
       type: "positive",
     });

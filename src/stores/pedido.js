@@ -11,6 +11,7 @@ export const usePedidoStore = defineStore('pedido', () => {
       pedidos.value = responsepedido.data.pedido;
       console.log(responsepedido.data.pedido);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   };
