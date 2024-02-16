@@ -19,8 +19,8 @@
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="Fechacreacion" label="Fecha Creacion" style="width: 300px" />
-              <q-input v-model="idFicha" label="Id Ficha" style="width: 300px" />
-              <q-input v-model="IdInstructorEncargado" label="Nombre" style="width: 300px" />
+              <q-select v-model="idFicha" :options="rutas" label="Id Ficha" option-value="id" option-label="codigo_ficha" style="width: 300px" />
+              <q-select v-model="IdInstructorEncargado" :options="instructores" label="Nombre" option-value="id" style="width: 300px" />
               <q-input
               type="number"
                 v-model="Total"
@@ -67,12 +67,6 @@
         >
           <template v-slot:body-cell-opciones="props">
             <q-td :props="props" class="botones">
-              <q-btn
-                color="warning"
-                icon="edit"
-                class="botonv1"
-                @click="editarPedido(props.row)"
-              />
               <q-btn glossy label="❌" @click="inactivarPedido(props.row._id)" v-if="props.row.estado == 1" />
               <q-btn glossy label="✔️" @click="activarPedido(props.row._id)" v-else />
             </q-td>
@@ -302,10 +296,13 @@ async function editarAgregarPedio() {
 }
 let idPedido = ref("")
 function editarPedido(data) {
+  console.log(data);
   idPedido.value = String(data._id)
   fixed.value = true;
-  Fechacreacion.value = format(new Date(val), "yyyy-MM-dd")
-  Total.value = data.Total
+  Fechacreacion.value = format(new Date(data.fechacreacion), "yyyy-MM-dd")
+  IdInstructorEncargado.value = data.idInstructorEncargado.nombre
+  idFicha.value = data.idficha.codigo_ficha
+  Total.value = data.total
   cambio.value = 1;
 }
 
