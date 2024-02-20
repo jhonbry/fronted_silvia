@@ -206,7 +206,7 @@ function mostrarErrores(msg) {
   notification = $q.notify({
     type: 'negative',
     message: msg,
-    timeout: 15,
+    timeout: 2000,
   });
 };
 
@@ -228,10 +228,12 @@ async function editaragregarProducto() {
 
         if (respuestas.error) {
           setTimeout(() => {
-            mostrarErrores(respuestas.error.errors[0].msg);
-          }, 2000); // Ejecutar después de 2000 milisegundos (2 segundos)
+          mostrarErrores(respuestas.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
           return;
         }
+
 
 
         if (notification) {
@@ -272,13 +274,13 @@ async function editaragregarProducto() {
             consumible: consumible.value,
           });
           if (respuesta.error) {
-            mostrarErrores(respuesta.error.errors[0].msg);
+          setTimeout(() => {
+          mostrarErrores(respuesta.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
+          return;
+        }
 
-            setTimeout(() => {
-              ocultarErrores(); // Función que oculta el mensaje de error
-            }, 2000); // Ocultar después de 2000 milisegundos (2 segundos)
-            return;
-          }
           if (notification) {
             notification();
           }

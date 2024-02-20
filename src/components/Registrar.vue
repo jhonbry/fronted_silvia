@@ -77,7 +77,13 @@ let rol = '';
 const usuarioAgregado = ref(false);
 const router = useRouter();
 
-
+function mostrarErrores(msg) {
+  notification = $q.notify({
+    type: 'negative',
+    message: msg,
+    timeout: 2000,
+  });
+};
 
 
 const registrarUsuario = async () => {
@@ -90,6 +96,16 @@ const registrarUsuario = async () => {
       password,
       rol
     });
+
+    if (registrarUsuario.error) {
+          setTimeout(() => {
+          mostrarErrores(registrarUsuario.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
+          return;
+        }
+
+
     notify("Usuario Agregado", "positive")
     console.log(response.data);
 
@@ -103,7 +119,7 @@ const registrarUsuario = async () => {
     usuarioAgregado.value = true;
     router.push('/Usuario');
   } catch (error) {
-    notify("Maluco", "negative")
+    notify("La cedula ya se encuentra registrada en la base de datos", "negative")
 
     console.error(error);
   }

@@ -18,7 +18,8 @@
               <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
               <q-select v-model="nivel_de_formacion" :options="options" label="Nivel de formacion" style="width: 300px" />
-              <q-input v-model="fecha_inicio" label="fecha inicio" type="date" style="width: 300px" :min="getTodayDate()" />
+              <q-input v-model="fecha_inicio" label="fecha inicio" type="date" style="width: 300px"
+                :min="getTodayDate()" />
               <q-input v-model="ficha_fin" label="fecha fin" type="date" style="width: 300px" />
 
             </q-card-section>
@@ -197,7 +198,7 @@ function mostrarErrores(msg) {
   notification = $q.notify({
     type: 'negative',
     message: msg,
-    timeout: 0,
+    timeout: 2000,
   });
 };
 
@@ -228,8 +229,9 @@ async function editaragregarFicha() {
 
         if (respuestas.error) {
           setTimeout(() => {
-            mostrarErrores(respuestas.error.errors[0].msg);
-          }, 2000); // Ejecutar después de 2000 milisegundos (2 segundos)
+          mostrarErrores(respuestas.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
           return;
         }
 
@@ -273,11 +275,15 @@ async function editaragregarFicha() {
             ficha_fin: ficha_fin.value,
           });
           if (respuesta.error) {
-          setTimeout(() => {
-            mostrarErrores(respuesta.error.errors[0].msg);
-          }, 2000); // Ejecutar después de 2000 milisegundos (2 segundos)
-          return;
-        }
+            setTimeout(() => {
+              mostrarErrores(respuesta.error.errors[0].msg);
+              mostrarError.value = false; // Ocultar el mensaje de error después de 2 segundos
+              error.value = ""; // Limpiar el mensaje de error
+            }, 2000);
+            return;
+          }
+
+
 
 
           if (notification) {
@@ -325,7 +331,7 @@ const showDefault = () => {
   notification = $q.notify({
     spinner: true,
     message: "Please wait...",
-    timeout: 0,
+    timeout: 1000,
   });
 };
 
