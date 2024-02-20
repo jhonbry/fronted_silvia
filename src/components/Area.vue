@@ -48,7 +48,7 @@
           row-key="index"
           :rows="rows"
           :columns="columns"
-          style="height: 600px"
+          style="height: 60vh"
         >
           <template v-slot:body-cell-estado="props">
             <q-td :props="props">
@@ -82,9 +82,7 @@
           </template>
         </q-table>
       </div>
-      <!--   <q-table title="Rutas" :rows="rows" :columns="columns" row-key="name">
 
-      </q-table> -->
     </div>
   </div>
 </template>
@@ -328,21 +326,20 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+
 .modal-content {
-  width: 480px;
-  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background: -webkit-linear-gradient(bottom, #167e45, #548b36);
   border-radius: 3%;
 }
 
 .contorno {
-  background-color: white;
-  height: 90%;
-  width: 90%;
+  background-color: rgb(255, 255, 255);
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -366,6 +363,7 @@ onMounted(async () => {
   padding: 30px;
   margin: 0;
   text-transform: capitalize;
+
 }
 
 .containerBoton {
@@ -473,7 +471,7 @@ h1 {
   cursor: pointer;
   background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
 }
-</style>
-<style lang="sass">
+
 
 </style>
+

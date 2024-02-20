@@ -46,14 +46,16 @@
               :key="index"
               :to="link.path"
               class="nav-link"
-              style="width: 100%;"
+              style="width: 100%"
             >
-              <q-item clickable>
+              <q-item clickable style="width: 100%">
                 <q-item-section avatar>
                   <q-icon :name="link.icon"></q-icon>
-                  <!-- Aquí se agrega el icono -->
                 </q-item-section>
-                <q-item-section>{{ link.text }}</q-item-section>
+                <q-item-section
+                  style="display: flex; align-content: flex-start"
+                  >{{ link.text }}</q-item-section
+                >
               </q-item>
             </router-link>
             <div class="divider"></div>
@@ -132,12 +134,12 @@ const toggleSettingsDrawer = () => {
   margin: 20px auto;
 }
 
-.navigation{
-    display: flex;
-    align-items: flex-start;
-    width: 80%;
-    text-align: center;
-    flex-direction: column;
+.navigation {
+  display: flex;
+  align-items: flex-start;
+  width: 80%;
+  text-align: center;
+  flex-direction: column;
 }
 
 .nav-link {
