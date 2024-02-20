@@ -17,9 +17,7 @@
                 </q-item>
                 <q-separator />
                 <router-link to="/">
-                  <q-item clickable>
-                    <q-item-section>Salir</q-item-section>
-                  </q-item>
+                  <q-item-section>Salir</q-item-section>
                 </router-link>
               </q-list>
             </q-menu>
@@ -41,10 +39,23 @@
           </q-avatar>
           <div class="text-h6">Usuario</div>
           <div class="divider"></div>
+
           <div class="navigation">
-            <router-link v-for="(link, index) in links" :key="index" :to="link">
-              <q-item clickable>
-                <q-item-section>{{ link.text }}</q-item-section>
+            <router-link
+              v-for="(link, index) in links"
+              :key="index"
+              :to="link.path"
+              class="nav-link"
+              style="width: 100%"
+            >
+              <q-item clickable style="width: 100%">
+                <q-item-section avatar>
+                  <q-icon :name="link.icon"></q-icon>
+                </q-item-section>
+                <q-item-section
+                  style="display: flex; align-content: flex-start"
+                  >{{ link.text }}</q-item-section
+                >
               </q-item>
             </router-link>
             <div class="divider"></div>
@@ -74,16 +85,16 @@ const toggleLeftDrawer = () => {
 };
 
 const links = [
-  { text: "Inicio", path: "/Inicio" },
-  { text: "Area", path: "/Area" },
-  { text: "Ficha", path: "/Ficha" },
-  { text: "Usuario", path: "/Usuario" },
-  { text: "Lote", path: "/Lote" },
-  { text: "Pedido", path: "/Pedido" },
-  { text: "Producto", path: "/Producto" },
-  { text: "Item Presupuesto", path: "/itemPresupuesto" },
-  { text: "Distribución presupuesto a lotes", path: "/distriPresupuesto" },
-  { text: "Distribución presupuesto a fichas", path: "/distriLoteFicha" },
+  { text: "Inicio", icon: "home", path: "/Inicio" },
+  { text: "Area", icon: "location_city", path: "/Area" },
+  { text: "Ficha", icon: "description", path: "/Ficha" },
+  { text: "Usuario", icon: "person", path: "/Usuario" },
+  { text: "Lote", icon: "store", path: "/Lote" },
+  { text: "Pedido", icon: "shopping_cart", path: "/Pedido" },
+  { text: "Producto", icon: "local_offer", path: "/Producto" },
+  { text: "Item presupuesto", icon: "attach_money", path: "/itemPresupuesto" },
+  { text: "Lote presupuesto", icon: "assignment", path: "/distriPresupuesto" },
+  { text: "Ficha presupuesto", icon: "receipt", path: "/distriLoteFicha" },
 ];
 
 const navigateTo = (path) => {
@@ -102,46 +113,7 @@ const toggleSettingsDrawer = () => {
   justify-content: space-around;
 }
 
-.tarjetas {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 80px;
-  padding: 6%;
-}
-
-.card {
-  box-sizing: border-box;
-  width: 240px;
-  height: 254px;
-  background: #209616;
-  border: 1px solid rgb(0, 0, 0);
-  box-shadow: 2px 7px 11px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(6px);
-  border-radius: 17px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.5s;
-  display: flex;
-  user-select: none;
-  font-weight: bolder;
-  color: black;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-
-.card:hover {
-  border: 1px solid black;
-  transform: scale(1.05);
-  background-color: #23c414;
-}
-
-.card:active {
-  transform: scale(0.95) rotateZ(1.7deg);
-}
-
-.drawer-content {
+.drawer-content[data-v-08e32229] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,31 +125,26 @@ const toggleSettingsDrawer = () => {
 
 .text-h6 {
   margin-top: 10px;
+  display: flex;
 }
 
 .divider {
   width: 80%;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #2aac4b;
   margin: 20px auto;
 }
 
 .navigation {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  align-items: flex-start;
   width: 80%;
   text-align: center;
+  flex-direction: column;
 }
 
-.navigation q-item {
+.nav-link {
   width: 100%;
-}
-
-.navigation q-item-section {
-  width: 100%;
-  font-size: 1.2rem;
-  padding: 10px;
-  background-color: #f0f0f0;
+  font-size: 14px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -185,11 +152,11 @@ const toggleSettingsDrawer = () => {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: center; /* Usalo para ajustar tu contenido en el centro */
+  justify-content: flex-start; /* Ajustado para alinear a la izquierda */
 }
 
-.navigation q-item-section:hover {
-  background-color: #e0e0e0;
+.nav-link:hover {
+  background-color: #ccc;
 }
 
 .navigation .divider {
