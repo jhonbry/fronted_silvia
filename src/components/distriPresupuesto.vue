@@ -16,9 +16,9 @@
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="presupuesto" label="Lote Presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="lote_nombre" label="Lote Nombre" type="string" style="width: 300px" />
-              <q-input v-model="item_presupuesto" label="Item Presupuesto" type="string" style="width: 300px" />
-              <q-input v-model="item_nombre" label="Nivel" type="string" style="width: 300px" />
+              <q-input v-model="lote_nombre" :options="optionslote" label="Lote Nombre" type="string" style="width: 300px " />
+              <q-input v-model="item_presupuesto"  :options="optionsitem" label="Item Presupuesto" type="string" style="width: 300px" />
+              <q-input v-model="item_nombre" :options="optionsitem" label="Nivel" type="string" style="width: 300px" />
 
 
             </q-card-section>
@@ -76,6 +76,7 @@ import {useItemStore} from "../stores/itempresupuesto.js";
 import {useLoteStore} from "../stores/lote.js";
 const distriPresupuestoStore = usedistriPresupuesto();
 const loteStore = useLoteStore();
+const ItemStore = useItemStore();
 const $q = useQuasar();
 let error = ref("Ingrese todos los datos para la creacion de un vendedor");
 let text = ref("");
@@ -95,6 +96,20 @@ async function obtenerInfo() {
     await distriPresupuestoStore.obtenerInfoDispresupuestos();
     Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
     rows.value = distriPresupuestoStore.Dispresupuestos;
+    console.log("rows:",rows.value);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function obtenerlote(){
+  try {
+    await loteStore.obtenerInfoLotes();
+    optionslote.value = loteStore.lotes.map((lote) => ({
+      label: `${lote.nombre} `,
+      value: String(lote._id),
+    }));
+  
   } catch (error) {
     console.log(error);
   }
@@ -102,14 +117,16 @@ async function obtenerInfo() {
 
 async function obteneritem(){
   try {
-    await loteStore.obtenerInfoLotes();
-    optionsVendedor.value = VendedorStore.vendedores.map((vendedor) => ({
+    await ItemStore.obtenerInfoitem();
+    optionsitem.value = ItemStore.items.map((items) => ({
+      label: `${items.nombre} - ${items.presupuesto} `,
+      value: String(items._id),
     }));
+  
   } catch (error) {
     console.log(error);
   }
 }
-
 const columns = [
   { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "lote_nombre", label: "lote_nombre", field: "lote_nombre", sortable: true, align: "left" },
@@ -139,148 +156,44 @@ function agregarPresupuesto() {
   limpiar();
 }
 function validar() {
-  if (presupuesto.value.toString().trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Digite el codigo de la ficha por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-
-  } else if (lote_nombre.value.toString().trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Ingrese el lote_nombre de la ficha por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (item_presupuesto.value.toString().trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Indique el nivel de formacion de la ficha por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (fecha_inicio.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Seleccione la hora de Inicio de la ficha por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (ficha_fin.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Seleccione la hora de finalizacion de la ficha por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
+  if (
+    !presupuesto.value &&
+    !lote_nombre.value&&
+    !item_presupuesto.value&&
+    !item_nombre.value 
+  ) {
+    badMessage.value = "Por favor rellene los campos";
+    showBad();
+  } else if (!presupuesto.value) {
+    badMessage.value = "Seleccione un presupuesto";
+    showBad();
+  } else if (!lote_nombre.value) {
+    badMessage.value = "Seleccione el Cliente";
+    showBad();
+  } else if (!item_presupuesto.value) {
+    badMessage.value = "Seleccione la ruta";
+    showBad();
+  } else if (!item_nombre.value) {
+    badMessage.value = "Seleccione el bus";
+    showBad();
+  } else if (!Nmro_ticket.value) {
+    badMessage.value = "Especifique el numero de ticket";
+    showBad();
+  } else if (!fecha_venta.value) {
+    badMessage.value = "Seleccione la fecha de venta";
+    showBad();
   } else {
     validacion.value = true;
   }
 }
-
-async function editaragregarFicha() {
-  validar();
-  if (validacion.value === true) {
-    if (cambio.value === 0) {
-      if (lote_nombre.value.trim() === '') {
-        mostrarData.value = false;
-        mostrarError.value = true;
-        error.value = "Por favor digite un lote_nombre";
-        setTimeout(() => {
-          mostrarData.value = true;
-          mostrarError.value = false;
-          error.value = "";
-        }, 2200);
-        return;
-      }
-      try {
-        showDefault();
-        await distriPresupuestoStore.postFicha({
-         presupuesto : presupuesto.value,
-         lote_nombre : lote_nombre.value,
-         item_presupuesto : item_presupuesto.value,
-         item_nombre : item_nombre.value,
-    
-        });
-        if (notification) {
-          notification();
-        }
-        limpiar();
-        $q.notify({
-          spinner: false,
-          message: "Area Agregado",
-          timeout: 2000,
-          type: "positive",
-        });
-        console.log("a")
-        obtenerInfo();
-        fixed.value = false;
-
-      } catch (error) {
-        if (notification) {
-          notification();
-        }
-        $q.notify({
-          spinner: false,
-          // message: `${error.response.data.error.errors[0].msg}`,
-          timeout: 2000,
-          type: "negative",
-        });
-      }
-    } else {
-      let id = idFicha.value;
-      if (id) {
-        try {
-          showDefault();
-          await distriPresupuestoStore.putEditarFicha(id, {
-            presupuesto : presupuesto.value,
-         lote_nombre : lote_nombre.value,
-         item_presupuesto : item_presupuesto.value,
-         item_nombre : item_nombre.value,
-          });
-          if (notification) {
-            notification();
-          }
-          limpiar();
-          $q.notify({
-            spinner: false,
-            message: "Ficha Actualizada",
-            timeout: 2000,
-            type: "positive",
-          });
-          obtenerInfo();
-          fixed.value = false;
-        } catch (error) {
-          if (notification) {
-            notification();
-          }
-          $q.notify({
-            spinner: false,
-            /*  message: ${error.response.data.error.errors[0].msg}, */
-            timeout: 2000,
-            type: "negative",
-          });
-        }
-      }
-    }
-    validacion.value = false;
-  }
-}
+// async function EditarProducto(id){
+//   await obtenerInfo();
+//   await obteneritem();
+//   await obtenerlote();
+// }
 
 function limpiar() {
- presupuesto.value= " ";
+presupuesto.value= " ";
 ote_nombre.value=  " ";
 tem_presupuesto.value = " ";
 item_nombre.value= " ";
