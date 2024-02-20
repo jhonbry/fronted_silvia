@@ -15,9 +15,16 @@
           <q-separator />
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
+<<<<<<< HEAD
               <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
               <q-input v-model="id_lote" label="id lote" type="string" style="width: 300px" />
               <q-input v-model="id_item" label="id item" type="string" style="width: 300px" />
+=======
+              <q-input v-model="presupuesto" label="Lote Presupuesto" type="number" style="width: 300px" />
+              <q-input v-model="lote_nombre" :options="optionslote" label="Lote Nombre" type="string" style="width: 300px " />
+              <q-input v-model="item_presupuesto"  :options="optionsitem" label="Item Presupuesto" type="string" style="width: 300px" />
+              <q-input v-model="item_nombre" :options="optionsitem" label="Nivel" type="string" style="width: 300px" />
+>>>>>>> dab0da9a10145fd5f75d71fe6eeb253038c6945f
 
 
             </q-card-section>
@@ -75,6 +82,7 @@ import {useItemStore} from "../stores/itempresupuesto.js";
 import {useLoteStore} from "../stores/lote.js";
 const distriPresupuestoStore = usedistriPresupuesto();
 const loteStore = useLoteStore();
+const ItemStore = useItemStore();
 const $q = useQuasar();
 let error = ref("Ingrese todos los datos para la creacion de un vendedor");
 let text = ref("");
@@ -93,6 +101,20 @@ async function obtenerInfo() {
     await distriPresupuestoStore.obtenerInfoDispresupuestos();
     Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
     rows.value = distriPresupuestoStore.Dispresupuestos;
+    console.log("rows:",rows.value);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function obtenerlote(){
+  try {
+    await loteStore.obtenerInfoLotes();
+    optionslote.value = loteStore.lotes.map((lote) => ({
+      label: `${lote.nombre} `,
+      value: String(lote._id),
+    }));
+  
   } catch (error) {
     console.log(error);
   }
@@ -100,14 +122,16 @@ async function obtenerInfo() {
 
 async function obteneritem(){
   try {
-    await loteStore.obtenerInfoLotes();
-    optionsVendedor.value = VendedorStore.vendedores.map((vendedor) => ({
+    await ItemStore.obtenerInfoitem();
+    optionsitem.value = ItemStore.items.map((items) => ({
+      label: `${items.nombre} - ${items.presupuesto} `,
+      value: String(items._id),
     }));
+  
   } catch (error) {
     console.log(error);
   }
 }
-
 const columns = [
   { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "presupuestoDisponible", label: "presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
@@ -137,6 +161,7 @@ function agregarPresupuesto() {
   limpiar();
 }
 function validar() {
+<<<<<<< HEAD
   if (presupuesto.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
@@ -165,10 +190,39 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
+=======
+  if (
+    !presupuesto.value &&
+    !lote_nombre.value&&
+    !item_presupuesto.value&&
+    !item_nombre.value 
+  ) {
+    badMessage.value = "Por favor rellene los campos";
+    showBad();
+  } else if (!presupuesto.value) {
+    badMessage.value = "Seleccione un presupuesto";
+    showBad();
+  } else if (!lote_nombre.value) {
+    badMessage.value = "Seleccione el Cliente";
+    showBad();
+  } else if (!item_presupuesto.value) {
+    badMessage.value = "Seleccione la ruta";
+    showBad();
+  } else if (!item_nombre.value) {
+    badMessage.value = "Seleccione el bus";
+    showBad();
+  } else if (!Nmro_ticket.value) {
+    badMessage.value = "Especifique el numero de ticket";
+    showBad();
+  } else if (!fecha_venta.value) {
+    badMessage.value = "Seleccione la fecha de venta";
+    showBad();
+>>>>>>> dab0da9a10145fd5f75d71fe6eeb253038c6945f
   } else {
     validacion.value = true;
   }
 }
+<<<<<<< HEAD
 
 async function editaragregarFicha() {
   validar();
@@ -261,6 +315,20 @@ function limpiar() {
  presupuesto.value= " ";
  id_lote.value=  " ";
  id_item.value = " ";
+=======
+// async function EditarProducto(id){
+//   await obtenerInfo();
+//   await obteneritem();
+//   await obtenerlote();
+// }
+
+function limpiar() {
+presupuesto.value= " ";
+ote_nombre.value=  " ";
+tem_presupuesto.value = " ";
+item_nombre.value= " ";
+
+>>>>>>> dab0da9a10145fd5f75d71fe6eeb253038c6945f
 }
 
 
