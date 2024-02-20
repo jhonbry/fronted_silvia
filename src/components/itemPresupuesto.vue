@@ -77,6 +77,7 @@ let rows = ref([]);
 let fixed = ref(false);
 let nombre = ref("");
 let presupuesto = ref("");
+let presupuestoDisponible = ref("");
 let año = ref("");
 let cambio = ref(0);
 let mostrarError = ref(false);
@@ -98,6 +99,7 @@ const columns = [
   { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
   { name: "año", label: "Fecha creacion", field: "año", sortable: true, align: "left" },
   { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
+  { name: "presupuestoDisponible", label: "presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
   {
     name: "estado",
     label: "Estado",
@@ -151,7 +153,7 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  }else if (año.value.trim() === "") {
+  } else if (año.value.trim() === "") {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Indique el año por favor";
@@ -230,6 +232,7 @@ async function editaragregarItem() {
           await ItemStore.putEditarItem(id, {
             nombre: nombre.value,
             presupuesto: presupuesto.value,
+            presupuestoDisponible: presupuestoDisponible.value,
             año: año.value,
           });
           if (notification) {
@@ -317,6 +320,7 @@ async function ActivarItem(id) {
 
 function limpiar() {
   presupuesto.value = "";
+  presupuestoDisponible.value = "";
   nombre.value = "";
   año.value = "";
 }
@@ -342,6 +346,7 @@ function editarFicha(data) {
   _id.value = data._id
   nombre.value = data.nombre
   presupuesto.value = data.presupuesto
+  presupuestoDisponible.value = data.presupuestoDisponible
   año.value = data.año
   cambio.value = 1;
 }

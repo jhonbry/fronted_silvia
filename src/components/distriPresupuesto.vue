@@ -15,10 +15,9 @@
           <q-separator />
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
-              <q-input v-model="presupuesto" label="Lote Presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="lote_nombre" label="Lote Nombre" type="string" style="width: 300px" />
-              <q-input v-model="item_presupuesto" label="Item Presupuesto" type="string" style="width: 300px" />
-              <q-input v-model="item_nombre" label="Nivel" type="string" style="width: 300px" />
+              <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
+              <q-input v-model="id_lote" label="id lote" type="string" style="width: 300px" />
+              <q-input v-model="id_item" label="id item" type="string" style="width: 300px" />
 
 
             </q-card-section>
@@ -81,10 +80,9 @@ let error = ref("Ingrese todos los datos para la creacion de un vendedor");
 let text = ref("");
 let rows = ref([]);
 let fixed = ref(false);
-let lote_nombre = ref("");
+let id_lote = ref("");
 let presupuesto = ref("");
-let item_presupuesto = ref("");
-let item_nombre = ref("");
+let id_item = ref("");
 let cambio = ref(0);
 let mostrarError = ref(false);
 let mostrarData = ref(true);
@@ -112,9 +110,9 @@ async function obteneritem(){
 
 const columns = [
   { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
-  { name: "lote_nombre", label: "lote_nombre", field: "lote_nombre", sortable: true, align: "left" },
-  { name: "item_presupuesto", label: "Presupuesto del item", field: "item_presupuesto", sortable: true, align: "left" },
-  { name: "item_nombre", label: " Nombre del item", field: "item_nombre ", sortable: true, align: "left" },
+  { name: "presupuestoDisponible", label: "presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
+  { name: "id_lote", label: "id lote", field: "id_lote", sortable: true, align: "left" },
+  { name: "id_lote", label: " Nombre del item", field: "id_lote ", sortable: true, align: "left" },
   {
     name: "estado",
     label: "Estado",
@@ -149,37 +147,19 @@ function validar() {
       error.value = "";
     }, 2200);
 
-  } else if (lote_nombre.value.toString().trim() == "") {
+  } else if (id_lote.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Ingrese el lote_nombre de la ficha por favor";
+    error.value = "Ingrese el id_lote de la ficha por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else if (item_presupuesto.value.toString().trim() == "") {
+  } else if (id_lote.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Indique el nivel de formacion de la ficha por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (fecha_inicio.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Seleccione la hora de Inicio de la ficha por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (ficha_fin.value.trim() == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Seleccione la hora de finalizacion de la ficha por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -194,10 +174,10 @@ async function editaragregarFicha() {
   validar();
   if (validacion.value === true) {
     if (cambio.value === 0) {
-      if (lote_nombre.value.trim() === '') {
+      if (id_lote.value.trim() === '') {
         mostrarData.value = false;
         mostrarError.value = true;
-        error.value = "Por favor digite un lote_nombre";
+        error.value = "Por favor digite un id_lote";
         setTimeout(() => {
           mostrarData.value = true;
           mostrarError.value = false;
@@ -209,9 +189,8 @@ async function editaragregarFicha() {
         showDefault();
         await distriPresupuestoStore.postFicha({
          presupuesto : presupuesto.value,
-         lote_nombre : lote_nombre.value,
-         item_presupuesto : item_presupuesto.value,
-         item_nombre : item_nombre.value,
+         id_lote : id_lote.value,
+         id_item : id_item.value,
     
         });
         if (notification) {
@@ -246,9 +225,8 @@ async function editaragregarFicha() {
           showDefault();
           await distriPresupuestoStore.putEditarFicha(id, {
             presupuesto : presupuesto.value,
-         lote_nombre : lote_nombre.value,
-         item_presupuesto : item_presupuesto.value,
-         item_nombre : item_nombre.value,
+         id_lote : id_lote.value,
+         id_item : id_item.value,
           });
           if (notification) {
             notification();
@@ -281,10 +259,8 @@ async function editaragregarFicha() {
 
 function limpiar() {
  presupuesto.value= " ";
-ote_nombre.value=  " ";
-tem_presupuesto.value = " ";
-item_nombre.value= " ";
-
+ id_lote.value=  " ";
+ id_item.value = " ";
 }
 
 
@@ -314,12 +290,9 @@ onMounted(async () => {
 let idFicha = ref("")
 function editarFicha(data) {
   fixed.value = true;
-  idFicha.value = String(data._id)
-  lote_nombre.value = data.lote_nombre
+  id_lote.value = data.id_lote
   presupuesto.value = data.presupuesto
-  item_presupuesto.value = data.item_presupuesto
-  fecha_inicio.value = format(new Date(data.fecha_inicio), 'yyyy-MM-dd')
-  ficha_fin.value = format(new Date(data.ficha_fin), 'yyyy-MM-dd')
+  id_item.value = data.id_item
   cambio.value = 1;
 }
 async function inactivarFicha(id) {
