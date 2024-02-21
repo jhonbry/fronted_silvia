@@ -16,8 +16,8 @@
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="id_lote" label="id lote" type="string" style="width: 300px" />
-              <q-input v-model="id_item" label="id item" type="string" style="width: 300px" />
+              <q-input v-model="id_lote" options="optionslote" label="id lote" type="string" style="width: 300px" />
+              <q-input v-model="id_item" options="optionsitem" label="id item" type="string" style="width: 300px" />
 
 
             </q-card-section>
@@ -85,16 +85,18 @@ let id_lote = ref("");
 let presupuesto = ref("");
 let id_item = ref("");
 let cambio = ref(0);
+let optionsitem = ref("");
+let optionslote = ref("");
 let mostrarError = ref(false);
 let mostrarData = ref(true);
 let pagination = ref({ rowsPerPage: 0 })
 let Dispresupuestos = ref([]);
 async function obtenerInfo() {
   try {
-    await distriPresupuestoStore.obtenerInfoDispresupuestos();
+    const r = await distriPresupuestoStore.obtenerInfoDispresupuestos();
     Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
-    rows.value = distriPresupuestoStore.Dispresupuestos;
-    console.log("rows:",rows.value);
+    rows.value = r.reverse()
+    console.log(r);
   } catch (error) {
     console.log(error);
   }
@@ -103,15 +105,16 @@ async function obtenerInfo() {
 async function obtenerlote(){
   try {
     await loteStore.obtenerInfoLotes();
-    optionslote.value = loteStore.lotes.map((lote) => ({
-      label: `${lote.nombre} `,
-      value: String(lote._id),
+    optionslote.value = loteStore.lotes.map((Lote) => ({
+      label: `${Lote.nombre} `,
+      value: String(Lote._id),
     }));
-  
+  console.log(optionslote);
   } catch (error) {
     console.log(error);
   }
 }
+obtenerlote()
 
 async function obteneritem(){
   try {
@@ -120,16 +123,19 @@ async function obteneritem(){
       label: `${items.nombre} - ${items.presupuesto} `,
       value: String(items._id),
     }));
+
+    console.log(optionsitem);
   
   } catch (error) {
     console.log(error);
   }
 }
+obteneritem()
 const columns = [
   { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
-  { name: "presupuestoDisponible", label: "presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
-  { name: "id_lote", label: "id lote", field: "id_lote", sortable: true, align: "left" },
-  { name: "id_lote", label: " Nombre del item", field: "id_lote ", sortable: true, align: "left" },
+  { name: "presupuestoDisponible", label: "Presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
+  { name: "id_lote", label: "Id lote", field: val=>val.id_lote.nombre, sortable: true, align: "left" },
+  { name: "id_item", label: " Nombre del item", field: val=>val.id_item.nombre, sortable: true, align: "left" },
   {
     name: "estado",
     label: "Estado",
@@ -174,10 +180,10 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else if (id_lote.value.toString().trim() == "") {
+  } else if (id_item.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Indique el nivel de formacion de la ficha por favor";
+    error.value = "Seleccione algun item";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;

@@ -89,6 +89,7 @@ async function obtenerInfo() {
     await ItemStore.obtenerInfoitem();
     items.value = ItemStore.items;
     rows.value = ItemStore.items;
+    console.log(rows.value);
   } catch (error) {
     console.log(error);
   }

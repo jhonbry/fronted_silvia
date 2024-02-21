@@ -127,6 +127,7 @@ async function obtenerInfo() {
     await loteStore.obtenerInfoLotes();
     lotes.value = loteStore.lotes;
     rows.value = loteStore.lotes;
+    console.log(rows.value);
   } catch (error) {
     console.log(error);
   }
