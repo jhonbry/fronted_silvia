@@ -21,8 +21,8 @@
               <q-input v-model="nombre" label="Nombre" style="width: 300px" />
               <q-input
                 type="number"
-                v-model="presupuesto"
-                label="Presupuesto"
+                v-model="codigo"
+                label="codigo"
                 style="width: 300px"
               />
             </q-card-section>
@@ -116,7 +116,7 @@ let rutas = ref([]);
 let rows = ref([]);
 let fixed = ref(false);
 let nombre = ref("");
-let presupuesto = ref("");
+let codigo = ref("");
 let cambio = ref(0);
 let mostrarError = ref(false);
 let mostrarData = ref(true);
@@ -142,9 +142,9 @@ const columns = [
   },
 
   {
-    name: "presupuesto",
-    label: "Presupuesto",
-    field: "presupuesto",
+    name: "codigo",
+    label: "codigo",
+    field: "codigo",
     sortable: true,
     align: "left",
   },
@@ -182,10 +182,10 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else if (presupuesto.value.toString().trim() == "") {
+  } else if (codigo.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el presupuesto del Lote por favor";
+    error.value = "Digite el codigo del Lote por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -214,7 +214,7 @@ async function editarAgregarLote() {
         showDefault();
         await loteStore.postLote({
           nombre: nombre.value,
-          presupuesto: presupuesto.value,
+          codigo: codigo.value,
         });
         if (notification) {
           notification();
@@ -246,7 +246,7 @@ async function editarAgregarLote() {
           showDefault();
           await loteStore.putEditarLote(id, {
             nombre: nombre.value,
-            presupuesto: presupuesto.value,
+            codigo: codigo.value,
           });
           if (notification) {
             notification();
@@ -282,13 +282,13 @@ function editarLote(data) {
   idLote.value = String(data._id);
   fixed.value = true;
   nombre.value = data.nombre;
-  presupuesto.value = data.presupuesto;
+  codigo.value = data.codigo;
   cambio.value = 1;
 }
 
 function limpiar() {
   nombre.value = "";
-  presupuesto.value = "";
+  codigo.value = "";
 }
 
 let validacion = ref(false);
