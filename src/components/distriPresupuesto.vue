@@ -15,16 +15,9 @@
           <q-separator />
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
-<<<<<<< HEAD
               <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
               <q-input v-model="id_lote" label="id lote" type="string" style="width: 300px" />
               <q-input v-model="id_item" label="id item" type="string" style="width: 300px" />
-=======
-              <q-input v-model="presupuesto" label="Lote Presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="lote_nombre" :options="optionslote" label="Lote Nombre" type="string" style="width: 300px " />
-              <q-input v-model="item_presupuesto"  :options="optionsitem" label="Item Presupuesto" type="string" style="width: 300px" />
-              <q-input v-model="item_nombre" :options="optionsitem" label="Nivel" type="string" style="width: 300px" />
->>>>>>> dab0da9a10145fd5f75d71fe6eeb253038c6945f
 
 
             </q-card-section>
@@ -161,7 +154,7 @@ function agregarPresupuesto() {
   limpiar();
 }
 function validar() {
-<<<<<<< HEAD
+
   if (presupuesto.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
@@ -175,7 +168,7 @@ function validar() {
   } else if (id_lote.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Ingrese el id_lote de la ficha por favor";
+    error.value = "Ingrese el lote de la ficha por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -190,39 +183,19 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-=======
+
   if (
     !presupuesto.value &&
-    !lote_nombre.value&&
-    !item_presupuesto.value&&
-    !item_nombre.value 
+    !id_item.value&&
+    !id_lote.value
   ) {
     badMessage.value = "Por favor rellene los campos";
     showBad();
-  } else if (!presupuesto.value) {
-    badMessage.value = "Seleccione un presupuesto";
-    showBad();
-  } else if (!lote_nombre.value) {
-    badMessage.value = "Seleccione el Cliente";
-    showBad();
-  } else if (!item_presupuesto.value) {
-    badMessage.value = "Seleccione la ruta";
-    showBad();
-  } else if (!item_nombre.value) {
-    badMessage.value = "Seleccione el bus";
-    showBad();
-  } else if (!Nmro_ticket.value) {
-    badMessage.value = "Especifique el numero de ticket";
-    showBad();
-  } else if (!fecha_venta.value) {
-    badMessage.value = "Seleccione la fecha de venta";
-    showBad();
->>>>>>> dab0da9a10145fd5f75d71fe6eeb253038c6945f
   } else {
     validacion.value = true;
   }
 }
-<<<<<<< HEAD
+}
 
 async function editaragregarFicha() {
   validar();
@@ -315,20 +288,6 @@ function limpiar() {
  presupuesto.value= " ";
  id_lote.value=  " ";
  id_item.value = " ";
-=======
-// async function EditarProducto(id){
-//   await obtenerInfo();
-//   await obteneritem();
-//   await obtenerlote();
-// }
-
-function limpiar() {
-presupuesto.value= " ";
-ote_nombre.value=  " ";
-tem_presupuesto.value = " ";
-item_nombre.value= " ";
-
->>>>>>> dab0da9a10145fd5f75d71fe6eeb253038c6945f
 }
 
 
