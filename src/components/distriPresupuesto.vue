@@ -91,10 +91,9 @@ let pagination = ref({ rowsPerPage: 0 })
 let Dispresupuestos = ref([]);
 async function obtenerInfo() {
   try {
-    await distriPresupuestoStore.obtenerInfoDispresupuestos();
+    const r = await distriPresupuestoStore.obtenerInfoDispresupuestos();
     Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
-    rows.value = distriPresupuestoStore.Dispresupuestos;
-    console.log("rows:",rows.value);
+    rows.value = r.reverse()
   } catch (error) {
     console.log(error);
   }
@@ -112,6 +111,7 @@ async function obtenerlote(){
     console.log(error);
   }
 }
+obtenerlote()
 
 async function obteneritem(){
   try {
@@ -120,11 +120,14 @@ async function obteneritem(){
       label: `${items.nombre} - ${items.presupuesto} `,
       value: String(items._id),
     }));
+
+    console.log(optionsitem);
   
   } catch (error) {
     console.log(error);
   }
 }
+obteneritem()
 const columns = [
   { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "presupuestoDisponible", label: "presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
