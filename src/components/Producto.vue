@@ -37,7 +37,7 @@
         </div>
       </q-card>
     </q-dialog>
-    <div style="width: 1000px;">
+    <div style="width: 55vw;">
       <div class="btn-agregar">
         <q-btn class="bg-secondary" label="Agregar Producto" @click="agregarProducto()" />
       </div>
