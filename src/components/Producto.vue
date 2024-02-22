@@ -21,7 +21,6 @@
               <q-input v-model="unidadMedida" label="Unidad de Medida" type="text" style="width: 300px" />
               <q-input v-model="precioUnitario" label="Precio Unitario" type="number" style="width: 300px" />
               <q-input v-model="iva" label="IVA" type="number" style="width: 300px" />
-              <q-input v-model="consumible" label="Consumible" type="text" style="width: 300px" />
             </q-card-section>
           </div>
 
@@ -182,15 +181,6 @@ function validar() {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Ingrese el IVA del producto por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (consumible.value == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Indique si el producto es consumible o no por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
