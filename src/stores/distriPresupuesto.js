@@ -7,7 +7,7 @@ export const usedistriPresupuesto = defineStore('Dispresupuesto', () => {
   
     const obtenerInfoDispresupuestos = async () => {
         try {
-            let responsedistripresupuesto = await axios.get('dispresupuesto/dispresupuesto');
+            Dispresupuestos.value = responsedistripresupuesto.data.Dispresupuesto;
             return responsedistripresupuesto.data.dispresupuesto
         } catch (error) {
             throw error
