@@ -1,50 +1,50 @@
 <template>
+  <div>
     <div>
-      <div>
-        <h1 style="text-align: center; margin-top: 50px;">Presupuesto fichas</h1>
-        <hr />
-      </div>
-      <!-- Modal -->
-      <q-dialog v-model="fixed">
-        <q-card class="modal-content">
-          <div class="contorno">
-            <q-card-section class="row items-center q-pb-none" style="color: black">
-              <div class="text-h6">{{ text }}</div>
-              <q-space />
+      <h1 style="text-align: center; margin-top: 50px;">Presupuesto fichas</h1>
+      <hr />
+    </div>
+    <!-- Modal -->
+    <q-dialog v-model="fixed">
+      <q-card class="modal-content">
+        <div class="contorno">
+          <q-card-section class="row items-center q-pb-none" style="color: black">
+            <div class="text-h6">{{ text }}</div>
+            <q-space />
+          </q-card-section>
+          <q-separator />
+          <div v-if="mostrarData">
+            <q-card-section style="max-height: 50vh" class="scroll">
+              <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
+              <q-input v-model="id_lote" options="optionslote" label="id lote" type="string" style="width: 300px" />
+              <q-input v-model="idDistribucionPresupuesto" options="optionsitem" label="id item" type="string" style="width: 300px" />
+
+
             </q-card-section>
-            <q-separator />
-            <div v-if="mostrarData">
-              <q-card-section style="max-height: 50vh" class="scroll">
-                <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
-                <q-input v-model="nivel_de_formacion" label="Nivel" type="string" style="width: 300px" />
-                <q-input v-model="fecha_inicio" type="date" style="width: 300px" />
-                <q-input v-model="ficha_fin" type="date" style="width: 300px" />
-  
-              </q-card-section>
-            </div>
-  
-            <div class="containerError" v-if="mostrarError">
-              <h4>{{ error }}</h4>
-            </div>
-  
-            <q-separator />
-  
-            <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
-              <button class="btn" v-close-popup>Cancelar</button>
-              <button @click="editaragregarFicha()" class="btn">Aceptar</button>
-            </q-card-actions>
           </div>
-        </q-card>
-      </q-dialog>
-      <div style="width: 1000px;">
-        <div class="btn-agregar">
-          <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" />
+
+          <div class="containerError" v-if="mostrarError">
+            <h4>{{ error }}</h4>
+          </div>
+
+          <q-separator />
+
+          <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
+            <button class="btn" v-close-popup>Cancelar</button>
+            <button @click="editaragregarFicha()" class="btn">Aceptar</button>
+          </q-card-actions>
         </div>
-        <div class="q-pa-md">
-      
-          <q-table  class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
-            :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
-            :columns="columns" style="height: 600px;">
+      </q-card>
+    </q-dialog>
+    <div style="width: 1000px;">
+      <div class="btn-agregar">
+        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarPresupuesto()" />
+      </div>
+      <div class="q-pa-md">
+
+        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
+          :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
+          :columns="columns" style="height: 600px;">
           <template v-slot:body-cell-estado="props">
             <q-td :props="props">
               <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
@@ -59,150 +59,214 @@
             </q-td>
           </template>
         </q-table>
-  
-        </div>
+
       </div>
     </div>
-  </template>
+  </div>
+</template>
       
-  <script setup>
-  import axios from "axios";
-  import { ref, onMounted } from "vue";
-  import { format } from "date-fns";
-  import { useFichaStore } from "../stores/ficha.js";
-  import { useQuasar } from "quasar";
-  const FichaStore = useFichaStore();
-  const $q = useQuasar();
-  let error = ref("Ingrese todos los datos para la creacion de un vendedor");
-  let text = ref("");
-  let rows = ref([]);
-  let fixed = ref(false);
-  let nombre = ref("");
-  let codigo_ficha = ref("");
-  let nivel_de_formacion = ref("");
-  let fecha_inicio = ref("");
-  let ficha_fin = ref("");
-  let cambio = ref(0);
-  let mostrarError = ref(false);
-  let mostrarData = ref(true);
-  let pagination = ref({ rowsPerPage: 0 })
-  let fichas = ref([]);
-  async function obtenerInfo() {
-    try {
-      await FichaStore.obtenerInfoFichas();
-      fichas.value = FichaStore.fichas;
-      rows.value = FichaStore.fichas;
-      console.log(FichaStore.fichas);
-    } catch (error) {
-      console.log(error);
-    }
+<script setup>
+import axios from "axios";
+import { ref, onMounted } from "vue";
+import { format } from "date-fns";
+import { useDistriLoteFicha } from "../stores/distriLoteFicha.js";
+import { useQuasar } from "quasar";
+import {useFichaStore} from "../stores/ficha.js";
+// import {useLoteStore} from "../stores/lote.js";
+import { usedistriPresupuesto } from "../stores/distriPresupuesto";
+const disLoteFichaStore = useDistriLoteFicha();
+const distriPresupuestoStore = usedistriPresupuesto()
+// const loteStore = useLoteStore();
+const fichaStore = useFichaStore();
+const $q = useQuasar();
+let error = ref("Ingrese todos los datos para la creacion de un vendedor");
+let text = ref("");
+let rows = ref([]);
+let fixed = ref(false);
+let id_lote = ref("");
+let presupuesto = ref("");
+let idDistribucionPresupuesto = ref("")
+// let idficha = ref("");
+let cambio = ref(0);
+let optionsitem = ref("");
+let optionslote = ref("");
+let mostrarError = ref(false);
+let mostrarData = ref(true);
+let pagination = ref({ rowsPerPage: 0 })
+let disLoteFicha = ref([]);
+async function obtenerInfo() {
+  try {
+    const r = await disLoteFichaStore.obtenerInfoDisLoteFicha();
+    disLoteFicha.value = disLoteFichaStore.disLoteFicha;
+    rows.value = r.reverse()
+    console.log(r);
+  } catch (error) {
+    console.log(error);
   }
+}
+
+
+
+async function obtenerFicha(){
+  try {
+    await fichaStore.obtenerInfoFichas();
+    optionsitem.value = fichaStore.fichas.map((fichas) => ({
+      label: `${fichas.nombre} - ${fichas.id} `,
+      value: String(fichas._id),
+    }));
+
+    console.log(optionsitem);
   
-  
-  const columns = [
-    { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
-    { name: "nivel_de_formacion", label: "Nivel", field: "nivel_de_formacion", sortable: true, align: "left" },
-    { name: "fecha_inicio", label: "fecha inicio", field: "fecha_inicio", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
-    { name: "ficha_fin", label: "ficha fin", field: "ficha_fin", format: (val) => format(new Date(val), "yyyy-MM-dd"), sortable: true, align: "left" },
-  
-    {
-      name: "estado",
-      label: "Estado",
-      field: "estado",
-      sortable: true,
-      align: "left",
-      format: (val) => (val ? "Activo" : "Inactivo"),
-    },
-    {
-      name: "opciones",
-      label: "Opciones",
-      field: (row) => null,
-      sortable: false,
-      align: "center",
-    },
-  ];
-  
-  function agregarFicha() {
-    fixed.value = true;
-    text.value = "Agregar Ficha";
-    cambio.value = 0;
-    limpiar();
+  } catch (error) {
+    console.log(error);
   }
-  function validar() {
-    if (codigo_ficha.value.toString().trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Digite el codigo de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
+}
+
+async function distriPresupuesto(){
+  try {
+    await distriPresupuestoStore.obtenerInfoDispresupuestos();
+    optionsitem.value = distriPresupuestoStore.Dispresupuestos.map(() => ({
+      label: `${fichas.nombre} - ${fichas.id} `,
+      value: String(fichas._id),
+    }));
+
+    console.log(optionsitem);
   
-    } else if (nombre.value.toString().trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Ingrese el nombre de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (nivel_de_formacion.value.toString().trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Indique el nivel de formacion de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (fecha_inicio.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Seleccione la hora de Inicio de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else if (ficha_fin.value.trim() == "") {
-      mostrarData.value = false;
-      mostrarError.value = true;
-      error.value = "Seleccione la hora de finalizacion de la ficha por favor";
-      setTimeout(() => {
-        mostrarData.value = true;
-        mostrarError.value = false;
-        error.value = "";
-      }, 2200);
-    } else {
-      validacion.value = true;
-    }
+  } catch (error) {
+    console.log(error);
   }
-  
-  async function editaragregarFicha() {
-    validar();
-    if (validacion.value === true) {
-      if (cambio.value === 0) {
-        if (nombre.value.trim() === '') {
-          mostrarData.value = false;
-          mostrarError.value = true;
-          error.value = "Por favor digite un nombre";
-          setTimeout(() => {
-            mostrarData.value = true;
-            mostrarError.value = false;
-            error.value = "";
-          }, 2200);
-          return;
+}
+
+const columns = [
+  { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
+  { name: "presupuestoDisponible", label: "Presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
+  { name: "idFicha", label: "Id ficha", field: val=>val.id_ficha.nombre, sortable: true, align: "left" },
+  { name: "idFicha", label: "Id ficha", field: val=>val.id_ficha.nombre, sortable: true, align: "left" },
+  // { name: "id_item", label: " Nombre del item", field: val=>val.id_item.nombre, sortable: true, align: "left" },
+  {
+    name: "estado",
+    label: "Estado",
+    field: "estado",
+    sortable: true,
+    align: "left",
+    format: (val) => (val ? "Activo" : "Inactivo"),
+  },
+  {
+    name: "opciones",
+    label: "Opciones",
+    field: (row) => null,
+    sortable: false,
+    align: "center",
+  },
+];
+
+function agregarPresupuesto() {
+  fixed.value = true;
+  text.value = "Agregar Presupuesto";
+  cambio.value = 0;
+  limpiar();
+}
+function validar() {
+
+  if (presupuesto.value.toString().trim() == "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Digite el codigo de la ficha por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+
+  } else if (id_lote.value.toString().trim() == "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Ingrese el lote de la ficha por favor";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+  } else if (id_item.value.toString().trim() == "") {
+    mostrarData.value = false;
+    mostrarError.value = true;
+    error.value = "Seleccione algun item";
+    setTimeout(() => {
+      mostrarData.value = true;
+      mostrarError.value = false;
+      error.value = "";
+    }, 2200);
+
+  if (
+    !presupuesto.value &&
+    !id_item.value&&
+    !id_lote.value
+  ) {
+    badMessage.value = "Por favor rellene los campos";
+    showBad();
+  } else {
+    validacion.value = true;
+  }
+}
+}
+
+async function editaragregarFicha() {
+  validar();
+  if (validacion.value === true) {
+    if (cambio.value === 0) {
+      if (id_lote.value.trim() === '') {
+        mostrarData.value = false;
+        mostrarError.value = true;
+        error.value = "Por favor digite un id_lote";
+        setTimeout(() => {
+          mostrarData.value = true;
+          mostrarError.value = false;
+          error.value = "";
+        }, 2200);
+        return;
+      }
+      try {
+        showDefault();
+        await distriPresupuestoStore.postFicha({
+         presupuesto : presupuesto.value,
+         id_lote : id_lote.value,
+         id_item : id_item.value,
+    
+        });
+        if (notification) {
+          notification();
         }
+        limpiar();
+        $q.notify({
+          spinner: false,
+          message: "Area Agregado",
+          timeout: 2000,
+          type: "positive",
+        });
+        console.log("a")
+        obtenerInfo();
+        fixed.value = false;
+
+      } catch (error) {
+        if (notification) {
+          notification();
+        }
+        $q.notify({
+          spinner: false,
+          // message: `${error.response.data.error.errors[0].msg}`,
+          timeout: 2000,
+          type: "negative",
+        });
+      }
+    } else {
+      let id = idFicha.value;
+      if (id) {
         try {
           showDefault();
-          await FichaStore.postFicha({
-            nombre: nombre.value,
-            codigo_ficha: codigo_ficha.value,
-            nivel_de_formacion: nivel_de_formacion.value,
-            fecha_inicio: fecha_inicio.value,
-            ficha_fin: ficha_fin.value,
+          await distriPresupuestoStore.putEditarFicha(id, {
+            presupuesto : presupuesto.value,
+         id_lote : id_lote.value,
+         id_item : id_item.value,
           });
           if (notification) {
             notification();
@@ -210,164 +274,121 @@
           limpiar();
           $q.notify({
             spinner: false,
-            message: "Area Agregado",
+            message: "Ficha Actualizada",
             timeout: 2000,
             type: "positive",
           });
-          console.log("a")
           obtenerInfo();
           fixed.value = false;
-  
         } catch (error) {
           if (notification) {
             notification();
           }
           $q.notify({
             spinner: false,
-            // message: `${error.response.data.error.errors[0].msg}`,
+            /*  message: ${error.response.data.error.errors[0].msg}, */
             timeout: 2000,
             type: "negative",
           });
         }
-      } else {
-        let id = idFicha.value;
-        if (id) {
-          try {
-            showDefault();
-            await FichaStore.putEditarFicha(id, {
-              nombre: nombre.value,
-              codigo_ficha: codigo_ficha.value,
-              nivel_de_formacion: nivel_de_formacion.value,
-              fecha_inicio: fecha_inicio.value,
-              ficha_fin: ficha_fin.value,
-            });
-            if (notification) {
-              notification();
-            }
-            limpiar();
-            $q.notify({
-              spinner: false,
-              message: "Ficha Actualizada",
-              timeout: 2000,
-              type: "positive",
-            });
-            obtenerInfo();
-            fixed.value = false;
-          } catch (error) {
-            if (notification) {
-              notification();
-            }
-            $q.notify({
-              spinner: false,
-              /*  message: ${error.response.data.error.errors[0].msg}, */
-              timeout: 2000,
-              type: "negative",
-            });
-          }
-        }
       }
-      validacion.value = false;
     }
+    validacion.value = false;
   }
-  
-  function limpiar() {
-    codigo_ficha.value = "";
-    nombre.value = "";
-    nivel_de_formacion.value = "";
-    fecha_inicio.value = "";
-    ficha_fin.value = "";
-  
-  }
-  
-  
-  let validacion = ref(false);
-  let notification = ref(null);
-  const showDefault = () => {
-    notification = $q.notify({
-      spinner: true,
-      message: "Please wait...",
-      timeout: 0,
-    });
-  };
-  
-  
-  
-  onMounted(async () => {
-    obtenerInfo();
+}
+
+function limpiar() {
+ presupuesto.value= " ";
+ id_lote.value=  " ";
+ id_item.value = " ";
+}
+
+
+let validacion = ref(false);
+let notification = ref(null);
+const showDefault = () => {
+  notification = $q.notify({
+    spinner: true,
+    message: "Please wait...",
+    timeout: 0,
   });
-  // function getTodayDate() {
-  //   const today = new Date();
-  //   const year = today.getFullYear();
-  //   const month = (today.getMonth() + 1).toString().padStart(2, "0");
-  //   const day = today.getDate().toString().padStart(2, "0");
-  //   return `${year}-${month}-${day}`;
-  // }
-  
-  let idFicha = ref("")
-  function editarFicha(data) {
-    fixed.value = true;
-    idFicha.value = String(data._id)
-    nombre.value = data.nombre
-    codigo_ficha.value = data.codigo_ficha
-    nivel_de_formacion.value = data.nivel_de_formacion
-    fecha_inicio.value = format(new Date(data.fecha_inicio), 'yyyy-MM-dd')
-    ficha_fin.value = format(new Date(data.ficha_fin), 'yyyy-MM-dd')
-    cambio.value = 1;
-  }
-  async function inactivarFicha(id) {
-    try {
-      showDefault();
-      await FichaStore.putInactivarFicha(id);
-      if (notification) {
-        notification();
-      }
-      $q.notify({
-        spinner: false,
-        message: "Lote Inactivo",
-        timeout: 2000,
-        type: "positive",
-      });
-      obtenerInfo();
-    } catch (error) {
-      if (notification) {
-        notification();
-      }
-      $q.notify({
-        spinner: false,
-        // message: ${error.response.data.error.errors[0].msg},
-        timeout: 2000,
-        type: "negative",
-      });
+};
+
+
+
+onMounted(async () => {
+  obtenerInfo();
+});
+// function getTodayDate() {
+//   const today = new Date();
+//   const year = today.getFullYear();
+//   const month = (today.getMonth() + 1).toString().padStart(2, "0");
+//   const day = today.getDate().toString().padStart(2, "0");
+//   return `${year}-${month}-${day}`;
+// }
+
+let idFicha = ref("")
+function editarFicha(data) {
+  fixed.value = true;
+  id_lote.value = data.id_lote
+  presupuesto.value = data.presupuesto
+  id_item.value = data.id_item
+  cambio.value = 1;
+}
+async function inactivarFicha(id) {
+  try {
+    showDefault();
+    await distriPresupuestoStore.putInactivarFicha(id);
+    if (notification) {
+      notification();
     }
-  }
-  
-  async function activarFicha(id) {
-    try {
-      showDefault();
-      await FichaStore.putActivarFicha(id);
-      if (notification) {
-        notification();
-      }
-      $q.notify({
-        spinner: false,
-        message: "Lote Activo",
-        timeout: 2000,
-        type: "positive",
-      });
-      obtenerInfo();
-    } catch (error) {
-      if (notification) {
-        notification();
-      }
-      $q.notify({
-        spinner: false,
-        // message: ${error.response.data.error.errors[0].msg},
-        timeout: 2000,
-        type: "negative",
-      });
+    $q.notify({
+      spinner: false,
+      message: "Lote Inactivo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
     }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
   }
-  </script>
+}
+
+async function activarFicha(id) {
+  try {
+    showDefault();
+    await distriPresupuestoStore.putActivarFicha(id);
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      message: "Lote Activo",
+      timeout: 2000,
+      type: "positive",
+    });
+    obtenerInfo();
+  } catch (error) {
+    if (notification) {
+      notification();
+    }
+    $q.notify({
+      spinner: false,
+      // message: ${error.response.data.error.errors[0].msg},
+      timeout: 2000,
+      type: "negative",
+    });
+  }
+}
+</script>
       
   <style scoped>
   .modal-content {
@@ -488,35 +509,35 @@
   .inac {
     /*   display: flex;
         align-items: center; */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 5px;
-    margin: 0;
-    background-color: transparent;
-  }
-  
-  .botones .edi i {
-    font-size: 20px;
-  }
-  
-  .inac i {
-    font-size: 25px;
-    color: red;
-  }
-  
-  .btn {
-    font-family: "Letra";
-    width: 100px;
-    font-size: 18px;
-    border-radius: 5px;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
-  }
-  </style>
-  <style lang="sass">
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0;
+  background-color: transparent;
+}
+
+.botones .edi i {
+  font-size: 20px;
+}
+
+.inac i {
+  font-size: 25px;
+  color: red;
+}
+
+.btn {
+  font-family: "Letra";
+  width: 100px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+}
+</style>
+<style lang="sass">
       
       </style>
       
