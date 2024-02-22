@@ -328,18 +328,20 @@ onMounted(async () => {
 <style scoped>
 
 .modal-content {
+  width: 380px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background: -webkit-linear-gradient(bottom, #167e45, #548b36);
+  background-color: #2aac4b;
   border-radius: 3%;
 }
 
 .contorno {
   background-color: rgb(255, 255, 255);
-  height: 100%;
-  width: 100%;
+  height: 95%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -375,7 +377,7 @@ hr {
   background-color: green;
   height: 2px;
   border: none;
-  width: 363px;
+  width: 320px;
   margin-bottom: 1%;
 }
 

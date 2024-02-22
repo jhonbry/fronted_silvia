@@ -21,7 +21,6 @@
               <q-input v-model="unidadMedida" label="Unidad de Medida" type="text" style="width: 300px" />
               <q-input v-model="precioUnitario" label="Precio Unitario" type="number" style="width: 300px" />
               <q-input v-model="iva" label="IVA" type="number" style="width: 300px" />
-              <q-input v-model="consumible" label="Consumible" type="text" style="width: 300px" />
             </q-card-section>
           </div>
 
@@ -182,15 +181,6 @@ function validar() {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Ingrese el IVA del producto por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  } else if (consumible.value == "") {
-    mostrarData.value = false;
-    mostrarError.value = true;
-    error.value = "Indique si el producto es consumible o no por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -427,20 +417,20 @@ function getTodayDate() {
     
 <style scoped>
 .modal-content {
-  width: 480px;
-  height: 500px;
+  width: 540px;
+  height: 610px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background-color: #2aac4b;
   border-radius: 3%;
 }
 
 .contorno {
   background-color: white;
-  height: 90%;
-  width: 90%;
+  height: 95%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   justify-content: center;

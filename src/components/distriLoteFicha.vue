@@ -382,124 +382,124 @@ async function activarFicha(id) {
 }
 </script>
       
-<style scoped>
-.modal-content {
-  width: 480px;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
-  border-radius: 3%;
-}
-
-.contorno {
-  background-color: white;
-  height: 90%;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.botones button {
-  margin: 2px;
-}
-
-.btn-agregar {
-  width: 100%;
-  margin-bottom: 5px;
-  display: flex;
-  justify-content: left;
-  color: white;
-  margin-left: 19px;
-}
-
-.body {
-  padding: 30px;
-  margin: 0;
-  text-transform: capitalize;
-}
-
-.containerBoton {
-  display: flex;
-  justify-content: center;
-}
-
-hr {
-  background-color: green;
-  height: 2px;
-  border: none;
-  width: 363px;
-  margin-bottom: 1%;
-}
-
-.containerError {
-  background-color: rgba(255, 0, 0, 0.429);
-  padding: 15px;
-  text-align: center;
-  font-family: "Letra";
-  font-weight: bold;
-  width: 310px;
-  border: 3px solid red;
-  margin-bottom: 5px;
-  height: 180px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 80px;
-}
-
-.containerError h4 {
-  font-size: 25px;
-  margin: 0;
-  padding: 0;
-}
-
-h1 {
-  font-family: "Letra";
-  text-align: center;
-  margin: 0;
-  align-items: center;
-  margin-top: 2%;
-}
-
-.text-h6 {
-  font-size: 28px;
-  font-family: "Letra";
-  margin-bottom: 10px;
-}
-
-.botones .edi {
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 7px;
-  background-color: transparent;
-}
-
-.botones .edi:hover {
-  transform: scale(1.05);
-  transition: all 0.5s;
-}
-
-.botones .act {
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 7px;
-  background-color: transparent;
-}
-
-.act i {
-  font-size: 22px;
-  color: green;
-}
-
-.inac {
-  /*   display: flex;
+  <style scoped>
+  .modal-content {
+    width: 480px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #2aac4b;
+    border-radius: 3%;
+  }
+  
+  .contorno {
+    background-color: white;
+    height: 95%;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .botones button {
+    margin: 2px;
+  }
+  
+  .btn-agregar {
+    width: 100%;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: left;
+    color: white;
+    margin-left: 19px;
+  }
+  
+  .body {
+    padding: 30px;
+    margin: 0;
+    text-transform: capitalize;
+  }
+  
+  .containerBoton {
+    display: flex;
+    justify-content: center;
+  }
+  
+  hr {
+    background-color: green;
+    height: 2px;
+    border: none;
+    width: 363px;
+    margin-bottom: 1%;
+  }
+  
+  .containerError {
+    background-color: rgba(255, 0, 0, 0.429);
+    padding: 15px;
+    text-align: center;
+    font-family: "Letra";
+    font-weight: bold;
+    width: 310px;
+    border: 3px solid red;
+    margin-bottom: 5px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+  }
+  
+  .containerError h4 {
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1 {
+    font-family: "Letra";
+    text-align: center;
+    margin: 0;
+    align-items: center;
+    margin-top: 2%;
+  }
+  
+  .text-h6 {
+    font-size: 28px;
+    font-family: "Letra";
+    margin-bottom: 10px;
+  }
+  
+  .botones .edi {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 7px;
+    background-color: transparent;
+  }
+  
+  .botones .edi:hover {
+    transform: scale(1.05);
+    transition: all 0.5s;
+  }
+  
+  .botones .act {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 7px;
+    background-color: transparent;
+  }
+  
+  .act i {
+    font-size: 22px;
+    color: green;
+  }
+  
+  .inac {
+    /*   display: flex;
         align-items: center; */
   border: none;
   border-radius: 5px;

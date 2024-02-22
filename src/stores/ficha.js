@@ -9,6 +9,7 @@ export const useFichaStore = defineStore('ficha', () => {
         try {
             let responseFichas = await axios.get('ficha/all');
             fichas.value = responseFichas.data.ficha;
+            return responseFichas.data.ficha
         } catch (error) {
             throw error
         }

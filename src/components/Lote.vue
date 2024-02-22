@@ -167,6 +167,14 @@ const columns = [
   },
 ];
 
+function mostrarErrores(msg) {
+  notification = $q.notify({
+    type: 'negative',
+    message: msg,
+    timeout: 2000,
+  });
+};
+
 function agregarLote() {
   fixed.value = true;
   text.value = "Agregar Lote";
@@ -213,10 +221,21 @@ async function editarAgregarLote() {
       }
       try {
         showDefault();
-        await loteStore.postLote({
+        const respuestas = await loteStore.postLote({
           nombre: nombre.value,
           codigo: codigo.value,
         });
+
+        console.log(respuestas);
+
+        if (respuestas.error) {
+          setTimeout(() => {
+          mostrarErrores(respuestas.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
+          return;
+        }
+
         if (notification) {
           notification();
         }
@@ -245,10 +264,19 @@ async function editarAgregarLote() {
       if (id) {
         try {
           showDefault();
-          await loteStore.putEditarLote(id, {
+          const respuesta =await loteStore.putEditarLote(id, {
+            _id: idLote.value,
             nombre: nombre.value,
             codigo: codigo.value,
           });
+
+          if (respuesta.error) {
+          setTimeout(() => {
+          mostrarErrores(respuesta.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
+          return;
+        }
           if (notification) {
             notification();
           }
@@ -262,6 +290,7 @@ async function editarAgregarLote() {
           obtenerInfo();
           fixed.value = false;
         } catch (error) {
+          console.log(error);
           if (notification) {
             notification();
             console.log(notification);
@@ -364,19 +393,19 @@ onMounted(async () => {
   <style scoped>
 .modal-content {
   width: 480px;
-  height: 500px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background-color: #2aac4b;
   border-radius: 3%;
 }
 
 .contorno {
   background-color: white;
-  height: 90%;
-  width: 90%;
+  height: 95%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   justify-content: center;
