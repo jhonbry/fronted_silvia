@@ -18,13 +18,26 @@
           <q-separator />
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
-              <q-input v-model="Fechacreacion" label="Fecha Creacion" style="width: 300px" />
-              <q-select v-model="idFicha" :options="rutas" label="Id Ficha" option-value="id" option-label="codigo_ficha" style="width: 300px" />
-              <q-select v-model="IdInstructorEncargado" :options="instructores" label="Nombre" option-value="id" style="width: 300px" />
+              <!-- <q-input v-model="fechacreacion" label="Fecha Creacion" type="date" style="width: 300px" /> -->
+              <q-input filled v-model="fechacreacion" mask="date" :rules="['date']">
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+            <q-date v-model="fechacreacion">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
+              <q-select v-model="idficha" :options="OpcionesFicha" label="Id Ficha"  style="width: 300px" />
+              <q-select v-model="idInstructorEncargado" :options="OpcionesUsuario" label="Nombre" option-value="id" style="width: 300px" />
               <q-input
               type="number"
-                v-model="Total"
-                label="Total"
+                v-model="total"
+                label="total"
                 style="width: 300px"
               />
             </q-card-section>
@@ -85,6 +98,8 @@ import axios from "axios";
 import { ref, onMounted } from "vue";
 import { format } from "date-fns";
 import { usePedidoStore } from "../stores/pedido.js";
+import { useFichaStore} from "../stores/ficha.js"
+import { useUsuarioStore } from "../stores/usuario.js"
 import { useQuasar } from "quasar";
 const PedidoStore = usePedidoStore();
 const $q = useQuasar();
@@ -93,10 +108,10 @@ let text = ref("");
 let rutas = ref([]);
 let rows = ref([]);
 let fixed = ref(false);
-let Fechacreacion = ref("");
-let Total = ref("");
-let idFicha = ref("");
-let IdInstructorEncargado = ref("");
+let fechacreacion = ref("");
+let total = ref("");
+let idficha = ref("");
+let idInstructorEncargado = ref("");
 let cambio = ref(0);
 let mostrarError = ref(false);
 let mostrarData = ref(true);
@@ -107,14 +122,16 @@ async function obtenerInfo() {
     await PedidoStore.obtenerpedido();
     pedidos.value = PedidoStore.pedidos;
     rows.value = PedidoStore.pedidos;
+    // console.log(rows.value);
   } catch (error) {
     console.log(error);
   }
 }
 
+
 const columns = [
   {
-    name: "Fechacreacion",
+    name: "fechacreacion",
     label: "Fecha creacion",
     field: "fechacreacion",
     format: (val) => format(new Date(val), "yyyy-MM-dd"),
@@ -122,14 +139,14 @@ const columns = [
     align: "left",
   },
   {
-    name: "idFicha",
+    name: "idficha",
     label: "Codigo Ficha",
     field: (val) => val.idficha.codigo_ficha,
     sortable: true,
     align: "left",
   },
   {
-    name: "IdInstructorEncargado",
+    name: "idInstructorEncargado",
     label: "Nombre",
     field: (val)=> val.idInstructorEncargado.nombre,
     sortable: true,
@@ -137,8 +154,8 @@ const columns = [
   },
 
   {
-    name: "Total",
-    label: "Total",
+    name: "total",
+    label: "total",
     field: "total",
     sortable: true,
     align: "left",
@@ -168,16 +185,16 @@ function agregarPedido() {
   limpiar();
 }
 function validar() {
-  if (Fechacreacion.value.trim() == "") {
+  if (fechacreacion.value.trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el Fechacreacion del pedido por favor";
+    error.value = "Digite el fechacreacion del pedido por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  }if (idFicha.value.trim() == "") {
+  }if (idficha.value == null) {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Digite el IdFicha del pedido por favor";
@@ -186,7 +203,7 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  }if (IdInstructorEncargado.value.trim() == "") {
+  }if (idInstructorEncargado.value == null) {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Digite el IdInstructirEncargado del pedido por favor";
@@ -195,10 +212,10 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-  } else if (Total.value.toString().trim() == "") {
+  } else if (total.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el Total del Lote por favor";
+    error.value = "Digite el total del Lote por favor";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -212,10 +229,10 @@ async function editarAgregarPedio() {
   validar();
   if (validacion.value === true) {
     if (cambio.value === 0) {
-      if (Fechacreacion.value.trim() === "") {
+      if (fechacreacion.value.trim() === "") {
         mostrarData.value = false;
         mostrarError.value = true;
-        error.value = "Por favor digite un Fechacreacion";
+        error.value = "Por favor digite un fechacreacion";
         setTimeout(() => {
           mostrarData.value = true;
           mostrarError.value = false;
@@ -226,10 +243,10 @@ async function editarAgregarPedio() {
       try {
         showDefault();
         await PedidoStore.postpedido({
-          Fechacreacion: Fechacreacion.value,
-          idFicha: idFicha.value,
-          IdInstructorEncargado: IdInstructorEncargado.value,
-          Total: Total.value,
+          fechacreacion: fechacreacion.value,
+          idficha: idficha.value.value,
+          idInstructorEncargado: idInstructorEncargado.value.value,
+          total: total.value,
         });
         if (notification) {
           notification();
@@ -241,7 +258,7 @@ async function editarAgregarPedio() {
           timeout: 2000,
           type: "positive",
         });
-        console.log("a");
+        // console.log("a");
         obtenerInfo();
       } catch (error) {
         if (notification) {
@@ -260,10 +277,10 @@ async function editarAgregarPedio() {
         try {
           showDefault();
           await PedidoStore.putEditarpedido(id, {
-          Fechacreacion: Fechacreacion.value,
-          idFicha: idFicha.value,
-          IdInstructorEncargado: IdInstructorEncargado.value,
-          Total: Total.value,
+          fechacreacion: fechacreacion.value,
+          idficha: idficha.value,
+          idInstructorEncargado: idInstructorEncargado.value,
+          total: total.value,
           });
           if (notification) {
             notification();
@@ -299,18 +316,18 @@ function editarPedido(data) {
   console.log(data);
   idPedido.value = String(data._id)
   fixed.value = true;
-  Fechacreacion.value = format(new Date(data.fechacreacion), "yyyy-MM-dd")
-  IdInstructorEncargado.value = data.idInstructorEncargado.nombre
-  idFicha.value = data.idficha.codigo_ficha
-  Total.value = data.total
+  fechacreacion.value = format(new Date(data.fechacreacion), "yyyy-MM-dd")
+  idInstructorEncargado.value = data.idInstructorEncargado.nombre
+  idficha.value = data.idficha.codigo_ficha
+  total.value = data.total
   cambio.value = 1;
 }
 
 function limpiar() {
-  Fechacreacion.value = "";
-  idFicha.value = "";
-  IdInstructorEncargado.value = "";
-  Total.value = "";
+  fechacreacion.value = "";
+  idficha.value = "";
+  idInstructorEncargado.value = "";
+  total.value = "";
 }
 
 
@@ -354,6 +371,7 @@ async function inactivarPedido(id) {
   }
 }
 
+
 async function activarPedido(id) {
   try {
     showDefault();
@@ -381,6 +399,53 @@ async function activarPedido(id) {
   }
 }
 
+const useFicha = useFichaStore();
+const OpcionesFicha = ref([])
+async function obtenerOptions() {
+  try {
+    const responseFichas = await useFicha.obtenerInfoFichas();
+    console.log(responseFichas);
+
+    const fichas = responseFichas.filter(ficha=>ficha.estado==true)
+
+    OpcionesFicha.value = fichas.map((ficha) => {
+      return {
+        label:
+          ficha.codigo_ficha +
+          " / " + ficha.nombre,
+        value: ficha._id,
+      };
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+obtenerOptions()
+
+const useUsuario = useUsuarioStore();
+const OpcionesUsuario = ref([])
+async function obtenerOptionsotro() {
+  try {
+    const responseUsuario = await useUsuario.obtenerusuario();
+    console.log(responseUsuario);
+
+    const Usuarios = responseUsuario.filter(usuario=>usuario.estado==true)
+
+    OpcionesUsuario.value = Usuarios.map((usuario) => {
+      return {
+        label:
+          usuario.usuario +
+          " / " + usuario.nombre,
+        value: usuario._id,
+      };
+    });
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+obtenerOptionsotro()
 
 
 onMounted(async () => {

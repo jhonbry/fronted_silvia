@@ -7,9 +7,9 @@ export const usePedidoStore = defineStore('pedido', () => {
   const obtenerpedido = async () => {
     try {
       let responsepedido = await axios.get('pedido/all');
-      console.log(responsepedido);
+      // console.log(responsepedido);
       pedidos.value = responsepedido.data.pedido;
-      console.log(responsepedido.data.pedido);
+      // console.log(responsepedido.data.pedido);
     } catch (error) {
       console.log(error);
       throw error;
@@ -19,8 +19,10 @@ export const usePedidoStore = defineStore('pedido', () => {
   const postpedido = async (data) => {
     try {
       let res = await axios.post('pedido/agregar', data);
+      console.log(res);
       return res;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   };
