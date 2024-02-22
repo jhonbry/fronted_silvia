@@ -29,7 +29,7 @@
         show-if-above
         v-model="leftDrawerOpen"
         side="left"
-        behavior="desktop"
+        behavior="mobile"
         elevated
       >
         <!-- Empty drawer -->
@@ -63,7 +63,7 @@
         </div>
       </q-drawer>
 
-      <q-page-container style="padding-top: 50px">
+      <q-page-container style="padding-top: 50px; width:100%">
         <router-view></router-view>
       </q-page-container>
     </q-layout>

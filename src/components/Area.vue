@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div >
     <div>
       <h1 style="text-align: center; margin-top: 50px;">Area</h1>
-      <hr />
+      <hr /> <br>
     </div>
     <!-- Modal -->
     <q-dialog v-model="fixed">
+      
       <q-card class="modal-content">
         <div class="contorno">
           <q-card-section class="row items-center q-pb-none" style="color: black">
@@ -18,21 +19,19 @@
               <q-input v-model="nombre" label="nombre" style="width: 300px" />
             </q-card-section>
           </div>
-
-          <div class="containerError" v-if="mostrarError">
-            <h4>{{ error }}</h4>
-          </div>
-
           <q-separator />
-
           <q-card-actions align="center" style="gap: 30px; margin-top: 10px">
             <button class="btn" v-close-popup>Cancelar</button>
             <button @click="editarAgregarArea()" class="btn">Aceptar</button>
+            <div class="containerError" v-if="mostrarError">
+            <h4>{{ error }}</h4>
+          </div>
           </q-card-actions>
         </div>
       </q-card>
     </q-dialog>
-    <div style="width: 1000px;">
+    <div >
+      <div style="width: 40vw;">
       <div class="btn-agregar">
         <q-btn class="bg-secondary" label="Agregar ruta" @click="agregarRuta()" />
       </div>
@@ -48,7 +47,7 @@
           row-key="index"
           :rows="rows"
           :columns="columns"
-          style="height: 60vh"
+          
         >
           <template v-slot:body-cell-estado="props">
             <q-td :props="props">
@@ -82,6 +81,8 @@
           </template>
         </q-table>
       </div>
+
+    </div>
 
     </div>
   </div>
@@ -327,9 +328,10 @@ onMounted(async () => {
 
 <style scoped>
 
+
 .modal-content {
-  width: 380px;
-  height: 300px;
+  width: 480px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -387,18 +389,14 @@ hr {
   text-align: center;
   font-family: "Letra";
   font-weight: bold;
-  width: 310px;
   border: 3px solid red;
-  margin-bottom: 5px;
-  height: 180px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 80px;
 }
 
 .containerError h4 {
-  font-size: 25px;
+  font-size: 15px;
   margin: 0;
   padding: 0;
 }
@@ -444,8 +442,6 @@ h1 {
 }
 
 .inac {
-  /*   display: flex;
-  align-items: center; */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -473,7 +469,6 @@ h1 {
   cursor: pointer;
   background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
 }
-
 
 </style>
 
