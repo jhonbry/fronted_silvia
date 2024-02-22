@@ -9,7 +9,12 @@
               <img :src="avatar" />
             </q-avatar>
           </q-toolbar-title>
-          <q-btn color="white" dense flat round icon="settings" id="settings">
+          <q-fab color="green" glossy icon="settings" direction="down">
+            <router-link to="/">
+               <q-fab-action color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center" />
+            </router-link>
+      </q-fab>
+          <!-- <q-btn color="white" dense flat round icon="settings" id="settings">
             <q-menu transition-show="jump-down" transition-hide="jump-up">
               <q-list style="min-width: 100px; text-align: center">
                 <q-item clickable>
@@ -21,7 +26,7 @@
                 </router-link>
               </q-list>
             </q-menu>
-          </q-btn>
+          </q-btn> -->
         </q-toolbar>
       </q-header>
 
@@ -183,5 +188,9 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+a[data-v-08e32229]{
+  margin-right: 1.5vw;
 }
 </style>

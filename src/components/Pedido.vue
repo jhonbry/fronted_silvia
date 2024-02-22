@@ -19,7 +19,7 @@
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
               <!-- <q-input v-model="fechacreacion" label="Fecha Creacion" type="date" style="width: 300px" /> -->
-              <q-input filled v-model="fechacreacion" mask="date" :rules="['date']">
+              <q-input filled v-model="fechacreacion" label="Fecha" mask="date" :rules="['date']">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -32,14 +32,9 @@
         </q-icon>
       </template>
     </q-input>
-              <q-select v-model="idficha" :options="OpcionesFicha" label="Id Ficha"  style="width: 300px" />
-              <q-select v-model="idInstructorEncargado" :options="OpcionesUsuario" label="Nombre" option-value="id" style="width: 300px" />
-              <q-input
-              type="number"
-                v-model="total"
-                label="total"
-                style="width: 300px"
-              />
+              <q-select filled v-model="idficha" :options="OpcionesFicha" label="Id Ficha" emit-value map-options style="min-width: 250px; max-width: 300px"/><br>
+              <q-select filled v-model="idInstructorEncargado" :options="OpcionesUsuario" label="Encargado" emit-value map-options style="min-width: 250px; max-width: 300px"/><br>
+              <q-input filled type="number" v-model="total" label="Total" emit-value map-options style="min-width: 250px; max-width: 350px"/>
             </q-card-section>
           </div>
 
@@ -78,6 +73,14 @@
           :columns="columns"
           style="height: 600px"
         >
+        <template v-slot:body-cell-estado="props">
+            <q-td :props="props">
+              <label for="" v-if="props.row.estado == 1" style="color: green"
+                >Activo</label
+              >
+              <label for="" v-else style="color: red">Inactivo</label>
+            </q-td>
+          </template>
           <template v-slot:body-cell-opciones="props">
             <q-td :props="props" class="botones">
               <q-btn glossy label="❌" @click="inactivarPedido(props.row._id)" v-if="props.row.estado == 1" />
@@ -189,41 +192,31 @@ function validar() {
     mostrarData.value = false;
     mostrarError.value = true;
     error.value = "Digite el fechacreacion del pedido por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  }if (idficha.value == null) {
+  } else if (idficha.value == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el IdFicha del pedido por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
-  }if (idInstructorEncargado.value == null) {
+    error.value = "Seleccione una de la fichas";
+  } else if (idInstructorEncargado.value == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el IdInstructirEncargado del pedido por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
+    error.value = "Seleccione un encargado";
   } else if (total.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "Digite el total del Lote por favor";
-    setTimeout(() => {
-      mostrarData.value = true;
-      mostrarError.value = false;
-      error.value = "";
-    }, 2200);
+    error.value = "Cunato dinero va a tener el pedido";
   } else {
+    mostrarData.value = true;
+    mostrarError.value = false;
+    error.value = "";
     validacion.value = true;
   }
+
+  // Restablecer los mensajes de error después de un tiempo
+  setTimeout(() => {
+    mostrarData.value = true;
+    mostrarError.value = false;
+    error.value = "";
+  }, 2200);
 }
 async function editarAgregarPedio() {
   validar();
