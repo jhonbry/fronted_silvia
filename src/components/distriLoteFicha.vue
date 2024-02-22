@@ -377,14 +377,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+    background-color: #2aac4b;
     border-radius: 3%;
   }
   
   .contorno {
     background-color: white;
-    height: 90%;
-    width: 90%;
+    height: 95%;
+    width: 95%;
     display: flex;
     flex-direction: column;
     justify-content: center;

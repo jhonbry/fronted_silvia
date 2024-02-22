@@ -8,6 +8,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
     try {
       let responseusuario = await axios.get('usuario/usuario');
       usuarios.value = responseusuario.data.usuario;
+      return responseusuario.data.usuario
     } catch (error) {
       throw error;
     }
