@@ -17,7 +17,7 @@
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
               <q-input v-model="id_lote" options="optionslote" label="id lote" type="string" style="width: 300px" />
-              <q-input v-model="id_item" options="optionsitem" label="id item" type="string" style="width: 300px" />
+              <q-input v-model="idDistribucionPresupuesto" options="optionsitem" label="id item" type="string" style="width: 300px" />
 
 
             </q-card-section>
@@ -72,9 +72,11 @@ import { format } from "date-fns";
 import { useDistriLoteFicha } from "../stores/distriLoteFicha.js";
 import { useQuasar } from "quasar";
 import {useFichaStore} from "../stores/ficha.js";
-import {useLoteStore} from "../stores/lote.js";
+// import {useLoteStore} from "../stores/lote.js";
+import { usedistriPresupuesto } from "../stores/distriPresupuesto";
 const disLoteFichaStore = useDistriLoteFicha();
-const loteStore = useLoteStore();
+const distriPresupuestoStore = usedistriPresupuesto()
+// const loteStore = useLoteStore();
 const fichaStore = useFichaStore();
 const $q = useQuasar();
 let error = ref("Ingrese todos los datos para la creacion de un vendedor");
@@ -83,6 +85,7 @@ let rows = ref([]);
 let fixed = ref(false);
 let id_lote = ref("");
 let presupuesto = ref("");
+let idDistribucionPresupuesto = ref("")
 // let idficha = ref("");
 let cambio = ref(0);
 let optionsitem = ref("");
@@ -102,24 +105,12 @@ async function obtenerInfo() {
   }
 }
 
-async function obtenerlote(){
-  try {
-    await loteStore.obtenerInfoLotes();
-    optionslote.value = loteStore.lotes.map((Lote) => ({
-      label: `${Lote.nombre} `,
-      value: String(Lote._id),
-    }));
-  console.log(optionslote);
-  } catch (error) {
-    console.log(error);
-  }
-}
-obtenerlote()
+
 
 async function obtenerFicha(){
   try {
     await fichaStore.obtenerInfoFichas();
-    optionsitem.value = fichaStore.items.map((fichas) => ({
+    optionsitem.value = fichaStore.fichas.map((fichas) => ({
       label: `${fichas.nombre} - ${fichas.id} `,
       value: String(fichas._id),
     }));
@@ -130,9 +121,26 @@ async function obtenerFicha(){
     console.log(error);
   }
 }
+
+async function distriPresupuesto(){
+  try {
+    await distriPresupuestoStore.obtenerInfoDispresupuestos();
+    optionsitem.value = distriPresupuestoStore.Dispresupuestos.map(() => ({
+      label: `${fichas.nombre} - ${fichas.id} `,
+      value: String(fichas._id),
+    }));
+
+    console.log(optionsitem);
+  
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const columns = [
   { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "presupuestoDisponible", label: "Presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
+  { name: "idFicha", label: "Id ficha", field: val=>val.id_ficha.nombre, sortable: true, align: "left" },
   { name: "idFicha", label: "Id ficha", field: val=>val.id_ficha.nombre, sortable: true, align: "left" },
   // { name: "id_item", label: " Nombre del item", field: val=>val.id_item.nombre, sortable: true, align: "left" },
   {
