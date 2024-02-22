@@ -167,6 +167,14 @@ const columns = [
   },
 ];
 
+function mostrarErrores(msg) {
+  notification = $q.notify({
+    type: 'negative',
+    message: msg,
+    timeout: 2000,
+  });
+};
+
 function agregarLote() {
   fixed.value = true;
   text.value = "Agregar Lote";
@@ -213,10 +221,21 @@ async function editarAgregarLote() {
       }
       try {
         showDefault();
-        await loteStore.postLote({
+        const respuestas = await loteStore.postLote({
           nombre: nombre.value,
           codigo: codigo.value,
         });
+
+        console.log(respuestas);
+
+        if (respuestas.error) {
+          setTimeout(() => {
+          mostrarErrores(respuestas.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
+          return;
+        }
+
         if (notification) {
           notification();
         }
@@ -245,10 +264,19 @@ async function editarAgregarLote() {
       if (id) {
         try {
           showDefault();
-          await loteStore.putEditarLote(id, {
+          const respuesta =await loteStore.putEditarLote(id, {
+            _id: idLote.value,
             nombre: nombre.value,
             codigo: codigo.value,
           });
+
+          if (respuesta.error) {
+          setTimeout(() => {
+          mostrarErrores(respuesta.error.errors[0].msg);
+            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+          }, 2000);
+          return;
+        }
           if (notification) {
             notification();
           }
@@ -262,6 +290,7 @@ async function editarAgregarLote() {
           obtenerInfo();
           fixed.value = false;
         } catch (error) {
+          console.log(error);
           if (notification) {
             notification();
             console.log(notification);
