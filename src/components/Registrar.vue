@@ -81,7 +81,7 @@
       <div class="bot">
       <button class="button2">
         <router-link to="/Inicio">
-          <span class="lable">Atras</span>
+          <span class="lable">Cancelar</span>
             </router-link>
       </button>
       <button type="submit" class="submit">Registrar</button>
