@@ -50,13 +50,12 @@
       </div>
       <div class="bot">
       <button class="button2">
-        <router-link to="/Inicio">
+        <router-link to="/Usuario">
           <span class="lable">Cancelar</span>
             </router-link>
       </button>
       <button type="submit" class="submit">Registrar</button>
     </div><br>
-      <button type="submit" class="submit">Registrar</button><br>
     </form>
   </div>
 </template>
@@ -172,7 +171,6 @@ const registrarUsuario = async () => {
 </script>
 
 <style scoped>
-
 .container {
   display: flex;
   height: 100vh;
@@ -237,45 +235,25 @@ const registrarUsuario = async () => {
   animation: pulse 1s linear infinite;
 }
 
-.message,
-.signin {
-  color: rgba(88, 87, 87, 0.822);
-  font-size: 14px;
-  text-align: center;
-}
-
-.signin {
-  text-align: center;
-}
-
-.signin a {
-  color: royalblue;
-  text-decoration: none;
-}
-
-.signin a:hover {
-  text-decoration: underline royalblue;
-}
-
-.flex{
-    display: flex;
-    width: 100%;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 .form label {
   position: relative;
 }
 
-.form label .input{
-    width: 200px;
-    height: 50px;
-    padding: 10px 10px 20px 10px;
-    outline: 0;
-    border: 1px solid rgba(105, 105, 105, 0.397);
-    border-radius: 10px;
+.form label .input {
+  width: 200px;
+  height: 50px;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
 }
 
 .form label .input + span {
@@ -291,7 +269,7 @@ const registrarUsuario = async () => {
   font-weight: 600;
 }
 
-select{
+select {
   color: grey;
   font-size: 0.9em;
   cursor: text;
@@ -348,6 +326,7 @@ label .select {
   outline: 0;
   border: 1px solid rgba(105, 105, 105, 0.397);
   border-radius: 10px;
+  
 }
 
 label .select + span {
@@ -358,11 +337,13 @@ label .select + span {
   font-size: 0.9em;
   cursor: text;
   transition: 0.3s ease;
+  
 }
 
 label .select:placeholder-shown + span {
   top: 15px;
   font-size: 0.9em;
+  
 }
 
 label .select:focus + span,
@@ -370,9 +351,41 @@ label .select:valid + span {
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;
+  
 }
 
 label .select:valid + span {
   color: green;
+  
 }
+
+
+.button2 {
+  border: none;
+  outline: none;
+  background-color: #209616;
+  padding: 10px;
+  border-radius: 10px;
+  color: fff;
+  font-size: 16px;
+  transform: 0.3s ease;
+  
+}
+
+.lable {
+  color: #fff;
+}
+a{
+  text-decoration: none;
+}
+.button2:hover {
+  background: #264cf8e1;
+}
+
+.bot {
+    display: flex;
+    gap: 25px;
+}
+
+
 </style>

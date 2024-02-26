@@ -23,6 +23,7 @@ const auth = (to, from, next) => {
       if (!to.meta.rol.includes(rol)) {
           return next({ path: '/' })
       }
+      
       next()
   } else {
       return next({ path: '/' })
