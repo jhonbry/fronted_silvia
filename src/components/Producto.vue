@@ -37,7 +37,7 @@
         </div>
       </q-card>
     </q-dialog>
-    <div style="width: 1000px;">
+    <div style="width: 55vw;">
       <div class="btn-agregar">
         <q-btn class="bg-secondary" label="Agregar Producto" @click="agregarProducto()" />
       </div>
@@ -98,14 +98,24 @@ async function obtenerInfo() {
   }
 }
 
+function formatCurrency(amount) {
+  // Formatear el número con separadores de miles y decimales
+  const formattedAmount = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP'
+  }).format(amount);
+
+  return formattedAmount;
+}
+
 
 const columns = [
   { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
   { name: "codigo", label: "Codigo", field: "codigo", sortable: true, align: "left" },
   { name: "descripcion", label: "Descripcion", field: "descripcion", sortable: true, align: "left" },
   { name: "unidadMedida", label: "Unidad de Medida", field: "unidadMedida", sortable: true, align: "left" },
-  { name: "precioUnitario", label: "Precio Unitario", field: "precioUnitario", sortable: true, align: "left" },
-  { name: "iva", label: "IVA", field: "iva", sortable: true, align: "left" },
+  { name: "precioUnitario", label: "Precio Unitario", field: "precioUnitario", sortable: true, align: "left",  format: (val) => formatCurrency(val) },
+  { name: "iva", label: "IVA", field: "iva", sortable: true, align: "left",  format: (val) => formatCurrency(val) },
   { name: "consumible", label: "Consumible", field: "consumible", sortable: true, align: "left" },
   {
     name: "estado",

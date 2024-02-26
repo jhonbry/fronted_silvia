@@ -26,6 +26,11 @@
         </label>
 
         <label>
+          <input v-model="correo" required placeholder="" type="text" class="input" />
+          <span>gmail</span>
+        </label>
+
+        <label>
           <input v-model="usuario" required placeholder="" type="text" class="input" />
           <span>Usuario</span>
         </label>
@@ -71,6 +76,7 @@ let nombre = '';
 let cedula = '';
 let telefono = '';
 let usuario = '';
+let correo = '';
 let password = '';
 let rol = '';
 
@@ -92,6 +98,7 @@ const registrarUsuario = async () => {
       nombre,
       cedula,
       telefono,
+      correo,
       usuario,
       password,
       rol
@@ -112,6 +119,7 @@ const registrarUsuario = async () => {
     nombre = '';
     cedula = '';
     telefono = '';
+    correo = '';
     usuario = '';
     password = '';
     rol = '';

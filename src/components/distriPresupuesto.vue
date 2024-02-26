@@ -94,7 +94,7 @@ let Dispresupuestos = ref([]);
 async function obtenerInfo() {
   try {
     const r = await distriPresupuestoStore.obtenerInfoDispresupuestos();
-    Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
+    Dispresupuestos.value = distriPresupuestoStore.DispresupuestosValue;
     rows.value = r.reverse()
     console.log(r);
   } catch (error) {
@@ -105,9 +105,9 @@ async function obtenerInfo() {
 async function obtenerlote(){
   try {
     await loteStore.obtenerInfoLotes();
-    optionslote.value = loteStore.lotes.map((Lote) => ({
-      label: `${Lote.nombre} `,
-      value: String(Lote._id),
+    optionslote.value = loteStore.lotes.map((lote) => ({
+      label: `${lote.nombre} `,
+      value: String(lote._id),
     }));
   console.log(optionslote);
   } catch (error) {

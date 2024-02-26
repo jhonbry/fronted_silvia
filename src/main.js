@@ -3,6 +3,7 @@
 import App from './App.vue'
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
+import { createPersistedState } from 'pinia-plugin-persistedstate'
 import {router} from "./routes/routes.js"
 import { Quasar, Notify } from 'quasar'
 import axios from 'axios'
@@ -22,6 +23,10 @@ app.use(Quasar, {
 })
 
 app.use(pinia)
+pinia.use(createPersistedState({
+    storage: sessionStorage,
+  }))
+
 app.use(router)
 
 // axios.defaults.baseURL ="https://backend-abxx.onrender.com/"
