@@ -32,7 +32,7 @@ const checkAuth = () => {
 
   const token = useUsuario.token
 
-  if (useUsuario.logeo == "" || useUsuario.logeo === undefined) {
+  if (useUsuario.login == "" || useUsuario.login === undefined) {
       return false;
   }
   if (!token) return false

@@ -260,7 +260,7 @@ async function inactivarArea(id) {
       spinner: false,
       message: "Area Inactiva",
       timeout: 2000,
-      type: "positive",
+      type: "negative",
     });
     obtenerInfo();
   } catch (error) {
