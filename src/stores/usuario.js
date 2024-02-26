@@ -48,7 +48,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
     try {
         let r = await axios.post('usuario/login', data)
         console.log(r);
-        usuario.value=r.data.usuario
+        usuario.value=r.data.usuarios
         console.log( r.data.token);
         token.value = r.data.token
         return r.status
@@ -59,7 +59,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
     }
   }
   return {
-    usuarios, token,
+    usuarios, usuario, token,
     obtenerusuario, postusuario, login,putusuarioActivar, putusuarioInactivar, 
   }
 });

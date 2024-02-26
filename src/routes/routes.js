@@ -17,13 +17,14 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const auth = (to, from, next) => {
   if (checkAuth()) {
       const userUsuario = useUsuarioStore()
-      const rol = userUsuario.rol
+      const rol = userUsuario.usuario.rol
+      console.log(rol);
       if (!to.meta.rol.includes(rol)) {
-          return next({ name: 'login' })
+          return next({ path: '/' })
       }
       next()
   } else {
-      return next({ name: 'login' })
+      return next({ path: '/' })
   }
 }
 
@@ -31,10 +32,6 @@ const checkAuth = () => {
   const useUsuario = useUsuarioStore()
 
   const token = useUsuario.token
-
-  if (useUsuario.login == "" || useUsuario.login === undefined) {
-      return false;
-  }
   if (!token) return false
   return true
 };
@@ -43,7 +40,7 @@ const routes = [
   { path: "/",component: Login,},
   { path: "/Home",component: Home,
     children: [
-      {path: "/Inicio", component: Inicio, },
+      {path: "/Inicio", component: Inicio, beforeEnter:auth, meta: {rol: ["administrador", "bodega", "instructor" ]} },
       {path: "/Area", component: Area ,},
       {path: "/Ficha", component: Ficha},
       {path: "/Usuario", component: Usuario},
