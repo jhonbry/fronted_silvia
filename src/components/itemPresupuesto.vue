@@ -95,7 +95,6 @@ async function obtenerInfo() {
   }
 }
 
-
 function formatCurrency(amount) {
   // Formatear el número con separadores de miles y decimales
   const formattedAmount = new Intl.NumberFormat('es-CO', {

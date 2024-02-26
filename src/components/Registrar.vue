@@ -91,9 +91,38 @@ function mostrarErrores(msg) {
   });
 };
 
+const validarTelefono = (telefono) => {
+  const telefonoRegex = /^\d{10}$/; // Expresión regular para validar 10 dígitos numéricos
+  return telefonoRegex.test(telefono);
+};
+
+const validarCedula = (telefono) => {
+  const cedulaRegex = /^\d{10}$/; // Expresión regular para validar 10 dígitos numéricos
+  return cedulaRegex.test(telefono);
+};
+
+const validarCorreo = (correo) => {
+  return correo.includes('@'); // Verificar si el correo contiene al menos una arroba
+};
+
 
 const registrarUsuario = async () => {
   try {
+
+    if (!validarTelefono(telefono)){
+      mostrarErrores("el numero de telefono debe tener 10 caracteres")
+      return;
+    } 
+
+    if (!validarCedula(cedula)) {
+      mostrarErrores("La cédula debe tener exactamente 10 dígitos");
+      return;
+    }
+
+    if (!validarCorreo(correo)) {
+      mostrarErrores("El correo electrónico debe contener al menos una arroba");
+      return;
+    }
     const response = await axios.post('https://backend-abxx.onrender.com/usuario/agregar', {
       nombre,
       cedula,
