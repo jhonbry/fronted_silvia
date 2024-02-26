@@ -9,24 +9,12 @@
               <img :src="avatar" />
             </q-avatar>
           </q-toolbar-title>
-          <q-fab color="green" glossy icon="settings" direction="down">
+          <q-fab glossy icon="settings" direction="down">
             <router-link to="/">
-               <q-fab-action color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center" />
+               <q-fab-action color="grey" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center"  />
             </router-link>
       </q-fab>
-          <!-- <q-btn color="white" dense flat round icon="settings" id="settings">
-            <q-menu transition-show="jump-down" transition-hide="jump-up">
-              <q-list style="min-width: 100px; text-align: center">
-                <q-item clickable>
-                  <q-item-section>Configuraciones</q-item-section>
-                </q-item>
-                <q-separator />
-                <router-link to="/">
-                  <q-item-section>Salir</q-item-section>
-                </router-link>
-              </q-list>
-            </q-menu>
-          </q-btn> -->
+
         </q-toolbar>
       </q-header>
 
@@ -192,5 +180,9 @@ a {
 
 a[data-v-08e32229]{
   margin-right: 1.5vw;
+}
+
+.glossy {
+  text-decoration: none;
 }
 </style>

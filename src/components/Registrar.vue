@@ -11,26 +11,56 @@
 
       <div class="flex">
         <label>
-          <input v-model="nombre" required placeholder="" type="text" class="input" />
+          <input
+            v-model="nombre"
+            required
+            placeholder=""
+            type="text"
+            class="input"
+          />
           <span>Nombre</span>
         </label>
 
         <label>
-          <input v-model="cedula" required placeholder="" type="text" class="input" />
+          <input
+            v-model="cedula"
+            required
+            placeholder=""
+            type="text"
+            class="input"
+          />
           <span>Cedula</span>
         </label>
 
         <label>
-          <input v-model="telefono" required placeholder="" type="number" class="input" />
+          <input
+            v-model="telefono"
+            required
+            placeholder=""
+            type="number"
+            class="input"
+          />
           <span>Telefono</span>
         </label>
 
         <label>
-          <input v-model="usuario" required placeholder="" type="text" class="input" />
+          <input
+            v-model="usuario"
+            required
+            placeholder=""
+            type="text"
+            class="input"
+          />
           <span>Usuario</span>
         </label>
         <label>
-          <input v-model="password" required placeholder="" type="password" class="input" />
+          <input
+            v-model="password"
+            required
+            placeholder=""
+            type="password"
+            class="input"
+          />
           <span>password</span>
         </label>
 
@@ -43,83 +73,92 @@
           </select>
         </label>
       </div>
-      <button type="submit" class="submit">Registrar</button><br>
+      <div class="bot">
+      <button class="button2">
+        <router-link to="/Inicio">
+          <span class="lable">Atras</span>
+            </router-link>
+      </button>
+      <button type="submit" class="submit">Registrar</button>
+    </div><br>
     </form>
   </div>
 </template>
 
 <script setup>
-import axios from 'axios';
+import axios from "axios";
 import images from "../assets/fondo12.png";
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 const $q = useQuasar();
-
 
 let notification = ref(null);
 const notify = (message, type) => {
   notification = $q.notify({
     message: message,
     timeout: 1500,
-    type: type
-  
+    type: type,
   });
 };
 
-let nombre = '';
-let cedula = '';
-let telefono = '';
-let usuario = '';
-let password = '';
-let rol = '';
+let nombre = "";
+let cedula = "";
+let telefono = "";
+let usuario = "";
+let password = "";
+let rol = "";
 
 const usuarioAgregado = ref(false);
 const router = useRouter();
 
 function mostrarErrores(msg) {
   notification = $q.notify({
-    type: 'negative',
+    type: "negative",
     message: msg,
     timeout: 2000,
   });
-};
-
+}
 
 const registrarUsuario = async () => {
   try {
-    const response = await axios.post('https://backend-abxx.onrender.com/usuario/agregar', {
-      nombre,
-      cedula,
-      telefono,
-      usuario,
-      password,
-      rol
-    });
+    const response = await axios.post(
+      "https://backend-abxx.onrender.com/usuario/agregar",
+      {
+        nombre,
+        cedula,
+        telefono,
+        usuario,
+        password,
+        rol,
+      }
+    );
 
     if (registrarUsuario.error) {
-          setTimeout(() => {
-          mostrarErrores(registrarUsuario.error.errors[0].msg);
-            error.value = ""; // Limpiar el mensaje de error después de 2 segundos
-          }, 2000);
-          return;
-        }
+      setTimeout(() => {
+        mostrarErrores(registrarUsuario.error.errors[0].msg);
+        error.value = ""; // Limpiar el mensaje de error después de 2 segundos
+      }, 2000);
+      return;
+    }
 
-
-    notify("Usuario Agregado", "positive")
+    notify("Usuario Agregado", "positive");
     console.log(response.data);
 
-    nombre = '';
-    cedula = '';
-    telefono = '';
-    usuario = '';
-    password = '';
-    rol = '';
-    
+    nombre = "";
+    cedula = "";
+    telefono = "";
+    usuario = "";
+    password = "";
+    rol = "";
+
     usuarioAgregado.value = true;
-    router.push('/Usuario');
+    router.push("/Usuario");
   } catch (error) {
-    notify("La cedula ya se encuentra registrada en la base de datos", "negative")
+    notify(
+      "La cedula ya se encuentra registrada en la base de datos",
+      "negative"
+    );
 
     console.error(error);
   }
@@ -127,7 +166,6 @@ const registrarUsuario = async () => {
 </script>
 
 <style scoped>
-
 .container {
   display: flex;
   height: 100vh;
@@ -192,45 +230,25 @@ const registrarUsuario = async () => {
   animation: pulse 1s linear infinite;
 }
 
-.message,
-.signin {
-  color: rgba(88, 87, 87, 0.822);
-  font-size: 14px;
-  text-align: center;
-}
-
-.signin {
-  text-align: center;
-}
-
-.signin a {
-  color: royalblue;
-  text-decoration: none;
-}
-
-.signin a:hover {
-  text-decoration: underline royalblue;
-}
-
-.flex{
-    display: flex;
-    width: 100%;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 .form label {
   position: relative;
 }
 
-.form label .input{
-    width: 200px;
-    height: 50px;
-    padding: 10px 10px 20px 10px;
-    outline: 0;
-    border: 1px solid rgba(105, 105, 105, 0.397);
-    border-radius: 10px;
+.form label .input {
+  width: 200px;
+  height: 50px;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
 }
 
 .form label .input + span {
@@ -246,7 +264,7 @@ const registrarUsuario = async () => {
   font-weight: 600;
 }
 
-select{
+select {
   color: grey;
   font-size: 0.9em;
   cursor: text;
@@ -303,6 +321,7 @@ label .select {
   outline: 0;
   border: 1px solid rgba(105, 105, 105, 0.397);
   border-radius: 10px;
+  
 }
 
 label .select + span {
@@ -313,11 +332,13 @@ label .select + span {
   font-size: 0.9em;
   cursor: text;
   transition: 0.3s ease;
+  
 }
 
 label .select:placeholder-shown + span {
   top: 15px;
   font-size: 0.9em;
+  
 }
 
 label .select:focus + span,
@@ -325,9 +346,41 @@ label .select:valid + span {
   top: 30px;
   font-size: 0.7em;
   font-weight: 600;
+  
 }
 
 label .select:valid + span {
   color: green;
+  
 }
+
+
+.button2 {
+  border: none;
+  outline: none;
+  background-color: #209616;
+  padding: 10px;
+  border-radius: 10px;
+  color: fff;
+  font-size: 16px;
+  transform: 0.3s ease;
+  
+}
+
+.lable {
+  color: #fff;
+}
+a{
+  text-decoration: none;
+}
+.button2:hover {
+  background: #264cf8e1;
+}
+
+.bot {
+    display: flex;
+    gap: 25px;
+}
+
+
 </style>

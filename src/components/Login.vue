@@ -27,14 +27,19 @@
             <q-input color="green" filled v-model="data.password" label="Contraseña" type="password">
              
             </q-input>
+           
           </q-card-actions>
         </div>
         <button @click="Login()" class="btn">Aceptar</button> <br>
+        <router-link to="/Recuperar">
+              <p>¿Olvidaste tu clave? recuperala aquí.</p>
+            </router-link>   
         <div class="containerError" v-if="mostrarError || error2">
           <h5 v-if="mostrarError">Por favor digite el Nombre o Contraseña</h5>
           <h4 v-if="error2">{{ msj }}</h4>
           
         </div>
+       
       </q-card>
     </div>
         <div class="texto">
