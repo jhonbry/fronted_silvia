@@ -107,7 +107,7 @@ async function Login() {
       showDefault();
       console.log("data: ", data.value);
       const res = await useUsuario.login(data.value);
-      console.log(res);
+      console.log('r',res);
       if (notification) {
         notification();
       }
@@ -115,6 +115,7 @@ async function Login() {
         mostrarErrores(res.msg)
         console.log('maluco, user o contra maluca');
       } else {
+        console.log(useUsuario.usuario)
         router.push('/inicio');
       }
     } catch (error) {

@@ -42,13 +42,15 @@ export const useUsuarioStore = defineStore('usuario', () => {
         console.log(error, 'Error al cambiar el estado de el usuario');
     }
   };
-
+  const token = ref("")
   const usuario = ref ([])
   const login = async (data) => {
     try {
         let r = await axios.post('usuario/login', data)
         console.log(r);
-        usuario.value=r.data.usuario
+        usuario.value=r.data.usuarios
+        console.log( r.data.token);
+        token.value = r.data.token
         return r.status
 
     } catch (error) {
@@ -57,7 +59,7 @@ export const useUsuarioStore = defineStore('usuario', () => {
     }
   }
   return {
-    usuarios, 
+    usuarios, usuario, token,
     obtenerusuario, postusuario, login,putusuarioActivar, putusuarioInactivar, 
   }
 });
