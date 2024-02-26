@@ -13,20 +13,7 @@
             <router-link to="/">
                <q-fab-action color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center" />
             </router-link>
-      </q-fab>
-          <!-- <q-btn color="white" dense flat round icon="settings" id="settings">
-            <q-menu transition-show="jump-down" transition-hide="jump-up">
-              <q-list style="min-width: 100px; text-align: center">
-                <q-item clickable>
-                  <q-item-section>Configuraciones</q-item-section>
-                </q-item>
-                <q-separator />
-                <router-link to="/">
-                  <q-item-section>Salir</q-item-section>
-                </router-link>
-              </q-list>
-            </q-menu>
-          </q-btn> -->
+          </q-fab>
         </q-toolbar>
       </q-header>
 
@@ -42,7 +29,7 @@
           <q-avatar size="130px" class="avatar">
             <img src="https://via.placeholder.com/150" />
           </q-avatar>
-          <div class="text-h6">Usuario</div>
+          <div class="text-h6">{{ username }}</div>
           <div class="divider"></div>
 
           <div class="navigation">
@@ -76,9 +63,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import avatar from "../assets/avatar.png";
 import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
+import { useUsuarioStore} from '../stores/usuario.js'
 
 const leftDrawerOpen = ref(false);
 const route = useRoute();
@@ -109,7 +98,21 @@ const navigateTo = (path) => {
 const toggleSettingsDrawer = () => {
   settingsDrawerOpen.value = !settingsDrawerOpen.value;
 };
+
+const useUsuario = useUsuarioStore()
+const username = useUsuario.usuario.nombre
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('/usuario/usuario');
+    username.value = response.data.username;
+  } catch (error) {
+    console.error("Error al obtener el nombre de usuario:", error);
+  }
+});
+
 </script>
+
 
 <style scoped>
 .q-page-container {
