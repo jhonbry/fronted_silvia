@@ -60,6 +60,7 @@ const showDefault = () => {
       await UsuarioStore.obtenerusuario();
       usuarios.value = UsuarioStore.usuarios;
       rows.value = UsuarioStore.usuarios;
+      console.log(UsuarioStore.usuarios);
     } catch (error) {
       console.log(error);
     }
@@ -75,6 +76,8 @@ const showDefault = () => {
     { name: "cedula", label: "Cedula", field: "cedula", sortable: true, align: "left" },
 
     { name: "telefono", label: "Telefono", field: "telefono", sortable: true, align: "left" },
+
+    { name: "correo", label: "correo", field: "correo", sortable: true, align: "left" },
 
     { name: "rol", label: "Rol", field: "rol", sortable: true, align: "left" },
 
