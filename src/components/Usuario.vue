@@ -117,7 +117,7 @@ async function inactivarUsuario(id) {
     }
     $q.notify({
       spinner: false,
-      message: "Lote Inactivo",
+      message: "Usuario Inactivo",
       timeout: 2000,
       type: "positive",
     });
@@ -144,7 +144,7 @@ async function activarUsuario(id) {
     }
     $q.notify({
       spinner: false,
-      message: "Lote Activo",
+      message: "Usuario Activo",
       timeout: 2000,
       type: "positive",
     });
