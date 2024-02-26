@@ -26,6 +26,11 @@
         </label>
 
         <label>
+          <input v-model="correo" required placeholder="" type="text" class="input" />
+          <span>gmail</span>
+        </label>
+
+        <label>
           <input v-model="usuario" required placeholder="" type="text" class="input" />
           <span>Usuario</span>
         </label>
@@ -71,6 +76,7 @@ let nombre = '';
 let cedula = '';
 let telefono = '';
 let usuario = '';
+let correo = '';
 let password = '';
 let rol = '';
 
@@ -85,13 +91,43 @@ function mostrarErrores(msg) {
   });
 };
 
+const validarTelefono = (telefono) => {
+  const telefonoRegex = /^\d{10}$/; // Expresión regular para validar 10 dígitos numéricos
+  return telefonoRegex.test(telefono);
+};
+
+const validarCedula = (telefono) => {
+  const cedulaRegex = /^\d{10}$/; // Expresión regular para validar 10 dígitos numéricos
+  return cedulaRegex.test(telefono);
+};
+
+const validarCorreo = (correo) => {
+  return correo.includes('@'); // Verificar si el correo contiene al menos una arroba
+};
+
 
 const registrarUsuario = async () => {
   try {
+
+    if (!validarTelefono(telefono)){
+      mostrarErrores("el numero de telefono debe tener 10 caracteres")
+      return;
+    } 
+
+    if (!validarCedula(cedula)) {
+      mostrarErrores("La cédula debe tener exactamente 10 dígitos");
+      return;
+    }
+
+    if (!validarCorreo(correo)) {
+      mostrarErrores("El correo electrónico debe contener al menos una arroba");
+      return;
+    }
     const response = await axios.post('https://backend-abxx.onrender.com/usuario/agregar', {
       nombre,
       cedula,
       telefono,
+      correo,
       usuario,
       password,
       rol
@@ -112,6 +148,7 @@ const registrarUsuario = async () => {
     nombre = '';
     cedula = '';
     telefono = '';
+    correo = '';
     usuario = '';
     password = '';
     rol = '';

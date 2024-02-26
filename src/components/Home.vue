@@ -9,24 +9,13 @@
               <img :src="avatar" />
             </q-avatar>
           </q-toolbar-title>
-          <q-fab color="green" glossy icon="settings" direction="down">
+          <q-fab glossy icon="settings" direction="down">
+            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Perfil" style="min-width: 100px; text-align: center;margin-right: 50px " />
             <router-link to="/">
-               <q-fab-action color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center" />
+            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center;margin-right: 50px " />
             </router-link>
       </q-fab>
-          <!-- <q-btn color="white" dense flat round icon="settings" id="settings">
-            <q-menu transition-show="jump-down" transition-hide="jump-up">
-              <q-list style="min-width: 100px; text-align: center">
-                <q-item clickable>
-                  <q-item-section>Configuraciones</q-item-section>
-                </q-item>
-                <q-separator />
-                <router-link to="/">
-                  <q-item-section>Salir</q-item-section>
-                </router-link>
-              </q-list>
-            </q-menu>
-          </q-btn> -->
+
         </q-toolbar>
       </q-header>
 
@@ -190,7 +179,11 @@ a {
   justify-content: center;
 }
 
-a[data-v-08e32229]{
-  margin-right: 1.5vw;
+.glossy{
+  background-image: none;
+}
+
+.glossy {
+  text-decoration: none;
 }
 </style>

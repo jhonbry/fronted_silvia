@@ -1,5 +1,6 @@
 
 import Login from "../components/Login.vue";
+import Recuperar from "../components/Recuperar.vue";
 import Home from "../components/Home.vue";
 import Registrar from "../components/Registrar.vue";
 import Area from "../components/Area.vue";
@@ -38,6 +39,7 @@ const checkAuth = () => {
 
 const routes = [
   { path: "/",component: Login,},
+  {path: "/Recuperar", component: Recuperar},
   { path: "/Home",component: Home,
     children: [
       {path: "/Inicio", component: Inicio, beforeEnter:auth, meta: {rol: ["administrador", "bodega", "instructor" ]} },
