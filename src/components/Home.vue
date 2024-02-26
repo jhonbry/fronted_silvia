@@ -9,11 +9,13 @@
               <img :src="avatar" />
             </q-avatar>
           </q-toolbar-title>
-          <q-fab color="green" glossy icon="settings" direction="down">
+          <q-fab glossy icon="settings" direction="down">
+            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Perfil" style="min-width: 100px; text-align: center;margin-right: 50px " />
             <router-link to="/">
-               <q-fab-action color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center" />
+            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center;margin-right: 50px " />
             </router-link>
-          </q-fab>
+      </q-fab>
+
         </q-toolbar>
       </q-header>
 
@@ -193,7 +195,11 @@ a {
   justify-content: center;
 }
 
-a[data-v-08e32229]{
-  margin-right: 1.5vw;
+.glossy{
+  background-image: none;
+}
+
+.glossy {
+  text-decoration: none;
 }
 </style>

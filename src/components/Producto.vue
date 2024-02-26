@@ -370,7 +370,7 @@ async function inactivarProducto(id) {
     }
     $q.notify({
       spinner: false,
-      message: "Lote Inactivo",
+      message: "Producto Inactivo",
       timeout: 2000,
       type: "positive",
     });
@@ -392,7 +392,7 @@ async function activarProducto(id) {
     }
     $q.notify({
       spinner: false,
-      message: "Lote Activo",
+      message: "Producto Activo",
       timeout: 2000,
       type: "positive",
     });

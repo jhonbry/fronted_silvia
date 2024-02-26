@@ -18,8 +18,7 @@
               <q-input v-model="codigo_ficha" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="nombre" label="Nombre" type="string" style="width: 300px" />
               <q-select v-model="nivel_de_formacion" :options="options" label="Nivel de formacion" style="width: 300px" />
-              <q-input v-model="fecha_inicio" label="fecha inicio" type="date" style="width: 300px"
-                :min="getTodayDate()" />
+              <q-input v-model="fecha_inicio" label="fecha inicio" type="date" style="width: 300px"/>
               <q-input v-model="ficha_fin" label="fecha fin" type="date" style="width: 300px" />
 
             </q-card-section>
@@ -180,10 +179,9 @@ function validar() {
       error.value = "";
     }, 2200);
   } else if (new Date(ficha_fin.value) < new Date(fecha_inicio.value)) {
-    // Validación de que la fecha de finalización no sea menor que la fecha de inicio
     mostrarData.value = false;
     mostrarError.value = true;
-    error.value = "La fecha de finalización no puede ser anterior a la fecha de inicio";
+    error.value = "La fecha de finalización no puede ser menor a la fecha de inicio";
     setTimeout(() => {
       mostrarData.value = true;
       mostrarError.value = false;
@@ -277,8 +275,8 @@ async function editaragregarFicha() {
           if (respuesta.error) {
             setTimeout(() => {
               mostrarErrores(respuesta.error.errors[0].msg);
-              mostrarError.value = false; // Ocultar el mensaje de error después de 2 segundos
-              error.value = ""; // Limpiar el mensaje de error
+              mostrarError.value = false;
+              error.value = "";
             }, 2000);
             return;
           }
@@ -368,7 +366,7 @@ async function inactivarFicha(id) {
     }
     $q.notify({
       spinner: false,
-      message: "Lote Inactivo",
+      message: "Ficha Inactiva",
       timeout: 2000,
       type: "positive",
     });
@@ -395,7 +393,7 @@ async function activarFicha(id) {
     }
     $q.notify({
       spinner: false,
-      message: "Lote Activo",
+      message: "Ficha Activa",
       timeout: 2000,
       type: "positive",
     });
@@ -413,13 +411,6 @@ async function activarFicha(id) {
   }
 }
 
-function getTodayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = (today.getMonth() + 1).toString().padStart(2, "0");
-  const day = today.getDate().toString().padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
 </script>
     
 <style scoped>
