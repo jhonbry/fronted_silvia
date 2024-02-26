@@ -10,8 +10,9 @@
             </q-avatar>
           </q-toolbar-title>
           <q-fab glossy icon="settings" direction="down">
+            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Perfil" style="min-width: 100px; text-align: center;margin-right: 50px " />
             <router-link to="/">
-               <q-fab-action color="grey" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center"  />
+            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center;margin-right: 50px " />
             </router-link>
       </q-fab>
 
@@ -178,8 +179,8 @@ a {
   justify-content: center;
 }
 
-a[data-v-08e32229]{
-  margin-right: 1.5vw;
+.glossy{
+  background-image: none;
 }
 
 .glossy {

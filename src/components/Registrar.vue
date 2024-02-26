@@ -44,6 +44,11 @@
         </label>
 
         <label>
+          <input v-model="correo" required placeholder="" type="text" class="input" />
+          <span>gmail</span>
+        </label>
+
+        <label>
           <input
             v-model="usuario"
             required
@@ -102,12 +107,12 @@ const notify = (message, type) => {
   });
 };
 
-let nombre = "";
-let cedula = "";
-let telefono = "";
-let usuario = "";
-let password = "";
-let rol = "";
+let nombre = '';
+let cedula = '';
+let telefono = '';
+let usuario = '';
+let password = '';
+let rol = '';
 
 const usuarioAgregado = ref(false);
 const router = useRouter();
@@ -118,21 +123,19 @@ function mostrarErrores(msg) {
     message: msg,
     timeout: 2000,
   });
-}
+};
+
 
 const registrarUsuario = async () => {
   try {
-    const response = await axios.post(
-      "https://backend-abxx.onrender.com/usuario/agregar",
-      {
-        nombre,
-        cedula,
-        telefono,
-        usuario,
-        password,
-        rol,
-      }
-    );
+    const response = await axios.post('https://backend-abxx.onrender.com/usuario/agregar', {
+      nombre,
+      cedula,
+      telefono,
+      usuario,
+      password,
+      rol
+    });
 
     if (registrarUsuario.error) {
       setTimeout(() => {
@@ -145,13 +148,13 @@ const registrarUsuario = async () => {
     notify("Usuario Agregado", "positive");
     console.log(response.data);
 
-    nombre = "";
-    cedula = "";
-    telefono = "";
-    usuario = "";
-    password = "";
-    rol = "";
-
+    nombre = '';
+    cedula = '';
+    telefono = '';
+    usuario = '';
+    password = '';
+    rol = '';
+    
     usuarioAgregado.value = true;
     router.push("/Usuario");
   } catch (error) {
