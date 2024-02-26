@@ -277,6 +277,7 @@ async function editarAgregarLote() {
           }, 2000);
           return;
         }
+        console.log(respuesta);
           if (notification) {
             notification();
           }

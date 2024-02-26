@@ -96,11 +96,22 @@ async function obtenerInfo() {
 }
 
 
+function formatCurrency(amount) {
+  // Formatear el número con separadores de miles y decimales
+  const formattedAmount = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP'
+  }).format(amount);
+
+  return formattedAmount;
+}
+
+
 const columns = [
   { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
   { name: "año", label: "Fecha creacion", field: "año", sortable: true, align: "left" },
-  { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
-  { name: "presupuestoDisponible", label: "presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
+  { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left", format: (val) => formatCurrency(val) },
+  { name: "presupuestoDisponible", label: "presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left", format: (val) => formatCurrency(val)  },
   {
     name: "estado",
     label: "Estado",
