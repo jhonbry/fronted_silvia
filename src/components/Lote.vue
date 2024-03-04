@@ -46,7 +46,7 @@
         <q-btn
           class="bg-secondary"
           label="Agregar Lote"
-          @click="agregarLote()"
+          @click="agregarLote()" style=" background-color: #2e7d32 !important;"
         />
       </div>
       <div class="q-pa-md">
@@ -399,7 +399,7 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #2aac4b;
+  background-color: #2e7d32;
   border-radius: 3%;
 }
 
@@ -438,7 +438,7 @@ onMounted(async () => {
 }
 
 hr {
-  background-color: green;
+  background-color: #2e7d32;
   height: 2px;
   border: none;
   width: 363px;
@@ -535,7 +535,7 @@ h1 {
   border: none;
   padding: 10px;
   cursor: pointer;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background: #2e7d3281;
 }
 </style>
   <style lang="sass">

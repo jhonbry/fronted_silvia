@@ -37,10 +37,9 @@
       <div style="width: 40vw">
         <div class="btn-agregar-area">
           <q-btn
-            class="btn-agregar bg-positive"
+            class="btn-agregar"
             label="Agregar Área"
-            @click="agregarRuta()"
-          />
+            @click="agregarRuta()" style=" background-color: #2e7d32 !important;"/>
         </div>
         <div class="q-pa-md">
           <q-table
