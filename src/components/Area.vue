@@ -33,7 +33,7 @@
     <div >
       <div style="width: 40vw;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar ruta" @click="agregarRuta()" />
+        <q-btn class="bg-secondary" label="Agregar Area" @click="agregarRuta()" />
       </div>
       <div class="q-pa-md">
         <q-table
@@ -186,7 +186,7 @@ async function editarAgregarArea() {
         limpiar();
         $q.notify({
           spinner: false,
-          message: "Area Agregado",
+          message: "Area Agregada",
           timeout: 2000,
           type: "positive",
         });
@@ -217,7 +217,7 @@ async function editarAgregarArea() {
           limpiar();
           $q.notify({
             spinner: false,
-            message: "Ruta Actualizada",
+            message: "Area Actualizada",
             timeout: 2000,
             type: "positive",
           });

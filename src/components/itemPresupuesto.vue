@@ -221,7 +221,7 @@ async function editaragregarItem() {
         limpiar();
         $q.notify({
           spinner: false,
-          message: "Area Agregado",
+          message: "Item Agregado",
           timeout: 2000,
           type: "positive",
         });
@@ -254,7 +254,7 @@ async function editaragregarItem() {
           limpiar();
           $q.notify({
             spinner: false,
-            message: "Ficha Actualizada",
+            message: "Item Actualizado",
             timeout: 2000,
             type: "positive",
           });
