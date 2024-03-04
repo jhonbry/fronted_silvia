@@ -55,7 +55,6 @@
               <q-btn glossy label="❌" @click="inactivarItem(props.row._id)" v-if="props.row.estado == 1" />
               <q-btn glossy label="✔️" @click="ActivarItem(props.row._id)" v-else />
               <q-btn color="white" text-color="black" label="lotes" />
-
             </q-td>
           </template>
         </q-table>
