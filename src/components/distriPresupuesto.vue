@@ -15,9 +15,9 @@
           <q-separator />
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
-              <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="id_lote" options="optionslote" label="id lote" type="string" style="width: 300px" />
-              <q-input v-model="id_item" options="optionsitem" label="id item" type="string" style="width: 300px" />
+              <q-input v-model="presupuesto" label="Presupuesto" type="number" style="width: 300px" />
+              <q-input v-model="id_lote" options="optionslote" label="Id Lote" type="string" style="width: 300px" />
+              <q-input v-model="id_item" options="optionsitem" label="Id Item" type="string" style="width: 300px" />
 
 
             </q-card-section>
@@ -38,7 +38,7 @@
     </q-dialog>
     <div style="width: 1000px;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarPresupuesto()" />
+        <q-btn class="bg-secondary" label="Agregar Presupuesto" @click="agregarPresupuesto()" />
       </div>
       <div class="q-pa-md">
 
@@ -135,9 +135,9 @@ async function obteneritem(){
 }
 obteneritem()
 const columns = [
-  { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
+  { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "presupuestoDisponible", label: "Presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
-  // { name: "id_lote", label: "Id lote", field: val=>val.id_lote.id, sortable: true, align: "left" },
+  { name: "id_lote", label: "Id lote", field: val=>val.id_lote.nombre, sortable: true, align: "left" },
   { name: "id_item", label: " Nombre del item", field: val=>val.id_item.nombre, sortable: true, align: "left" },
   {
     name: "estado",
