@@ -56,6 +56,9 @@
               <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
               <q-btn glossy label="❌" @click="inactivarFicha(props.row._id)" v-if="props.row.estado == 1" />
               <q-btn glossy label="✔️" @click="activarFicha(props.row._id)" v-else />
+              <router-link to="/distriLoteFicha">
+                <q-btn color="white" text-color="black" label="fichas" />
+              </router-link>
             </q-td>
           </template>
         </q-table>

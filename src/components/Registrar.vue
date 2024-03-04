@@ -45,6 +45,7 @@
             <option value="instructor">Instructor</option>
             <option value="bodega">Bodega</option>
             <option value="administrador">Administrador</option>
+            <option value="superAdmin">super Admin</option>
           </select>
         </label>
       </div>
