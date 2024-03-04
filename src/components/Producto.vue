@@ -18,7 +18,7 @@
               <q-input v-model="nombre" label="Nombre" type="text" style="width: 300px" />
               <q-input v-model="codigo" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="descripcion" label="Descripcion" type="text" style="width: 300px" />
-              <q-input v-model="unidadMedida" label="Unidad de Medida" type="text" style="width: 300px" />
+              <q-select v-model="unidadMedida" :options="options" label="Unidad de Medida" type="text" style="width: 300px" />
               <q-input v-model="precioUnitario" label="Precio Unitario" type="number" style="width: 300px" />
               <q-input v-model="iva" label="IVA" type="number" style="width: 300px" />
             </q-card-section>
@@ -70,6 +70,7 @@ import { ref, onMounted } from "vue";
 import { format } from "date-fns";
 import { useProductoStore } from "../stores/producto.js";
 import { useQuasar } from "quasar";
+const options = ref(["metros", "litros"])
 const ProductoStore = useProductoStore();
 const $q = useQuasar();
 let error = ref("Ingrese todos los datos para la creación de un producto");
