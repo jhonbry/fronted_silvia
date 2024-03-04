@@ -368,7 +368,7 @@ async function inactivarFicha(id) {
       spinner: false,
       message: "Ficha Inactiva",
       timeout: 2000,
-      type: "positive",
+      type: "negative",
     });
     obtenerInfo();
   } catch (error) {

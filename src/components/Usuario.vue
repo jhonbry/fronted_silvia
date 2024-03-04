@@ -119,7 +119,7 @@ async function inactivarUsuario(id) {
       spinner: false,
       message: "Usuario Inactivo",
       timeout: 2000,
-      type: "positive",
+      type: "negative",
     });
     obtenerInfo();
   } catch (error) {
