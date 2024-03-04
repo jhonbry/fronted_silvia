@@ -94,7 +94,7 @@ let Dispresupuestos = ref([]);
 async function obtenerInfo() {
   try {
     const r = await distriPresupuestoStore.obtenerInfoDispresupuestos();
-    Dispresupuestos.value = distriPresupuestoStore.DispresupuestosValue;
+    Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
     rows.value = r.reverse()
     console.log(r);
   } catch (error) {
@@ -134,7 +134,7 @@ obteneritem()
 const columns = [
   { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "presupuestoDisponible", label: "Presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
-  { name: "id_lote", label: "Id lote", field: val=>val.id_lote.nombre, sortable: true, align: "left" },
+  // { name: "id_lote", label: "Id lote", field: val=>val.id_lote.id, sortable: true, align: "left" },
   { name: "id_item", label: " Nombre del item", field: val=>val.id_item.nombre, sortable: true, align: "left" },
   {
     name: "estado",
