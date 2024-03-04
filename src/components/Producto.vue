@@ -70,7 +70,7 @@ import { ref, onMounted } from "vue";
 import { format } from "date-fns";
 import { useProductoStore } from "../stores/producto.js";
 import { useQuasar } from "quasar";
-const options = ref(["metros", "litros"])
+const options = ref(["Litros", "Gramos", "Kilogramos"])
 const ProductoStore = useProductoStore();
 const $q = useQuasar();
 let error = ref("Ingrese todos los datos para la creación de un producto");
