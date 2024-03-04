@@ -152,7 +152,7 @@ function mostrarErrores (msg) {
   width: 100vw;
   display: grid;
   grid-template-columns: 100%; /* Cambiar a una sola columna en dispositivos móviles */
-  background-color: #209616;
+  background-color: #2e7d32;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -164,7 +164,7 @@ function mostrarErrores (msg) {
 
 .no-shadow {
   box-shadow: none !important;
-  background-color: #209616;
+  background-color: #2e7d32;
 }
 
 .q-card--bordered {
@@ -270,7 +270,7 @@ h1 {
 }
 
 .btn {
-  background-color: #4caf50;
+  background-color: #2e7d32;
   color: #ffffff;
   padding: 10px 20px;
   border: none;
