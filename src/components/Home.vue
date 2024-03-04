@@ -9,7 +9,7 @@
               <img :src="avatar" />
             </q-avatar>
           </q-toolbar-title>
-          <q-fab glossy icon="settings" direction="down">
+          <q-fab icon="settings" direction="down" unelevated>
             <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Perfil" style="min-width: 100px; text-align: center;margin-right: 50px " />
             <router-link to="/">
             <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center;margin-right: 50px " />
@@ -89,8 +89,6 @@ const links = [
   { text: "Pedido", icon: "shopping_cart", path: "/Pedido" },
   { text: "Producto", icon: "local_offer", path: "/Producto" },
   { text: "Item presupuesto", icon: "attach_money", path: "/itemPresupuesto" },
-  { text: "Lote presupuesto", icon: "assignment", path: "/distriPresupuesto" },
-  { text: "Ficha presupuesto", icon: "receipt", path: "/distriLoteFicha" },
 ];
 
 const navigateTo = (path) => {

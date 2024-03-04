@@ -37,9 +37,9 @@
         </div>
       </q-card>
     </q-dialog>
-    <div style="width: 1000px;">
-      <div class="btn-agregar">
-        <q-btn class="bg-positive" label="Agregar Ficha" @click="agregarFicha()" />
+    <div style="width: 1000px; ">
+      <div class="btn-agregar" style="">
+        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" style="    background-color: #2e7d32 !important;"/>
       </div>
       <div class="q-pa-md">
 
@@ -368,7 +368,7 @@ async function inactivarFicha(id) {
       spinner: false,
       message: "Ficha Inactiva",
       timeout: 2000,
-      type: "positive",
+      type: "negative",
     });
     obtenerInfo();
   } catch (error) {
@@ -456,6 +456,7 @@ async function activarFicha(id) {
   margin: 0;
   text-transform: capitalize;
 }
+
 
 .containerBoton {
   display: flex;
