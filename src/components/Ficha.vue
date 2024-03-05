@@ -39,7 +39,7 @@
     </q-dialog>
     <div style="width: 1000px; ">
       <div class="btn-agregar" style="">
-        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarFicha()" style="    background-color: #2e7d32 !important;"/>
+        <q-btn  label="Agregar Ficha" @click="agregarFicha()" style=" background-color: #2e7d32 !important;"/>
       </div>
       <div class="q-pa-md">
 
