@@ -421,7 +421,7 @@ async function activarFicha(id) {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #2e7d32;
+  background-color: #2aac4b;
   border-radius: 3%;
 }
 
@@ -464,7 +464,7 @@ async function activarFicha(id) {
 }
 
 hr {
-  background-color: #2e7d32;
+  background-color: green;
   height: 2px;
   border: none;
   width: 363px;
@@ -561,7 +561,7 @@ h1 {
   border: none;
   padding: 10px;
   cursor: pointer;
-  background: rgba(0, 128, 0, 0.53);
+  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
 }
 </style>
 
