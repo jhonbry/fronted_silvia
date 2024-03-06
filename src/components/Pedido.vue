@@ -18,7 +18,6 @@
           <q-separator />
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
-              <!-- <q-input v-model="fechacreacion" label="Fecha Creacion" type="date" style="width: 300px" /> -->
               <q-input filled v-model="fechacreacion" label="Fecha" mask="date" :rules="['date']">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
@@ -246,10 +245,11 @@ async function editarAgregarPedio() {
       }
       try {
         showDefault();
+        console.log(idInstructorEncargado.value);
         await PedidoStore.postpedido({
           fechacreacion: fechacreacion.value,
-          idficha: idficha.value.value,
-          idInstructorEncargado: idInstructorEncargado.value.value,
+          idficha: idficha.value,
+          idInstructorEncargado: idInstructorEncargado.value,
           total: total.value,
         });
         if (notification) {
