@@ -38,7 +38,10 @@
     </q-dialog>
     <div style="width: 1000px;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarPresupuesto()" />
+        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarPresupuesto()" style=" background-color: #2e7d32 !important;"/>
+        <router-link to="/distriPresupuesto">
+          <q-btn label="Volver Atras" style="background-color: #2e7d32; color: white;" />
+        </router-link>
       </div>
       <div class="q-pa-md">
 
@@ -398,7 +401,7 @@ async function activarFicha(id) {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background-color: #2aac4b;
+    background-color: #2e7d32;
     border-radius: 3%;
   }
   
@@ -417,13 +420,11 @@ async function activarFicha(id) {
   }
   
   .btn-agregar {
-    width: 100%;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: left;
-    color: white;
-    margin-left: 19px;
-  }
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+}
   
   .body {
     padding: 30px;
@@ -437,7 +438,7 @@ async function activarFicha(id) {
   }
   
   hr {
-    background-color: green;
+    background-color: #2e7d32;
     height: 2px;
     border: none;
     width: 363px;
@@ -534,10 +535,7 @@ async function activarFicha(id) {
   border: none;
   padding: 10px;
   cursor: pointer;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background: #2e7d3280;
 }
 </style>
-<style lang="sass">
-      
-      </style>
       

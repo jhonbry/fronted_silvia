@@ -18,7 +18,7 @@
               <q-input v-model="nombre" label="Nombre" type="text" style="width: 300px" />
               <q-input v-model="codigo" label="Codigo" type="number" style="width: 300px" />
               <q-input v-model="descripcion" label="Descripcion" type="text" style="width: 300px" />
-              <q-input v-model="unidadMedida" label="Unidad de Medida" type="text" style="width: 300px" />
+              <q-select v-model="unidadMedida" :options="options" label="Unidad de Medida" type="text" style="width: 300px" />
               <q-input v-model="precioUnitario" label="Precio Unitario" type="number" style="width: 300px" />
               <q-input v-model="iva" label="IVA" type="number" style="width: 300px" />
             </q-card-section>
@@ -39,7 +39,7 @@
     </q-dialog>
     <div style="width: 55vw;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar Producto" @click="agregarProducto()" />
+        <q-btn class="bg-secondary" label="Agregar Producto" @click="agregarProducto()" style=" background-color: #2e7d32 !important;"/>
       </div>
       <div class="q-pa-md">
         <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
@@ -70,6 +70,7 @@ import { ref, onMounted } from "vue";
 import { format } from "date-fns";
 import { useProductoStore } from "../stores/producto.js";
 import { useQuasar } from "quasar";
+const options = ref(["Litros", "Gramos", "Kilogramos"])
 const ProductoStore = useProductoStore();
 const $q = useQuasar();
 let error = ref("Ingrese todos los datos para la creación de un producto");
@@ -433,7 +434,7 @@ function getTodayDate() {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #2aac4b;
+  background-color: #2e7d32;
   border-radius: 3%;
 }
 
@@ -472,7 +473,7 @@ function getTodayDate() {
 }
 
 hr {
-  background-color: green;
+  background-color: #2e7d32;
   height: 2px;
   border: none;
   width: 363px;
@@ -569,7 +570,7 @@ h1 {
   border: none;
   padding: 10px;
   cursor: pointer;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background: #2e7d327a;
 }
 </style>
 <style lang="sass">

@@ -9,10 +9,10 @@
               <img :src="avatar" />
             </q-avatar>
           </q-toolbar-title>
-          <q-fab icon="settings" direction="down" unelevated>
-            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Perfil" style="min-width: 100px; text-align: center;margin-right: 50px " />
+          <q-fab icon="settings" direction="left" unelevated>
+            <q-fab-action class="boton1" color="white" text-color="black" @click="onClick" label="Perfil" style="min-width: 100px; text-align: center;margin-right: 5px " />
             <router-link to="/">
-            <q-fab-action class="boton1" color="amber" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center;margin-right: 50px " />
+            <q-fab-action class="boton1" color="white" text-color="black" @click="onClick" label="Salir" style="min-width: 100px; text-align: center;margin-right: 5px " />
             </router-link>
       </q-fab>
 
@@ -200,4 +200,9 @@ a {
 .glossy {
   text-decoration: none;
 }
+
+.boton1{
+  border-radius: 15px;
+}
+
 </style>

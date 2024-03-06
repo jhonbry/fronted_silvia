@@ -6,8 +6,8 @@
     </div>
     <div style="width: 1000px;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar usuario" @click="agregarUsuario()" />
-      </div>
+        <q-btn class="bg-secondary" label="Agregar usuario" @click="agregarUsuario()" style=" background-color: #2e7d32 !important;"/>
+      </div> <br>
 
       <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
         :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
@@ -119,7 +119,7 @@ async function inactivarUsuario(id) {
       spinner: false,
       message: "Usuario Inactivo",
       timeout: 2000,
-      type: "positive",
+      type: "negative",
     });
     obtenerInfo();
   } catch (error) {
@@ -164,17 +164,6 @@ async function activarUsuario(id) {
 </script> 
   
 <style scoped>
-.modal-content {
-  width: 480px;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
-  border-radius: 3%;
-}
-
 .contorno {
   background-color: white;
   height: 90%;

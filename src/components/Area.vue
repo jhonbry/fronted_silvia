@@ -1,15 +1,18 @@
 <template>
-  <div >
+  <div>
     <div>
-      <h1 style="text-align: center; margin-top: 50px;">Area</h1>
-      <hr /> <br>
+      <h1 style="text-align: center; margin-top: 50px">Area</h1>
+      <hr />
+      <br />
     </div>
     <!-- Modal -->
     <q-dialog v-model="fixed">
-      
       <q-card class="modal-content">
         <div class="contorno">
-          <q-card-section class="row items-center q-pb-none" style="color: black">
+          <q-card-section
+            class="row items-center q-pb-none"
+            style="color: black"
+          >
             <div class="text-h6">{{ text }}</div>
             <q-space />
           </q-card-section>
@@ -24,66 +27,66 @@
             <button class="btn" v-close-popup>Cancelar</button>
             <button @click="editarAgregarArea()" class="btn">Aceptar</button>
             <div class="containerError" v-if="mostrarError">
-            <h4>{{ error }}</h4>
-          </div>
+              <h4>{{ error }}</h4>
+            </div>
           </q-card-actions>
         </div>
       </q-card>
     </q-dialog>
-    <div >
-      <div style="width: 40vw;">
-      <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar Area" @click="agregarRuta()" />
+    <div>
+      <div style="width: 40vw">
+        <div class="btn-agregar-area">
+          <q-btn
+            class="btn-agregar"
+            label="Agregar Área"
+            @click="agregarRuta()" style=" background-color: #2e7d32 !important;"/>
+        </div>
+        <div class="q-pa-md">
+          <q-table
+            class="my-sticky-virtscroll-table"
+            virtual-scroll
+            flat
+            bordered
+            v-model:pagination="pagination"
+            :rows-per-page-options="[0]"
+            :virtual-scroll-sticky-size-start="48"
+            row-key="index"
+            :rows="rows"
+            :columns="columns"
+          >
+            <template v-slot:body-cell-estado="props">
+              <q-td :props="props">
+                <label for="" v-if="props.row.estado == 1" style="color: green"
+                  >Activo</label
+                >
+                <label for="" v-else style="color: red">Inactivo</label>
+              </q-td>
+            </template>
+            <template v-slot:body-cell-opciones="props">
+              <q-td :props="props" class="botones">
+                <q-btn
+                  color="white"
+                  text-color="black"
+                  label="🖋️"
+                  @click="editarArea(props.row)"
+                />
+                <q-btn
+                  glossy
+                  label="❌"
+                  @click="inactivarArea(props.row._id)"
+                  v-if="props.row.estado == 1"
+                />
+                <q-btn
+                  glossy
+                  label="✔️"
+                  @click="activarArea(props.row._id)"
+                  v-else
+                />
+              </q-td>
+            </template>
+          </q-table>
+        </div>
       </div>
-      <div class="q-pa-md">
-        <q-table
-          class="my-sticky-virtscroll-table"
-          virtual-scroll
-          flat
-          bordered
-          v-model:pagination="pagination"
-          :rows-per-page-options="[0]"
-          :virtual-scroll-sticky-size-start="48"
-          row-key="index"
-          :rows="rows"
-          :columns="columns"
-          
-        >
-          <template v-slot:body-cell-estado="props">
-            <q-td :props="props">
-              <label for="" v-if="props.row.estado == 1" style="color: green"
-                >Activo</label
-              >
-              <label for="" v-else style="color: red">Inactivo</label>
-            </q-td>
-          </template>
-          <template v-slot:body-cell-opciones="props">
-            <q-td :props="props" class="botones">
-              <q-btn
-                color="white"
-                text-color="black"
-                label="🖋️"
-                @click="editarArea(props.row)"
-              />
-              <q-btn
-                glossy
-                label="❌"
-                @click="inactivarArea(props.row._id)"
-                v-if="props.row.estado == 1"
-              />
-              <q-btn
-                glossy
-                label="✔️"
-                @click="activarArea(props.row._id)"
-                v-else
-              />
-            </q-td>
-          </template>
-        </q-table>
-      </div>
-
-    </div>
-
     </div>
   </div>
 </template>
@@ -106,7 +109,7 @@ let nombre = ref("");
 let cambio = ref(0);
 let mostrarError = ref(false);
 let mostrarData = ref(true);
-let pagination = ref({ rowsPerPage: 0 })
+let pagination = ref({ rowsPerPage: 0 });
 let areas = ref([]);
 async function obtenerInfo() {
   try {
@@ -115,12 +118,17 @@ async function obtenerInfo() {
     rows.value = AreaStore.areas;
   } catch (error) {
     console.log(error);
-  }
+  }
 }
 
-
 const columns = [
-  { name: "nombre", label: "Nombre", field: "nombre", sortable: true, align: "left" },
+  {
+    name: "nombre",
+    label: "Nombre",
+    field: "nombre",
+    sortable: true,
+    align: "left",
+  },
 
   {
     name: "estado",
@@ -155,7 +163,6 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-
   } else {
     validacion.value = true;
   }
@@ -164,7 +171,7 @@ async function editarAgregarArea() {
   validar();
   if (validacion.value === true) {
     if (cambio.value === 0) {
-      if (nombre.value.trim() === '') {
+      if (nombre.value.trim() === "") {
         mostrarData.value = false;
         mostrarError.value = true;
         error.value = "Por favor digite un nombre";
@@ -190,7 +197,7 @@ async function editarAgregarArea() {
           timeout: 2000,
           type: "positive",
         });
-        console.log("a")
+        console.log("a");
         obtenerInfo();
       } catch (error) {
         if (notification) {
@@ -240,12 +247,12 @@ async function editarAgregarArea() {
   }
 }
 
-let idArea = ref("")
+let idArea = ref("");
 
 function editarArea(data) {
   fixed.value = true;
-  idArea.value = String(data._id)
-  nombre.value = data.nombre
+  idArea.value = String(data._id);
+  nombre.value = data.nombre;
   cambio.value = 1;
 }
 
@@ -306,7 +313,6 @@ async function activarArea(id) {
 function limpiar() {
   nombre.value = "";
   ficha.value = "";
-
 }
 
 let validacion = ref(false);
@@ -319,16 +325,12 @@ const showDefault = () => {
   });
 };
 
-
-
 onMounted(async () => {
   obtenerInfo();
 });
 </script>
 
 <style scoped>
-
-
 .modal-content {
   width: 480px;
   height: 400px;
@@ -336,7 +338,7 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #2aac4b;
+  background-color: #2e7d32;
   border-radius: 3%;
 }
 
@@ -354,8 +356,7 @@ onMounted(async () => {
   margin: 2px;
 }
 
-.btn-agregar {
-  width: 100%;
+.btn-agregar-area {
   margin-bottom: 5px;
   display: flex;
   justify-content: left;
@@ -367,7 +368,6 @@ onMounted(async () => {
   padding: 30px;
   margin: 0;
   text-transform: capitalize;
-
 }
 
 .containerBoton {
@@ -376,7 +376,7 @@ onMounted(async () => {
 }
 
 hr {
-  background-color: green;
+  background-color: #2e7d32;
   height: 2px;
   border: none;
   width: 320px;
@@ -438,7 +438,7 @@ h1 {
 
 .act i {
   font-size: 22px;
-  color: green;
+  color: #2e7d32;
 }
 
 .inac {
@@ -467,8 +467,6 @@ h1 {
   border: none;
   padding: 10px;
   cursor: pointer;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background-color: rgba(0, 128, 0, 0.53);
 }
-
 </style>
-

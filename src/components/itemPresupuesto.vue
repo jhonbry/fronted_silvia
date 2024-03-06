@@ -36,7 +36,7 @@
     </q-dialog>
     <div style="width: 1000px;">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar item" @click="agregarItem()" />
+        <q-btn class="bg-secondary" label="Agregar item" @click="agregarItem()" style=" background-color: #2e7d32 !important;"/>
       </div>
       <div class="q-pa-md">
         <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
@@ -384,7 +384,7 @@ function getTodayDate() {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #2aac4b;
+  background-color: #2e7d32;
   border-radius: 3%;
 }
 
@@ -423,7 +423,7 @@ function getTodayDate() {
 }
 
 hr {
-  background-color: green;
+  background-color: #2e7d32;
   height: 2px;
   border: none;
   width: 363px;
@@ -520,7 +520,7 @@ h1 {
   border: none;
   padding: 10px;
   cursor: pointer;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background: #2e7d3284;
 }
 </style>
 <style lang="sass">

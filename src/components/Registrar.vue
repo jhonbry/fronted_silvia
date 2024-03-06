@@ -176,7 +176,7 @@ const registrarUsuario = async () => {
   display: flex;
   height: 100vh;
   width: 100vw;
-  background-color: #209616;
+  background-color: #2e7d32;
   align-items: center;
   justify-content: center;
 }
@@ -204,7 +204,7 @@ const registrarUsuario = async () => {
 
 .title {
   font-size: 28px;
-  color: #209616;
+  color: #2e7d32;
   font-weight: 600;
   letter-spacing: -1px;
   position: relative;
@@ -221,7 +221,7 @@ const registrarUsuario = async () => {
   width: 16px;
   border-radius: 50%;
   left: 0;
-  background-color: #209616;
+  background-color: #2e7d32;
 }
 
 .title::before {
@@ -291,13 +291,13 @@ select {
 }
 
 .form label .input:valid + span {
-  color: green;
+  color: #2e7d32;
 }
 
 .submit {
   border: none;
   outline: none;
-  background-color: #209616;
+  background-color: #2e7d32;
   padding: 10px;
   border-radius: 10px;
   color: #fff;
@@ -364,7 +364,7 @@ label .select:valid + span {
 .button2 {
   border: none;
   outline: none;
-  background-color: #209616;
+  background-color: #2e7d32;
   padding: 10px;
   border-radius: 10px;
   color: fff;

@@ -1,25 +1,43 @@
 <template>
   <div>
     <div>
-      <h1 style="text-align: center; margin-top: 50px;">Presupuesto lotes</h1>
+      <h1 style="text-align: center; margin-top: 50px">Presupuesto lotes</h1>
       <hr />
     </div>
     <!-- Modal -->
     <q-dialog v-model="fixed">
       <q-card class="modal-content">
         <div class="contorno">
-          <q-card-section class="row items-center q-pb-none" style="color: black">
+          <q-card-section
+            class="row items-center q-pb-none"
+            style="color: black"
+          >
             <div class="text-h6">{{ text }}</div>
             <q-space />
           </q-card-section>
           <q-separator />
           <div v-if="mostrarData">
             <q-card-section style="max-height: 50vh" class="scroll">
-              <q-input v-model="presupuesto" label="presupuesto" type="number" style="width: 300px" />
-              <q-input v-model="id_lote" options="optionslote" label="id lote" type="string" style="width: 300px" />
-              <q-input v-model="id_item" options="optionsitem" label="id item" type="string" style="width: 300px" />
-
-
+              <q-input
+                v-model="presupuesto"
+                label="Presupuesto"
+                type="number"
+                style="width: 300px"
+              />
+              <q-input
+                v-model="id_lote"
+                options="optionslote"
+                label="Id Lote"
+                type="string"
+                style="width: 300px"
+              />
+              <q-input
+                v-model="id_item"
+                options="optionsitem"
+                label="Id Item"
+                type="string"
+                style="width: 300px"
+              />
             </q-card-section>
           </div>
 
@@ -36,46 +54,78 @@
         </div>
       </q-card>
     </q-dialog>
-    <div style="width: 1000px;">
+    <div style="width: 1000px">
       <div class="btn-agregar">
-        <q-btn class="bg-secondary" label="Agregar Ficha" @click="agregarPresupuesto()" />
+        <q-btn
+          label="Agregar Presupuesto"
+          @click="agregarPresupuesto()"
+          style="background-color: #2e7d32 !important"
+        />
+        <router-link to="/itemPresupuesto">
+          <q-btn label="Volver Atras" style="background-color: #2e7d32; color: white;" />
+        </router-link>
       </div>
       <div class="q-pa-md">
-
-        <q-table class="my-sticky-virtscroll-table" virtual-scroll flat bordered v-model:pagination="pagination"
-          :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="index" :rows="rows"
-          :columns="columns" style="height: 600px;">
+        <q-table
+          class="my-sticky-virtscroll-table"
+          virtual-scroll
+          flat
+          bordered
+          v-model:pagination="pagination"
+          :rows-per-page-options="[0]"
+          :virtual-scroll-sticky-size-start="48"
+          row-key="index"
+          :rows="rows"
+          :columns="columns"
+          style="height: 600px"
+        >
           <template v-slot:body-cell-estado="props">
             <q-td :props="props">
-              <label for="" v-if="props.row.estado == 1" style="color: green">Activo</label>
+              <label for="" v-if="props.row.estado == 1" style="color: green"
+                >Activo</label
+              >
               <label for="" v-else style="color: red">Inactivo</label>
             </q-td>
           </template>
           <template v-slot:body-cell-opciones="props">
             <q-td :props="props" class="botones">
-              <q-btn color="white" text-color="black" label="🖋️" @click="editarFicha(props.row)" />
-              <q-btn glossy label="❌" @click="inactivarFicha(props.row._id)" v-if="props.row.estado == 1" />
-              <q-btn glossy label="✔️" @click="activarFicha(props.row._id)" v-else />
+              <q-btn
+                color="white"
+                text-color="black"
+                label="🖋️"
+                @click="editarFicha(props.row)"
+              />
+              <q-btn
+                glossy
+                label="❌"
+                @click="inactivarFicha(props.row._id)"
+                v-if="props.row.estado == 1"
+              />
+              <q-btn
+                glossy
+                label="✔️"
+                @click="activarFicha(props.row._id)"
+                v-else
+              />
               <router-link to="/distriLoteFicha">
                 <q-btn color="white" text-color="black" label="fichas" />
               </router-link>
             </q-td>
           </template>
         </q-table>
-
       </div>
     </div>
   </div>
 </template>
-      
+
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from "vue";
 import { format } from "date-fns";
 import { usedistriPresupuesto } from "../stores/distriPresupuesto.js";
 import { useQuasar } from "quasar";
-import {useItemStore} from "../stores/itempresupuesto.js";
-import {useLoteStore} from "../stores/lote.js";
+import { useItemStore } from "../stores/itempresupuesto.js";
+import { useLoteStore } from "../stores/lote.js";
 const distriPresupuestoStore = usedistriPresupuesto();
 const loteStore = useLoteStore();
 const ItemStore = useItemStore();
@@ -92,34 +142,34 @@ let optionsitem = ref("");
 let optionslote = ref("");
 let mostrarError = ref(false);
 let mostrarData = ref(true);
-let pagination = ref({ rowsPerPage: 0 })
+let pagination = ref({ rowsPerPage: 0 });
 let Dispresupuestos = ref([]);
 async function obtenerInfo() {
   try {
     const r = await distriPresupuestoStore.obtenerInfoDispresupuestos();
     Dispresupuestos.value = distriPresupuestoStore.Dispresupuestos;
-    rows.value = r.reverse()
+    rows.value = r.reverse();
     console.log(r);
   } catch (error) {
     console.log(error);
   }
 }
 
-async function obtenerlote(){
+async function obtenerlote() {
   try {
     await loteStore.obtenerInfoLotes();
     optionslote.value = loteStore.lotes.map((lote) => ({
       label: `${lote.nombre} `,
       value: String(lote._id),
     }));
-  console.log(optionslote);
+    console.log(optionslote);
   } catch (error) {
     console.log(error);
   }
 }
-obtenerlote()
+obtenerlote();
 
-async function obteneritem(){
+async function obteneritem() {
   try {
     await ItemStore.obtenerInfoitem();
     optionsitem.value = ItemStore.items.map((items) => ({
@@ -128,16 +178,15 @@ async function obteneritem(){
     }));
 
     console.log(optionsitem);
-  
   } catch (error) {
     console.log(error);
   }
 }
-obteneritem()
+obteneritem();
 const columns = [
-  { name: "presupuesto", label: "presupuesto", field: "presupuesto", sortable: true, align: "left" },
+  { name: "presupuesto", label: "Presupuesto", field: "presupuesto", sortable: true, align: "left" },
   { name: "presupuestoDisponible", label: "Presupuesto disponible", field: "presupuestoDisponible", sortable: true, align: "left" },
-  // { name: "id_lote", label: "Id lote", field: val=>val.id_lote.id, sortable: true, align: "left" },
+  { name: "id_lote", label: "Nombre del lote", field: val=>val.id_lote.nombre, sortable: true, align: "left" },
   { name: "id_item", label: " Nombre del item", field: val=>val.id_item.nombre, sortable: true, align: "left" },
   {
     name: "estado",
@@ -163,7 +212,6 @@ function agregarPresupuesto() {
   limpiar();
 }
 function validar() {
-
   if (presupuesto.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
@@ -173,7 +221,6 @@ function validar() {
       mostrarError.value = false;
       error.value = "";
     }, 2200);
-
   } else if (id_lote.value.toString().trim() == "") {
     mostrarData.value = false;
     mostrarError.value = true;
@@ -193,24 +240,20 @@ function validar() {
       error.value = "";
     }, 2200);
 
-  if (
-    !presupuesto.value &&
-    !id_item.value&&
-    !id_lote.value
-  ) {
-    badMessage.value = "Por favor rellene los campos";
-    showBad();
-  } else {
-    validacion.value = true;
+    if (!presupuesto.value && !id_item.value && !id_lote.value) {
+      badMessage.value = "Por favor rellene los campos";
+      showBad();
+    } else {
+      validacion.value = true;
+    }
   }
-}
 }
 
 async function editaragregarFicha() {
   validar();
   if (validacion.value === true) {
     if (cambio.value === 0) {
-      if (id_lote.value.trim() === '') {
+      if (id_lote.value.trim() === "") {
         mostrarData.value = false;
         mostrarError.value = true;
         error.value = "Por favor digite un id_lote";
@@ -224,10 +267,9 @@ async function editaragregarFicha() {
       try {
         showDefault();
         await distriPresupuestoStore.postFicha({
-         presupuesto : presupuesto.value,
-         id_lote : id_lote.value,
-         id_item : id_item.value,
-    
+          presupuesto: presupuesto.value,
+          id_lote: id_lote.value,
+          id_item: id_item.value,
         });
         if (notification) {
           notification();
@@ -239,10 +281,9 @@ async function editaragregarFicha() {
           timeout: 2000,
           type: "positive",
         });
-        console.log("a")
+        console.log("a");
         obtenerInfo();
         fixed.value = false;
-
       } catch (error) {
         if (notification) {
           notification();
@@ -260,9 +301,9 @@ async function editaragregarFicha() {
         try {
           showDefault();
           await distriPresupuestoStore.putEditarFicha(id, {
-            presupuesto : presupuesto.value,
-         id_lote : id_lote.value,
-         id_item : id_item.value,
+            presupuesto: presupuesto.value,
+            id_lote: id_lote.value,
+            id_item: id_item.value,
           });
           if (notification) {
             notification();
@@ -294,11 +335,10 @@ async function editaragregarFicha() {
 }
 
 function limpiar() {
- presupuesto.value= " ";
- id_lote.value=  " ";
- id_item.value = " ";
+  presupuesto.value = " ";
+  id_lote.value = " ";
+  id_item.value = " ";
 }
-
 
 let validacion = ref(false);
 let notification = ref(null);
@@ -309,8 +349,6 @@ const showDefault = () => {
     timeout: 0,
   });
 };
-
-
 
 onMounted(async () => {
   obtenerInfo();
@@ -323,12 +361,12 @@ onMounted(async () => {
 //   return `${year}-${month}-${day}`;
 // }
 
-let idFicha = ref("")
+let idFicha = ref("");
 function editarFicha(data) {
   fixed.value = true;
-  id_lote.value = data.id_lote
-  presupuesto.value = data.presupuesto
-  id_item.value = data.id_item
+  id_lote.value = data.id_lote;
+  presupuesto.value = data.presupuesto;
+  id_item.value = data.id_item;
   cambio.value = 1;
 }
 async function inactivarFicha(id) {
@@ -385,7 +423,7 @@ async function activarFicha(id) {
   }
 }
 </script>
-      
+
 <style scoped>
 .modal-content {
   width: 480px;
@@ -394,7 +432,7 @@ async function activarFicha(id) {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #2aac4b;
+  background-color: #2e7d32;
   border-radius: 3%;
 }
 
@@ -413,12 +451,10 @@ async function activarFicha(id) {
 }
 
 .btn-agregar {
-  width: 100%;
   margin-bottom: 5px;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   color: white;
-  margin-left: 19px;
 }
 
 .body {
@@ -433,7 +469,7 @@ async function activarFicha(id) {
 }
 
 hr {
-  background-color: green;
+  background-color: #2e7d32;
   height: 2px;
   border: none;
   width: 363px;
@@ -530,10 +566,7 @@ h1 {
   border: none;
   padding: 10px;
   cursor: pointer;
-  background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+  background: #2e7d3282;
 }
 </style>
-<style lang="sass">
-      
-      </style>
-      
+<style lang="sass"></style>

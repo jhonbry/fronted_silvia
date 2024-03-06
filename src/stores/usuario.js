@@ -62,4 +62,6 @@ export const useUsuarioStore = defineStore('usuario', () => {
     usuarios, usuario, token,
     obtenerusuario, postusuario, login,putusuarioActivar, putusuarioInactivar, 
   }
+}, {
+  persist: true,
 });
