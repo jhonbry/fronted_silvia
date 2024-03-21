@@ -13,6 +13,7 @@ import itemPresupuesto from "../components/itemPresupuesto.vue";
 import Inicio from "../components/inicio.vue";
 import distriPresupuesto from "../components/distriPresupuesto.vue";
 import distriLoteFicha from "../components/distriLoteFicha.vue";
+import editPerfil from "../components/editPerfil.vue";
 import { useUsuarioStore } from "../stores/usuario.js";
 import { createRouter, createWebHashHistory } from "vue-router";
 const auth = (to, from, next) => {
@@ -56,6 +57,7 @@ const routes = [
     ]
   },
   { path: "/Registrar", component: Registrar, },
+  { path: "/editPerfil", component: editPerfil, },
 ];
 
 export const router = createRouter({
